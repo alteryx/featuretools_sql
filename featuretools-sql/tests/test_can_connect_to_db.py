@@ -1,7 +1,6 @@
 import pytest
+from connector import DBConnector
 from featuretools import EntitySet
-
-from ..connector import DBConnector
 
 
 @pytest.fixture
@@ -36,6 +35,7 @@ def test_can_learn_schema(my_dummy_connection):
 def test_can_learn_dataframes(my_dummy_connection):
     c = DBConnector(**my_dummy_connection)
     c.populate_dataframes(debug=False)
+    es = EntitySet("es", c.dataframes, [])
 
 
 def test_can_get_relationships(my_dummy_connection):

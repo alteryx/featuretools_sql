@@ -1,0 +1,160 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.8.12, pytest-7.1.2, pluggy-1.0.0 -- /Users/shripad.badithe/.pyenv/versions/venv_x86/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/shripad.badithe/featuretools-sql/featuretools-sql
+plugins: xdist-2.5.0, forked-1.4.0, cov-3.0.0
+collecting ... collected 1 item
+
+featuretools-sql/tests/test_can_connect_to_db.py::test_can_learn_dataframes Tables_df :      TABLE_NAME
+0      products
+1  transactions. Tables_df_index: RangeIndex(start=0, stop=2, step=1). Tables_df_values: [['products']
+ ['transactions']]
+FAILED
+
+=================================== FAILURES ===================================
+__________________________ test_can_learn_dataframes ___________________________
+
+self = Index(['TABLE_NAME'], dtype='object'), key = 'Tables_in_dummy'
+method = None, tolerance = None
+
+    def get_loc(self, key, method=None, tolerance=None):
+        """
+        Get integer location, slice or boolean mask for requested label.
+    
+        Parameters
+        ----------
+        key : label
+        method : {None, 'pad'/'ffill', 'backfill'/'bfill', 'nearest'}, optional
+            * default: exact matches only.
+            * pad / ffill: find the PREVIOUS index value if no exact match.
+            * backfill / bfill: use NEXT index value if no exact match
+            * nearest: use the NEAREST index value if no exact match. Tied
+              distances are broken by preferring the larger index value.
+        tolerance : int or float, optional
+            Maximum distance from index value for inexact matches. The value of
+            the index at the matching location must satisfy the equation
+            ``abs(index[loc] - key) <= tolerance``.
+    
+        Returns
+        -------
+        loc : int if unique index, slice if monotonic index, else mask
+    
+        Examples
+        --------
+        >>> unique_index = pd.Index(list('abc'))
+        >>> unique_index.get_loc('b')
+        1
+    
+        >>> monotonic_index = pd.Index(list('abbc'))
+        >>> monotonic_index.get_loc('b')
+        slice(1, 3, None)
+    
+        >>> non_monotonic_index = pd.Index(list('abcb'))
+        >>> non_monotonic_index.get_loc('b')
+        array([False,  True, False,  True])
+        """
+        if method is None:
+            if tolerance is not None:
+                raise ValueError(
+                    "tolerance argument only valid if using pad, "
+                    "backfill or nearest lookups"
+                )
+            casted_key = self._maybe_cast_indexer(key)
+            try:
+>               return self._engine.get_loc(casted_key)
+
+../../.pyenv/versions/venv_x86/lib/python3.8/site-packages/pandas/core/indexes/base.py:3621: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+
+pandas/_libs/index.pyx:136: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+
+pandas/_libs/index.pyx:163: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+
+pandas/_libs/hashtable_class_helper.pxi:5198: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   KeyError: 'Tables_in_dummy'
+
+pandas/_libs/hashtable_class_helper.pxi:5206: KeyError
+
+The above exception was the direct cause of the following exception:
+
+my_dummy_connection = {'database': 'dummy', 'host': '127.0.0.1', 'password': 'harrypotter', 'user': 'root'}
+
+    def test_can_learn_dataframes(my_dummy_connection):
+        c = DBConnector(**my_dummy_connection)
+>       c.populate_dataframes(debug=False)
+
+featuretools-sql/tests/test_can_connect_to_db.py:38: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+featuretools-sql/connector.py:74: in populate_dataframes
+    for table in tables_df[table_index].values:
+../../.pyenv/versions/venv_x86/lib/python3.8/site-packages/pandas/core/frame.py:3505: in __getitem__
+    indexer = self.columns.get_loc(key)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = Index(['TABLE_NAME'], dtype='object'), key = 'Tables_in_dummy'
+method = None, tolerance = None
+
+    def get_loc(self, key, method=None, tolerance=None):
+        """
+        Get integer location, slice or boolean mask for requested label.
+    
+        Parameters
+        ----------
+        key : label
+        method : {None, 'pad'/'ffill', 'backfill'/'bfill', 'nearest'}, optional
+            * default: exact matches only.
+            * pad / ffill: find the PREVIOUS index value if no exact match.
+            * backfill / bfill: use NEXT index value if no exact match
+            * nearest: use the NEAREST index value if no exact match. Tied
+              distances are broken by preferring the larger index value.
+        tolerance : int or float, optional
+            Maximum distance from index value for inexact matches. The value of
+            the index at the matching location must satisfy the equation
+            ``abs(index[loc] - key) <= tolerance``.
+    
+        Returns
+        -------
+        loc : int if unique index, slice if monotonic index, else mask
+    
+        Examples
+        --------
+        >>> unique_index = pd.Index(list('abc'))
+        >>> unique_index.get_loc('b')
+        1
+    
+        >>> monotonic_index = pd.Index(list('abbc'))
+        >>> monotonic_index.get_loc('b')
+        slice(1, 3, None)
+    
+        >>> non_monotonic_index = pd.Index(list('abcb'))
+        >>> non_monotonic_index.get_loc('b')
+        array([False,  True, False,  True])
+        """
+        if method is None:
+            if tolerance is not None:
+                raise ValueError(
+                    "tolerance argument only valid if using pad, "
+                    "backfill or nearest lookups"
+                )
+            casted_key = self._maybe_cast_indexer(key)
+            try:
+                return self._engine.get_loc(casted_key)
+            except KeyError as err:
+>               raise KeyError(key) from err
+E               KeyError: 'Tables_in_dummy'
+
+../../.pyenv/versions/venv_x86/lib/python3.8/site-packages/pandas/core/indexes/base.py:3623: KeyError
+=========================== short test summary info ============================
+FAILED featuretools-sql/tests/test_can_connect_to_db.py::test_can_learn_dataframes
+============================== 1 failed in 3.22s ===============================

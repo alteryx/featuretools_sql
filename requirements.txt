@@ -5,3 +5,4 @@ SQLAlchemy==1.4
 pytest
 PyMySQL
 typing
+connectorx

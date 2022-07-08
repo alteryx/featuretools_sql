@@ -1,5 +1,6 @@
 import warnings
 
+import connectorx as cx
 import pandas as pd
 from sqlalchemy import create_engine
 from sqlalchemy.engine import URL
@@ -16,16 +17,18 @@ class DBConnector:
         if None in [user, password, host, database]:
             raise ValueError("Cannot pass None as argument to DBConnector constructor")
         self.connection_string = URL.create(
-            "mysql+pymysql", user, password, host, database=database
+            "mysql", user, password, host, database=database
         )
+        self.connection_string = "mysql://root:harrypotter@127.0.0.1/dummy"
         self.engine = None
         self.connection = None
-        self.connect()
+        # self.connect()
 
         self.relationships = []
         self.tables = []
         self.dataframes = dict()
 
+    """
     def change_password(self, new_password: str):
         self.config["password"] = new_password
         self.connection_string = URL.create(
@@ -48,30 +51,37 @@ class DBConnector:
         self.engine = create_engine(self.connection_string)
         self.connection = self.engine.connect()
         return
+    """
 
     def all_tables(self):
-        df = pd.read_sql("SHOW TABLES;", self.connection)
-        return df
+        db = self.config["database"]
+        return self.run_query(
+            f"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{db}';"
+        )
 
     def learn_table_schema(self, table: str):
-        df = pd.read_sql(f"DESCRIBE {table};", self.connection)
-        return df
+        schema = self.config["database"] 
+        return self.run_query(f"SELECT COLUMN_NAME AS `Field`, COLUMN_TYPE AS `Type`, IS_NULLABLE AS `NULL`,  COLUMN_KEY AS `Key`, COLUMN_DEFAULT AS `Default`, EXTRA AS `Extra` FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '{schema}' AND TABLE_NAME = '{table}';")
 
     def get_table(self, table: str):
-        df = pd.read_sql(f"SELECT * FROM {table}", self.connection)
-        return df
+        return self.run_query(f"SELECT * FROM {table}")
 
     def get_primary_key_from_table(self, table: str):
-        df = pd.read_sql(
-            f"SHOW KEYS FROM {table} WHERE Key_name = 'PRIMARY';", self.connection
+        db = self.config["database"]
+        df = self.run_query(
+            f"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '{db}' AND TABLE_NAME = '{table}' AND COLUMN_KEY = 'PRI';"
         )
         warnings.warn("Cannot handle composite keys yet!")
-        return df["Column_name"]
+        print(f"df : {df}")
+        return df["COLUMN_NAME"]
 
     def populate_dataframes(self, debug=False):
         tables_df = self.all_tables()
+        print(
+            f"Tables_df : {tables_df}. Tables_df_index: {tables_df.index}. Tables_df_values: {tables_df.values}"
+        )
         db = self.config["database"]
-        table_index = f"Tables_in_{db}"
+        table_index = f"TABLE_NAME"
         for table in tables_df[table_index].values:
             self.tables.append(table)
             table_df = self.get_table(table)
@@ -111,5 +121,5 @@ class DBConnector:
     def run_query(self, query: str):
         if not isinstance(query, str):
             raise ValueError(f"Query must be of string type, not {type(query)}")
-        df = pd.read_sql(query, self.connection)
+        df = cx.read_sql(self.connection_string, query)
         return df
