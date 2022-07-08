@@ -31,15 +31,21 @@ class DBConnector:
 
     def change_user(self, new_user: str):
         self.config["user"] = new_user
-
+        
     def change_host(self, new_host: str):
         self.config["host"] = new_host
 
     def all_tables(self):
         db = self.config["database"]
+        return self.run_query(
+            f"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{db}';"
+        )
 
     def learn_table_schema(self, table: str):
         schema = self.config["database"]
+        return self.run_query(
+            f"SELECT COLUMN_NAME AS `Field`, COLUMN_TYPE AS `Type`, IS_NULLABLE AS `NULL`,  COLUMN_KEY AS `Key`, COLUMN_DEFAULT AS `Default`, EXTRA AS `Extra` FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '{schema}' AND TABLE_NAME = '{table}';"
+        )
 
     def get_table(self, table: str):
         return self.run_query(f"SELECT * FROM {table}")
@@ -54,6 +60,7 @@ class DBConnector:
 
     def populate_dataframes(self, debug=False):
         tables_df = self.all_tables()
+        db = self.config["database"]
         table_index = f"TABLE_NAME"
         for table in tables_df[table_index].values:
             self.tables.append(table)
