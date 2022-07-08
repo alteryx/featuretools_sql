@@ -26,42 +26,20 @@ class DBConnector:
         self.tables = []
         self.dataframes = dict()
 
-    """
     def change_password(self, new_password: str):
         self.config["password"] = new_password
-        self.connection_string = URL.create(
-            "mysql+pymysql", user, password, host, database=database
-        )
 
     def change_user(self, new_user: str):
         self.config["user"] = new_user
-        self.connection_string = URL.create(
-            "mysql+pymysql", user, password, host, database=database
-        )
 
     def change_host(self, new_host: str):
         self.config["host"] = new_host
-        self.connection_string = URL.create(
-            "mysql+pymysql", user, password, host, database=database
-        )
-
-    def connect(self):
-        self.engine = create_engine(self.connection_string)
-        self.connection = self.engine.connect()
-        return
-    """
 
     def all_tables(self):
         db = self.config["database"]
-        return self.run_query(
-            f"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{db}';"
-        )
 
     def learn_table_schema(self, table: str):
         schema = self.config["database"]
-        return self.run_query(
-            f"SELECT COLUMN_NAME AS `Field`, COLUMN_TYPE AS `Type`, IS_NULLABLE AS `NULL`,  COLUMN_KEY AS `Key`, COLUMN_DEFAULT AS `Default`, EXTRA AS `Extra` FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '{schema}' AND TABLE_NAME = '{table}';"
-        )
 
     def get_table(self, table: str):
         return self.run_query(f"SELECT * FROM {table}")
@@ -72,15 +50,10 @@ class DBConnector:
             f"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '{db}' AND TABLE_NAME = '{table}' AND COLUMN_KEY = 'PRI';"
         )
         warnings.warn("Cannot handle composite keys yet!")
-        print(f"df : {df}")
         return df["COLUMN_NAME"]
 
     def populate_dataframes(self, debug=False):
         tables_df = self.all_tables()
-        print(
-            f"Tables_df : {tables_df}. Tables_df_index: {tables_df.index}. Tables_df_values: {tables_df.values}"
-        )
-        db = self.config["database"]
         table_index = f"TABLE_NAME"
         for table in tables_df[table_index].values:
             self.tables.append(table)
