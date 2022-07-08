@@ -1,0 +1,14 @@
+[build-system]
+requires = [
+    "setuptools >= 47",
+    "wheel"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sequeltools" 
+version = "0.0.1" 
+authors = [
+  { name="Shripad Badithe", email="slyokapi@gmail.com"}, 
+]
+requires-python = ">=3.7" 

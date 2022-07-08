@@ -1,1 +1,1 @@
-# featuretools-sql
+# sequeltools
