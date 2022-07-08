@@ -1,8 +1,10 @@
+import warnings
+
 import pandas as pd
 from sqlalchemy import create_engine
 from sqlalchemy.engine import URL
 
-import warnings
+
 class DBConnector:
     def __init__(self, user: str, password: str, host: str, database: str):
         self.config = {
@@ -59,10 +61,12 @@ class DBConnector:
         df = pd.read_sql(f"SELECT * FROM {table}", self.connection)
         return df
 
-    def get_primary_key_from_table(self, table: str): 
-        df = pd.read_sql(f"SHOW KEYS FROM {table} WHERE Key_name = 'PRIMARY';", self.connection)
+    def get_primary_key_from_table(self, table: str):
+        df = pd.read_sql(
+            f"SHOW KEYS FROM {table} WHERE Key_name = 'PRIMARY';", self.connection
+        )
         warnings.warn("Cannot handle composite keys yet!")
-        return df['Column_name']
+        return df["Column_name"]
 
     def populate_dataframes(self, debug=False):
         tables_df = self.all_tables()
@@ -71,11 +75,13 @@ class DBConnector:
         for table in tables_df[table_index].values:
             self.tables.append(table)
             table_df = self.get_table(table)
-            try: 
+            try:
                 table_key = self.get_primary_key_from_table(table).values[0]
-            except Exception: 
-                raise Exception("Haven't implemented support for composite primary keys yet!")
-            self.dataframes[table] = (table_df, table_key) 
+            except Exception:
+                raise Exception(
+                    "Haven't implemented support for composite primary keys yet!"
+                )
+            self.dataframes[table] = (table_df, table_key)
         if debug:
             for k, v in self.dataframes.items():
                 print(f"Name: {k}")
@@ -85,11 +91,22 @@ class DBConnector:
 
     def populate_relationships(self, debug=False):
         query_str = f"SELECT TABLE_NAME, COLUMN_NAME, CONSTRAINT_NAME, REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_SCHEMA = '{self.config['database']}'"
-        foreign_keys = self.run_query(query_str) 
-        for table_name, col_name, _, referenced_table_name, referenced_column_name in foreign_keys.values: 
-            rel_tuple = (referenced_table_name, referenced_column_name, table_name, col_name)
-            self.relationships.append(rel_tuple) 
-        return 
+        foreign_keys = self.run_query(query_str)
+        for (
+            table_name,
+            col_name,
+            _,
+            referenced_table_name,
+            referenced_column_name,
+        ) in foreign_keys.values:
+            rel_tuple = (
+                referenced_table_name,
+                referenced_column_name,
+                table_name,
+                col_name,
+            )
+            self.relationships.append(rel_tuple)
+        return
 
     def run_query(self, query: str):
         if not isinstance(query, str):

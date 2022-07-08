@@ -4,14 +4,14 @@ setup: requirements.txt
 
 .PHONY: lint
 lint:
-	isort --check-only sequeltools
-	black sequeltools -t py310 --check
-	flake8 sequeltools
+	isort --check-only featuretools-sql
+	black featuretools-sql -t py310 --check
+	flake8 featuretools-sql
 
 .PHONY: lint-fix
 lint-fix:
-	black -t py310 sequeltools
-	isort sequeltools
+	black -t py310 featuretools-sql
+	isort featuretools-sql
 
 .PHONY: clean
 clean: 

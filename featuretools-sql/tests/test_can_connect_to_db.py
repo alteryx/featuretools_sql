@@ -1,5 +1,5 @@
 import pytest
-from featuretools import EntitySet 
+from featuretools import EntitySet
 
 from ..connector import DBConnector
 
@@ -43,5 +43,5 @@ def test_can_get_relationships(my_dummy_connection):
     c.populate_dataframes()
     c.populate_relationships()
 
-    es = EntitySet("es", c.dataframes, c.relationships) 
-    print(f"Entity Set: {es}") 
+    es = EntitySet("es", c.dataframes, c.relationships)
+    print(f"Entity Set: {es}")
