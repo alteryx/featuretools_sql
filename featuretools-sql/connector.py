@@ -2,8 +2,6 @@ import warnings
 
 import connectorx as cx
 import pandas as pd
-from sqlalchemy import create_engine
-from sqlalchemy.engine import URL
 
 
 class DBConnector:
@@ -60,8 +58,10 @@ class DBConnector:
         )
 
     def learn_table_schema(self, table: str):
-        schema = self.config["database"] 
-        return self.run_query(f"SELECT COLUMN_NAME AS `Field`, COLUMN_TYPE AS `Type`, IS_NULLABLE AS `NULL`,  COLUMN_KEY AS `Key`, COLUMN_DEFAULT AS `Default`, EXTRA AS `Extra` FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '{schema}' AND TABLE_NAME = '{table}';")
+        schema = self.config["database"]
+        return self.run_query(
+            f"SELECT COLUMN_NAME AS `Field`, COLUMN_TYPE AS `Type`, IS_NULLABLE AS `NULL`,  COLUMN_KEY AS `Key`, COLUMN_DEFAULT AS `Default`, EXTRA AS `Extra` FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '{schema}' AND TABLE_NAME = '{table}';"
+        )
 
     def get_table(self, table: str):
         return self.run_query(f"SELECT * FROM {table}")
