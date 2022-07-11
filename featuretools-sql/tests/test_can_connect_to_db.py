@@ -6,7 +6,7 @@ from featuretools import EntitySet
 @pytest.fixture
 def my_dummy_connection():
     config = dict()
-    config['system_name'] = 'mysql'
+    config["system_name"] = "mysql"
     config["host"] = "127.0.0.1"
     config["password"] = "harrypotter"
     config["user"] = "root"
@@ -25,7 +25,9 @@ def test_faulty_connection_fails():
 
 def test_can_run_query(my_dummy_connection):
     c = DBConnector(**my_dummy_connection)
-    c.run_query("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{c.database}'")
+    c.run_query(
+        "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{c.database}'"
+    )
 
 
 def test_can_learn_schema(my_dummy_connection):

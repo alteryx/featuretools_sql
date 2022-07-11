@@ -5,9 +5,11 @@ import pandas as pd
 
 
 class DBConnector:
-    def __init__(self, system_name: str, user: str, password: str, host: str, database: str):
+    def __init__(
+        self, system_name: str, user: str, password: str, host: str, database: str
+    ):
         self.config = {
-            "system_name" : system_name,
+            "system_name": system_name,
             "user": user,
             "password": password,
             "host": host,
@@ -20,7 +22,7 @@ class DBConnector:
         self.relationships = []
         self.tables = []
         self.dataframes = dict()
-    
+
     def change_system_name(self, system_name: str):
         self.config["system_name"] = system_name
 
@@ -29,7 +31,7 @@ class DBConnector:
 
     def change_user(self, new_user: str):
         self.config["user"] = new_user
-        
+
     def change_host(self, new_host: str):
         self.config["host"] = new_host
 
@@ -74,7 +76,7 @@ class DBConnector:
                 print(f"Name: {k}")
                 print(f"df: {v}")
                 print()
-        return 
+        return
 
     def populate_relationships(self, debug=False):
         query_str = f"SELECT TABLE_NAME, COLUMN_NAME, CONSTRAINT_NAME, REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_SCHEMA = '{self.config['database']}'"
