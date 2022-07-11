@@ -34,6 +34,3 @@ jobs:
           sudo /etc/init.d/mysql start
           mysql -e 'CREATE DATABASE dummy;' -uroot -proot
           mysql -e 'SHOW DATABASES;' -uroot -proot
-        uses: styfle/cancel-workflow-action@0.6.0
-        with:
-          access_token: ${{ github.token }}
