@@ -27,10 +27,11 @@ jobs:
       - name: Install requirements 
         run: |
           make setup 
-      - name: Set up MySQL databases 
-        run: |
-          sudo /etc/init.d/mysql start
-          mysql -e 'CREATE DATABASE dummy;' -uroot -proot
-      - name: Run tests
-        run: | 
+      - name: actions-setup-mysql
+        uses: shogo82148/actions-setup-mysql@v1.10.2
+        with: 
+          user: 'root'
+          password: 'harrypotter' 
+      - name: run tests
+      - run: | 
           pytest featuretools-sql/tests/* 
