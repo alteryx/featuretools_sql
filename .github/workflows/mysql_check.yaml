@@ -9,7 +9,7 @@ jobs:
     name: ${{ matrix.python_version }} MySQL check
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         python_version: ["3.10"]
     steps:
@@ -25,11 +25,6 @@ jobs:
       - name: Install requirements 
         run: |
           make setup 
-      - name: actions-setup-mysql
-        uses: shogo82148/actions-setup-mysql@v1.10.2
-        with: 
-          user: 'root'
-          password: 'harrypotter' 
       - name: run tests
       - run: | 
           pytest featuretools-sql/tests/* 
