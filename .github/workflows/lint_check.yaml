@@ -2,8 +2,6 @@ on:
   pull_request:
     types: [opened, synchronize]
   push:
-    branches:
-      - main
 
 name: Lint Check
 jobs:
