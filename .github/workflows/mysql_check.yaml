@@ -24,11 +24,9 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.ref }}
           repository: ${{ github.event.pull_request.head.repo.full_name }}
-      - name: Install featuretools-sql with optional, dev, and test requirements
+      - name: Install requirements 
         run: |
-          pip config --site set global.progress_bar off
-          python -m pip install --upgrade pip
-          python -m pip install -e .[dev]
+          make setup 
       - name: Set up MySQL databases 
         run: |
           sudo /etc/init.d/mysql start
