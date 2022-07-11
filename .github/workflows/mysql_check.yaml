@@ -35,4 +35,4 @@ jobs:
           mysql -e 'CREATE DATABASE dummy;' -uroot -proot
       - name: Run tests
         run: | 
-          pytest tests/* 
+          pytest featuretools-sql/tests/* 
