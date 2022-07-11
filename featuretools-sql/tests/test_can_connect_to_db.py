@@ -8,7 +8,7 @@ def my_dummy_connection():
     config = dict()
     config["system_name"] = "mysql"
     config["host"] = "127.0.0.1"
-    config["password"] = "harrypotter"
+    config["password"] = ""
     config["user"] = "root"
     config["database"] = "dummy"
     return config
