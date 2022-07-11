@@ -5,8 +5,18 @@ requires = [
 ]
 build-backend = "setuptools.build_meta"
 
+[tool.isort]
+profile = "black"
+forced_separate = "featuretools-sql"
+known_first_party = "featuretools-sql"
+skip = "__init__.py"
+multi_line_output = 3
+
+[tool.black]
+target-version = ['py310']
+
 [project]
-name = "sequeltools" 
+name = "featuretool-sql" 
 version = "0.0.1" 
 authors = [
   { name="Shripad Badithe", email="slyokapi@gmail.com"}, 
