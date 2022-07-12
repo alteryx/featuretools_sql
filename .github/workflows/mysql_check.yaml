@@ -25,6 +25,10 @@ jobs:
       - name: Install requirements 
         run: |
           make setup 
+      - name: start MySQL 
+        run: | 
+          sudo /etc/init.d/mysql start
+          mysql -e 'CREATE DATABASE dummy;' -u root -p harrypotter
       - name: run tests
         run: | 
-          pytest featuretools-sql/tests/* 
+          pytest --timeout=250 featuretools-sql/tests/* 
