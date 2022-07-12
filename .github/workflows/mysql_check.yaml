@@ -34,11 +34,8 @@ jobs:
           mysql database: 'dummy'
           mysql root password: 'harrypotter'
           mysql user: 'root' 
-          mysql password: 'harrypotter'
-      - name: Create db
-        run: | 
-          mysql dummy --verbose < commands   
+          mysql password: 'harrypotter' 
       - name: run tests
         run: | 
-          pytest --timeout=250 featuretools-sql/tests/* 
+          pytest --timeout=250 featuretools-sql/tests/* -s -vv 
           echo "Done!"

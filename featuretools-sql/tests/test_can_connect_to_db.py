@@ -11,12 +11,14 @@ def my_dummy_connection():
     config["password"] = "harrypotter"
     config["user"] = "root"
     config["database"] = "dummy"
+    c = DBConnector(**config) 
+    c.run_query("CREATE TABLE PRODUCTS(id INT, transaction_id INT, PRIMARY KEY (id));")  
+    c.run_query("CREATE TABLE TRANSACTIONS(transaction_id INT, product_id INT, PRIMARY KEY (transaction_id));") 
     return config
 
 
 def test_can_connect_to_dummy_db(my_dummy_connection):
     c = DBConnector(**my_dummy_connection)
-
 
 def test_faulty_connection_fails():
     with pytest.raises(ValueError) as ve:
