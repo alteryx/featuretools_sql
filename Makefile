@@ -11,7 +11,7 @@ lint:
 .PHONY: lint-fix
 lint-fix:
 	black featuretools-sql/* 
-	isort featuretools-sql
+	isort featuretools-sql/* 
 
 .PHONY: clean
 clean: 
