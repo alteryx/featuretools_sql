@@ -7,7 +7,7 @@ from featuretools import EntitySet
 def my_dummy_connection():
     config = dict()
     config["system_name"] = "mysql"
-    config["host"] = "127.0.0.1"
+    config["host"] = "127.0.0.1:3306"
     config["password"] = "harrypotter"
     config["user"] = "root"
     config["database"] = "dummy"

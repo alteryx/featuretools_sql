@@ -25,10 +25,16 @@ jobs:
       - name: Install requirements 
         run: |
           make setup 
-      - name: start MySQL 
+      - name: end initial MySQL 
         run: | 
-          sudo /etc/init.d/mysql start
-          mysql -e 'CREATE DATABASE dummy;' -u root -p harrypotter
+          sudo service mysql stop
+      - name: Set up MySQL
+        uses: mirromutth/mysql-action@v1.1
+        with:
+          mysql database: 'dummy'
+          mysql root password: 'harrypotter'
+          mysql user: 'root' 
+          mysql password: 'harrypotter'
       - name: run tests
         run: | 
           pytest --timeout=250 featuretools-sql/tests/* 
