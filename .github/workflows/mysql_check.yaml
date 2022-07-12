@@ -36,7 +36,7 @@ jobs:
           mysql user: 'root' 
           mysql password: 'harrypotter'
       - name: Create db
-	      run: | 
+        run: | 
           mysql dummy --verbose < commands   
       - name: run tests
         run: | 
