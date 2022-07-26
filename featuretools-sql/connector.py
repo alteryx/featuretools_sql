@@ -1,15 +1,17 @@
-from collections import namedtuple 
+from collections import namedtuple
+
 import connectorx as cx
 import pandas as pd
 
+
 class DBConnector:
-    Relationship = namedtuple('Relationship', ['referenced_table_name', 'referenced_column_name', 'table_name', 'col_name'])
-    
-    system_to_API = {
-        "postgresql": "ConnectorX",
-        "mysql": "ConnectorX"
-    }
-    supported_systems = ["postgresql", "mysql"] 
+    Relationship = namedtuple(
+        "Relationship",
+        ["referenced_table_name", "referenced_column_name", "table_name", "col_name"],
+    )
+
+    system_to_API = {"postgresql": "ConnectorX", "mysql": "ConnectorX"}
+    supported_systems = ["postgresql", "mysql"]
 
     def __init__(
         self, system_name: str, user: str, password: str, host: str, database: str
@@ -22,18 +24,20 @@ class DBConnector:
             "database": database,
         }
 
-        #TODO: Password security 
+        # TODO: Password security
         if None in [user, password, host, database]:
             raise ValueError("Cannot pass None as argument to DBConnector constructor")
-        if system_name not in DBConnector.supported_systems: 
-            raise NotImplementedError(f"DBConnector does not currently support {database}")
-        self.connection_string = f"{system_name}://{user}:{password}@{host}/{database}" 
+        if system_name not in DBConnector.supported_systems:
+            raise NotImplementedError(
+                f"DBConnector does not currently support {database}"
+            )
+        self.connection_string = f"{system_name}://{user}:{password}@{host}/{database}"
         self.relationships = []
         self.tables = []
         self.dataframes = dict()
 
-    # @classmethod 
-    # def learn_supported_databases(cls) -> list[str]: 
+    # @classmethod
+    # def learn_supported_databases(cls) -> list[str]:
     #     return cls.supported_databases
 
     def change_system_name(self, system_name: str):
@@ -91,7 +95,7 @@ class DBConnector:
         return
 
     def populate_relationships(self, debug=False):
-        self.relationships = [] 
+        self.relationships = []
         query_str = f"SELECT TABLE_NAME, COLUMN_NAME, CONSTRAINT_NAME, REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_SCHEMA = '{self.config['database']}'"
         foreign_keys = self.run_query(query_str)
         for (
@@ -109,9 +113,8 @@ class DBConnector:
             )
             self.relationships.append(r)
 
-
     def run_query(self, query: str) -> pd.DataFrame:
         if not isinstance(query, str):
             raise ValueError(f"Query must be of string type, not {type(query)}")
-        if DBConnector.system_to_API[self.config["system_name"]] == "ConnectorX": 
+        if DBConnector.system_to_API[self.config["system_name"]] == "ConnectorX":
             return cx.read_sql(self.connection_string, query)
