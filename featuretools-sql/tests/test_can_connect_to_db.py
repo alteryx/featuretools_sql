@@ -6,6 +6,7 @@ from featuretools import EntitySet
 TODO: Create mock fixtures to actually test equality 
 """
 
+
 @pytest.fixture
 def my_dummy_connection():
     config = dict()
@@ -41,17 +42,19 @@ def test_can_run_query(my_dummy_connection):
 def test_can_learn_schema(my_dummy_connection):
     c = DBConnector(**my_dummy_connection)
     df = c.all_tables()
-    assert df != None 
+    assert df != None
+
 
 def test_can_learn_dataframes(my_dummy_connection):
     c = DBConnector(**my_dummy_connection)
     c.populate_dataframes(debug=False)
     es = EntitySet("es", c.dataframes, [])
-    assert es != None 
+    assert es != None
+
 
 def test_can_get_relationships(my_dummy_connection):
     sql_connection = DBConnector(**my_dummy_connection)
     sql_connection.populate_dataframes()
     sql_connection.populate_relationships()
     es = EntitySet("es", sql_connection.dataframes, sql_connection.relationships)
-    assert es != None 
+    assert es != None
