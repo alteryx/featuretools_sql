@@ -1,4 +1,4 @@
 pytest_cache/* 
-__pycache__/* 
+featuretools-sql/__pycache__/* 
 tests/__pycache__
 
