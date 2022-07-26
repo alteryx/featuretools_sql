@@ -6,7 +6,7 @@ setup: requirements.txt
 lint:
 	isort --check-only featuretools-sql
 	black featuretools-sql/* --check
-	flake8 featuretools-sql
+	flake8 featuretools-sql/
 
 .PHONY: lint-fix
 lint-fix:

@@ -76,7 +76,7 @@ class DBConnector:
 
     def populate_dataframes(self, debug=False):
         tables_df = self.all_tables()
-        table_index = f"TABLE_NAME"
+        table_index = "TABLE_NAME"
         for table in tables_df[table_index].values:
             self.tables.append(table)
             table_df = self.get_table(table)
