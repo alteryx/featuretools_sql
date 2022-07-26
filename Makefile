@@ -13,6 +13,10 @@ lint-fix:
 	black featuretools-sql/* 
 	isort featuretools-sql/* 
 
+.PHONY: test
+test: 
+	pytest featuretools-sql/tests/* 
+
 .PHONY: clean
 clean: 
 	rm -rf __pycache__ 
