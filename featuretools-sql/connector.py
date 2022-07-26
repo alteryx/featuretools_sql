@@ -5,11 +5,11 @@ import pandas as pd
 class DBConnector:
     Relationship = namedtuple('Relationship', ['referenced_table_name', 'referenced_column_name', 'table_name', 'col_name'])
     
-    database_to_API = {
-        "postgres": "ConnectorX",
+    system_to_API = {
+        "postgresql": "ConnectorX",
         "mysql": "ConnectorX"
     }
-    supported_databases = ["postgres", "mysql"] 
+    supported_systems = ["postgresql", "mysql"] 
 
     def __init__(
         self, system_name: str, user: str, password: str, host: str, database: str
@@ -25,16 +25,16 @@ class DBConnector:
         #TODO: Password security 
         if None in [user, password, host, database]:
             raise ValueError("Cannot pass None as argument to DBConnector constructor")
-        if database not in DBConnector.supported_databases: 
+        if system_name not in DBConnector.supported_systems: 
             raise NotImplementedError(f"DBConnector does not currently support {database}")
         self.connection_string = f"{system_name}://{user}:{password}@{host}/{database}" 
         self.relationships = []
         self.tables = []
         self.dataframes = dict()
 
-    @classmethod 
-    def learn_supported_databases(cls) -> list[str]: 
-        return cls.supported_databases
+    # @classmethod 
+    # def learn_supported_databases(cls) -> list[str]: 
+    #     return cls.supported_databases
 
     def change_system_name(self, system_name: str):
         self.config["system_name"] = system_name
@@ -113,5 +113,5 @@ class DBConnector:
     def run_query(self, query: str) -> pd.DataFrame:
         if not isinstance(query, str):
             raise ValueError(f"Query must be of string type, not {type(query)}")
-        if DBConnector.database_to_API[self.config["database"]] == "ConnectorX": 
+        if DBConnector.system_to_API[self.config["system_name"]] == "ConnectorX": 
             return cx.read_sql(self.connection_string, query)
