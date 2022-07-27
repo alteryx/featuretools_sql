@@ -36,9 +36,6 @@ class DBConnector:
         self.tables = []
         self.dataframes = dict()
 
-    # @classmethod
-    # def learn_supported_databases(cls) -> list[str]:
-    #     return cls.supported_databases
 
     def change_system_name(self, system_name: str):
         self.config["system_name"] = system_name
