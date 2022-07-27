@@ -30,7 +30,7 @@ def test_faulty_connection_fails():
 
 def test_can_run_query(my_dummy_connection):
     c = DBConnector(**my_dummy_connection)
-    c.__run_query(
+    c._DBConnector__run_query(
         "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{c.database}'"
     )
 

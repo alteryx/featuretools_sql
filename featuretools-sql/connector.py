@@ -62,7 +62,7 @@ class DBConnector:
         return self.__run_query(f"SELECT * FROM {table}")
 
     def get_primary_key_from_table(self, table: str) -> pd.DataFrame:
-        db = self.config["database"]
+        db = self.database
         df = self.__run_query(
             f"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '{db}' AND TABLE_NAME = '{table}' AND COLUMN_KEY = 'PRI';"
         )
