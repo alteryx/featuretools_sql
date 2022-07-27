@@ -1,4 +1,4 @@
-from collections import namedtuple
+from collections import namedtuple, defaultdict 
 
 import connectorx as cx
 import pandas as pd
@@ -33,6 +33,8 @@ class DBConnector:
         self.relationships = []
         self.tables = []
         self.dataframes = dict()
+
+        self.queries = defaultdict(dict) 
 
     def change_system_name(self, system_name: str):
         self.system_name = system_name
@@ -107,7 +109,7 @@ class DBConnector:
             )
             self.relationships.append(r)
 
-    def run_query(self, query: str) -> pd.DataFrame:
+    def __run_query(self, query: str) -> pd.DataFrame:
         if not isinstance(query, str):
             raise ValueError(f"Query must be of string type, not {type(query)}")
         if DBConnector.system_to_API[self.system_name] == "ConnectorX":
