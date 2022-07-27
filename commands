@@ -1,2 +1,0 @@
-CREATE TABLE PRODUCTS(id INT, transaction_id INT, PRIMARY KEY (id)); 
-CREATE TABLE TRANSACTIONS(transaction_id INT, product_id INT, PRIMARY KEY (transaction_id));
