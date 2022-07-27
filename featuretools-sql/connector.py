@@ -33,6 +33,7 @@ class DBConnector:
         self.relationships = []
         self.tables = []
         self.dataframes = dict()
+        self.query_dispatcher = defaultdict(dict) 
 
     def change_system_name(self, system_name: str):
         self.system_name = system_name
@@ -48,25 +49,28 @@ class DBConnector:
 
     def all_tables(self) -> pd.DataFrame:
         db = self.database
-        return self.__run_query(
-            f"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{db}';"
-        )
+        if self.system == "mysql": 
+            return self.__run_query(
+                f"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{db}';"
+            )
 
     def learn_table_schema(self, table: str) -> pd.DataFrame:
         schema = self.database
-        return self.__run_query(
+        if self.system == "mysql": 
+            self.__run_query(
             f"SELECT COLUMN_NAME AS `Field`, COLUMN_TYPE AS `Type`, IS_NULLABLE AS `NULL`,  COLUMN_KEY AS `Key`, COLUMN_DEFAULT AS `Default`, EXTRA AS `Extra` FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '{schema}' AND TABLE_NAME = '{table}';"
-        )
+            )
 
     def get_table(self, table: str) -> pd.DataFrame:
         return self.__run_query(f"SELECT * FROM {table}")
 
     def get_primary_key_from_table(self, table: str) -> pd.DataFrame:
         db = self.database
-        df = self.__run_query(
-            f"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '{db}' AND TABLE_NAME = '{table}' AND COLUMN_KEY = 'PRI';"
-        )
-        return df["COLUMN_NAME"]
+        if self.system == "mysql": 
+            df = self.__run_query(
+                f"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '{db}' AND TABLE_NAME = '{table}' AND COLUMN_KEY = 'PRI';"
+            )
+            return df["COLUMN_NAME"]
 
     def populate_dataframes(self, debug=False):
         tables_df = self.all_tables()
@@ -90,7 +94,8 @@ class DBConnector:
 
     def populate_relationships(self, debug=False):
         self.relationships = []
-        query_str = f"SELECT TABLE_NAME, COLUMN_NAME, CONSTRAINT_NAME, REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_SCHEMA = '{self.database}'"
+        if self.system == "mysql": 
+            query_str = f"SELECT TABLE_NAME, COLUMN_NAME, CONSTRAINT_NAME, REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_SCHEMA = '{self.database}'"
         foreign_keys = self.__run_query(query_str)
         for (
             table_name,
