@@ -47,13 +47,13 @@ class DBConnector:
         self.new_host = new_host
 
     def all_tables(self) -> pd.DataFrame:
-        db = self.config["database"]
+        db = self.database
         return self.run_query(
             f"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{db}';"
         )
 
     def learn_table_schema(self, table: str) -> pd.DataFrame:
-        schema = self.config["database"]
+        schema = self.database
         return self.run_query(
             f"SELECT COLUMN_NAME AS `Field`, COLUMN_TYPE AS `Type`, IS_NULLABLE AS `NULL`,  COLUMN_KEY AS `Key`, COLUMN_DEFAULT AS `Default`, EXTRA AS `Extra` FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '{schema}' AND TABLE_NAME = '{table}';"
         )
@@ -90,7 +90,7 @@ class DBConnector:
 
     def populate_relationships(self, debug=False):
         self.relationships = []
-        query_str = f"SELECT TABLE_NAME, COLUMN_NAME, CONSTRAINT_NAME, REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_SCHEMA = '{self.config['database']}'"
+        query_str = f"SELECT TABLE_NAME, COLUMN_NAME, CONSTRAINT_NAME, REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_SCHEMA = '{self.database}'"
         foreign_keys = self.run_query(query_str)
         for (
             table_name,
@@ -110,5 +110,5 @@ class DBConnector:
     def run_query(self, query: str) -> pd.DataFrame:
         if not isinstance(query, str):
             raise ValueError(f"Query must be of string type, not {type(query)}")
-        if DBConnector.system_to_API[self.config["system_name"]] == "ConnectorX":
+        if DBConnector.system_to_API[self.system_name] == "ConnectorX":
             return cx.read_sql(self.connection_string, query)
