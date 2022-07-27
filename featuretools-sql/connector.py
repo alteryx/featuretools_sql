@@ -33,7 +33,7 @@ class DBConnector:
         self.relationships = []
         self.tables = []
         self.dataframes = dict()
-        self.query_dispatcher = defaultdict(dict) 
+        self.query_dispatcher = defaultdict(dict)
 
     def change_system_name(self, system_name: str):
         self.system_name = system_name
@@ -49,16 +49,16 @@ class DBConnector:
 
     def all_tables(self) -> pd.DataFrame:
         db = self.database
-        if self.system == "mysql": 
+        if self.system_name == "mysql":
             return self.__run_query(
                 f"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{db}';"
             )
 
     def learn_table_schema(self, table: str) -> pd.DataFrame:
         schema = self.database
-        if self.system == "mysql": 
+        if self.system_name == "mysql":
             self.__run_query(
-            f"SELECT COLUMN_NAME AS `Field`, COLUMN_TYPE AS `Type`, IS_NULLABLE AS `NULL`,  COLUMN_KEY AS `Key`, COLUMN_DEFAULT AS `Default`, EXTRA AS `Extra` FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '{schema}' AND TABLE_NAME = '{table}';"
+                f"SELECT COLUMN_NAME AS `Field`, COLUMN_TYPE AS `Type`, IS_NULLABLE AS `NULL`,  COLUMN_KEY AS `Key`, COLUMN_DEFAULT AS `Default`, EXTRA AS `Extra` FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '{schema}' AND TABLE_NAME = '{table}';"
             )
 
     def get_table(self, table: str) -> pd.DataFrame:
@@ -66,7 +66,7 @@ class DBConnector:
 
     def get_primary_key_from_table(self, table: str) -> pd.DataFrame:
         db = self.database
-        if self.system == "mysql": 
+        if self.system_name == "mysql":
             df = self.__run_query(
                 f"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '{db}' AND TABLE_NAME = '{table}' AND COLUMN_KEY = 'PRI';"
             )
@@ -94,7 +94,7 @@ class DBConnector:
 
     def populate_relationships(self, debug=False):
         self.relationships = []
-        if self.system == "mysql": 
+        if self.system_name == "mysql":
             query_str = f"SELECT TABLE_NAME, COLUMN_NAME, CONSTRAINT_NAME, REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_SCHEMA = '{self.database}'"
         foreign_keys = self.__run_query(query_str)
         for (
