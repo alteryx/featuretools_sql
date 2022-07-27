@@ -16,13 +16,11 @@ class DBConnector:
     def __init__(
         self, system_name: str, user: str, password: str, host: str, database: str
     ):
-        self.config = {
-            "system_name": system_name,
-            "user": user,
-            "password": password,
-            "host": host,
-            "database": database,
-        }
+        self.system_name = system_name 
+        self.user = user 
+        self.password = password 
+        self.host = host 
+        self.database = database 
 
         # TODO: Password security
         if None in [user, password, host, database]:
@@ -36,18 +34,17 @@ class DBConnector:
         self.tables = []
         self.dataframes = dict()
 
-
     def change_system_name(self, system_name: str):
-        self.config["system_name"] = system_name
+        self.system_name = system_name
 
     def change_password(self, new_password: str):
-        self.config["password"] = new_password
+        self.password = new_password
 
     def change_user(self, new_user: str):
-        self.config["user"] = new_user
+        self.new_user = new_user
 
     def change_host(self, new_host: str):
-        self.config["host"] = new_host
+        self.new_host = new_host
 
     def all_tables(self) -> pd.DataFrame:
         db = self.config["database"]
