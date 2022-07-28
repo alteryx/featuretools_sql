@@ -8,15 +8,27 @@ TODO: Create mock fixtures to actually test equality
 
 
 @pytest.fixture
-def my_dummy_connection():
+def my_dummy_mysql_connection():
     config = dict()
     config["system_name"] = "mysql"
-    config["host"] = "127.0.0.1:3306"
+    config["host"] = "127.0.0.1"
+    config["port"] = "3306"
     config["password"] = "harrypotter"
     config["user"] = "root"
     config["database"] = "dummy"
-    DBConnector(**config)
     return config
+
+
+@pytest.fixture 
+def my_dummy_postgres_connection(): 
+    config = dict()
+    config["system_name"] = "postgresql"
+    config["host"] = "127.0.0.1"
+    config["port"] = "5432"
+    config["password"] = "s"
+    config["user"] = "postgres"
+    config["database"] = "dummy"
+
 
 
 def test_can_connect_to_dummy_db(my_dummy_connection):

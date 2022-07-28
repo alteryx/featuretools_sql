@@ -54,10 +54,13 @@ class DBConnector:
         self.new_host = new_host
 
     def all_tables(self) -> pd.DataFrame:
-        db = self.database
         if self.system_name == "mysql":
             return self.__run_query(
-                f"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{db}';"
+                f"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{self.database}';"
+            )
+        elif self.system_name == "postgresql": 
+            return self.__run_query(
+                f"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{self.schema}';"
             )
 
     def learn_table_schema(self, table: str) -> pd.DataFrame:
