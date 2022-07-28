@@ -3,6 +3,7 @@ from collections import defaultdict, namedtuple
 import connectorx as cx
 import pandas as pd
 import psycopg2
+import pandas.io.sql as sqlio 
 
 class DBConnector:
     Relationship = namedtuple(
@@ -126,3 +127,5 @@ class DBConnector:
             raise ValueError(f"Query must be of string type, not {type(query)}")
         if DBConnector.system_to_API[self.system_name] == "ConnectorX":
             return cx.read_sql(self.connection_string, query)
+        elif DBConnector.system_to_API[self.system_name] == "psycopg2": 
+            return sqlio.read_sql_query(query, self.postgres_connection)
