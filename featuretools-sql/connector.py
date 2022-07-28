@@ -114,21 +114,56 @@ class DBConnector:
         self.relationships = []
         if self.system_name == "mysql":
             query_str = f"SELECT TABLE_NAME, COLUMN_NAME, CONSTRAINT_NAME, REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_SCHEMA = '{self.database}'"
+        elif self.system_name == "postgresql": 
+            query_str = ("select kcu.table_schema || '.' || kcu.table_name as foreign_table, " 
+                        "'>-' as rel, " 
+                        "rel_kcu.table_schema || '.' || rel_kcu.table_name as primary_table, " 
+                        "kcu.ordinal_position as no, " 
+                        "kcu.column_name as fk_column, " 
+                        "'=' as join, " 
+                        "rel_kcu.column_name as pk_column, " 
+                        "kcu.constraint_name " 
+                        "from information_schema.table_constraints tco " 
+                        "join information_schema.key_column_usage kcu " 
+                        "on tco.constraint_schema = kcu.constraint_schema " 
+                        "and tco.constraint_name = kcu.constraint_name " 
+                        "join information_schema.referential_constraints rco " 
+                        "on tco.constraint_schema = rco.constraint_schema " 
+                        "and tco.constraint_name = rco.constraint_name " 
+                        "join information_schema.key_column_usage rel_kcu " 
+                        "on rco.unique_constraint_schema = rel_kcu.constraint_schema " 
+                        "and rco.unique_constraint_name = rel_kcu.constraint_name " 
+                        "and kcu.ordinal_position = rel_kcu.ordinal_position " 
+                        "where tco.constraint_type = 'FOREIGN KEY' " 
+                        "order by kcu.table_schema, " 
+                        "kcu.table_name,  " 
+                        "kcu.ordinal_position ;"
+            ) 
         foreign_keys = self.__run_query(query_str)
-        for (
-            table_name,
-            col_name,
-            _,
-            referenced_table_name,
-            referenced_column_name,
-        ) in foreign_keys.values:
-            r = DBConnector.Relationship(
-                referenced_table_name,
-                referenced_column_name,
+        if self.system_name == "mysql": 
+            for (
                 table_name,
                 col_name,
-            )
-            self.relationships.append(r)
+                _,
+                referenced_table_name,
+                referenced_column_name,
+            ) in foreign_keys.values:
+                r = DBConnector.Relationship(
+                    referenced_table_name,
+                    referenced_column_name,
+                    table_name,
+                    col_name,
+                )
+                self.relationships.append(r)
+        if self.system_name == "postgresql": 
+            for (foreign_table, _, primary_table, _, foreign_col, _, primary_col, _) in foreign_keys.values:
+                if "." in foreign_table: 
+                    foreign_table = foreign_table[foreign_table.find(".")+1:]
+                if "." in primary_table: 
+                    primary_table = primary_table[primary_table.find(".")+1:]
+                r = DBConnector.Relationship(primary_table, primary_col,foreign_table, foreign_col)
+                self.relationships.append(r) 
+        return self.relationships
 
     def __run_query(self, query: str) -> pd.DataFrame:
         if not isinstance(query, str):
