@@ -1,0 +1,6 @@
+commands
+*.pyc
+pytest_cache/* 
+featuretools-sql/__pycache__/* 
+featuretools-sql/tests/__pycache__/* 
+
