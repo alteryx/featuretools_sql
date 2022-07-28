@@ -20,7 +20,7 @@ def mysql_connection():
 
 
 @pytest.fixture 
-def my_postgres_connection(): 
+def postgres_connection(): 
     config = dict()
     config["system_name"] = "postgresql"
     config["host"] = "127.0.0.1"
@@ -35,8 +35,8 @@ def my_postgres_connection():
 def test_can_connect_to_dummy_db(mysql_connection):
     DBConnector(**mysql_connection)
 
-def test_can_connect_to_postgres(my_postgres_connection): 
-    DBConnector(**my_postgres_connection) 
+def test_can_connect_to_postgres(postgres_connection): 
+    DBConnector(**postgres_connection) 
 
 
 def test_faulty_connection_fails():
@@ -57,8 +57,8 @@ def test_can_get_all_tables(mysql_connection):
     assert df is not None
 
 
-def test_can_get_all_tables(my_postgres_connection):
-    c = DBConnector(**my_postgres_connection)
+def test_can_get_all_tables(postgres_connection):
+    c = DBConnector(**postgres_connection)
     df = c.all_tables()
     assert df is not None
 
@@ -69,6 +69,11 @@ def test_can_learn_dataframes(mysql_connection):
     es = EntitySet("es", c.dataframes, [])
     assert es is not None
 
+def test_can_learn_dataframes(postgres_connection):
+    c = DBConnector(**postgres_connection)
+    c.populate_dataframes(debug=False)
+    es = EntitySet("es", c.dataframes, [])
+    assert es is not None
 
 def test_can_get_relationships(mysql_connection):
     sql_connection = DBConnector(**mysql_connection)

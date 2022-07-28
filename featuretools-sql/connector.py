@@ -81,10 +81,18 @@ class DBConnector:
                 f"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '{db}' AND TABLE_NAME = '{table}' AND COLUMN_KEY = 'PRI';"
             )
             return df["COLUMN_NAME"]
+        elif self.system_name == "postgresql": 
+            df = self.__run_query(
+                f"SELECT a.attname, format_type(a.atttypid, a.atttypmod) AS data_type FROM pg_index i JOIN   pg_attribute a ON a.attrelid = i.indrelid AND a.attnum = ANY(i.indkey) WHERE  i.indrelid = '{table}'::regclass AND i.indisprimary;"
+            )
+            return df["attname"]
 
     def populate_dataframes(self, debug=False):
         tables_df = self.all_tables()
-        table_index = "TABLE_NAME"
+        if self.system_name == "mysql": 
+            table_index = "TABLE_NAME"
+        elif self.system_name == "postgresql": 
+            table_index = "table_name"
         for table in tables_df[table_index].values:
             self.tables.append(table)
             table_df = self.get_table(table)
