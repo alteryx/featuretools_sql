@@ -2,7 +2,7 @@ from collections import defaultdict, namedtuple
 
 import connectorx as cx
 import pandas as pd
-
+import psycopg2
 
 class DBConnector:
     Relationship = namedtuple(
@@ -10,30 +10,36 @@ class DBConnector:
         ["referenced_table_name", "referenced_column_name", "table_name", "col_name"],
     )
 
-    system_to_API = {"postgresql": "ConnectorX", "mysql": "ConnectorX"}
+    system_to_API = {"postgresql": "psycopg2", "mysql": "ConnectorX"}
     supported_systems = ["postgresql", "mysql"]
 
     def __init__(
-        self, system_name: str, user: str, password: str, host: str, database: str
+        self, system_name: str, user: str, password: str, host: str, port: str, database: str, schema=None
     ):
         self.system_name = system_name
         self.user = user
         self.password = password
         self.host = host
         self.database = database
+        self.port = port 
+        self.schema = schema
 
         # TODO: Password security
-        if None in [user, password, host, database]:
+        if None in [user, password, host, port, database]:
             raise ValueError("Cannot pass None as argument to DBConnector constructor")
         if system_name not in DBConnector.supported_systems:
             raise NotImplementedError(
                 f"DBConnector does not currently support {database}"
             )
-        self.connection_string = f"{system_name}://{user}:{password}@{host}/{database}"
+        self.connection_string = f"{system_name}://{user}:{password}@{host}:{port}/{database}"
         self.relationships = []
         self.tables = []
         self.dataframes = dict()
-        self.query_dispatcher = defaultdict(dict)
+        if system_name == "postgresql": 
+            assert schema != None 
+            conn_string = "host='{}' port={} dbname='{}' user={} password={}".format(host, port, database, user, password)
+            self.postgres_connection = psycopg2.connect(conn_string) 
+
 
     def change_system_name(self, system_name: str):
         self.system_name = system_name
