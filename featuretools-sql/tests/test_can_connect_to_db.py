@@ -81,3 +81,10 @@ def test_can_get_relationships(mysql_connection):
     sql_connection.populate_relationships()
     es = EntitySet("es", sql_connection.dataframes, sql_connection.relationships)
     assert es is not None
+
+def test_can_get_relationships(postgres_connection):
+    sql_connection = DBConnector(**postgres_connection)
+    sql_connection.populate_dataframes()
+    sql_connection.populate_relationships()
+    es = EntitySet("es", sql_connection.dataframes, sql_connection.relationships)
+    assert es is not None
