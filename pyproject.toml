@@ -1,7 +1,21 @@
 [build-system]
 requires = [
     "setuptools >= 47",
-    "wheel"
+    "wheel",
+    "featuretools==1.11.1",
+    "woodwork",
+    "mysql-connector-python",
+    "pytest",
+    "PyMySQL",
+    "typing",
+    "pytest-timeout",
+    "connectorx",
+    "psycopg2",
+    "numpy >= 1.17.5",
+    "pandas >= 1.3.0",
+    "featuretools >= 1.5.0",
+    "nltk >= 3.4.5",
+    "scikit-learn >= 0.20.0"",
 ]
 build-backend = "setuptools.build_meta"
 
@@ -14,6 +28,15 @@ multi_line_output = 3
 
 [tool.black]
 target-version = ['py310']
+
+[tool.flake8]
+max-line-length = 88
+extend-ignore = E203
+exclude = docs/*
+ignore = E501,W504,W503 # line too long error, line break after and before binary operator
+per-file-ignores =
+    **/__init__.py:F401
+    **/tests/*:D
 
 [project]
 name = "featuretool-sql" 
