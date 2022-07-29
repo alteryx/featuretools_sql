@@ -44,11 +44,11 @@ def test_faulty_connection_fails():
         DBConnector(None, None, None, None, None, None)
 
 
-def test_can_run_query(mysql_connection):
-    c = DBConnector(**mysql_connection)
-    c._DBConnector__run_query(
-        "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{c.database}'"
-    )
+# def test_can_run_query(mysql_connection):
+#     c = DBConnector(**mysql_connection)
+#     c._DBConnector__run_query(
+#         "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{c.database}'"
+#     )
 
 
 def test_can_get_all_tables(mysql_connection):

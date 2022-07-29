@@ -16,32 +16,36 @@ class postgres_connector:
         self.database = database
         self.port = port 
         self.schema = schema
+        self.tables = []
+
+        self.dataframes = dict() 
+        self.relationships = [] 
 
 
     def all_tables(self) -> pd.DataFrame:
-        return self.__run_query(
+        return self.run_query(
                 f"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{self.schema}';"
             )
 
-    def populate_dataframes(self) :
+    def populate_dataframes(self,debug=False) :
         tables_df = self.all_tables()
         table_index = "table_name"
         for table in tables_df[table_index].values:
             self.tables.append(table)
             table_df = self.get_table(table)
-            try:
-                table_key = self.get_primary_key_from_table(table).values[0]
-            except Exception:
-                raise Exception(
-                    "Haven't implemented support for composite primary keys yet!"
-                )
+            table_key = self.get_primary_key_from_table(table).values[0]
             self.dataframes[table] = (table_df, table_key)
         if debug:
             for k, v in self.dataframes.items():
                 print(f"Name: {k}")
                 print(f"df: {v}")
                 print()
-        return
+        return self.dataframes
+
+
+    def get_table(self, table: str) -> pd.DataFrame:
+        return self.run_query(f"SELECT * FROM {table}")
+
 
     def populate_relationships(self) -> List[pd.DataFrame]: 
         query_str = ("select kcu.table_schema || '.' || kcu.table_name as foreign_table, " 
@@ -68,7 +72,7 @@ class postgres_connector:
                     "kcu.table_name,  " 
                     "kcu.ordinal_position ;"
         ) 
-        foreign_keys = self.__run_query(query_str)
+        foreign_keys = self.run_query(query_str)
         if self.system_name == "postgresql": 
             for (foreign_table, _, primary_table, _, foreign_col, _, primary_col, _) in foreign_keys.values:
                 if "." in foreign_table: 
@@ -79,8 +83,8 @@ class postgres_connector:
                 self.relationships.append(r) 
         return self.relationships
 
-    def __get_primary_key_from_table(self, table: str) -> pd.DataFrame:
-        df = self.__run_query(
+    def get_primary_key_from_table(self, table: str) -> pd.DataFrame:
+        df = self.run_query(
             f"SELECT a.attname, format_type(a.atttypid, a.atttypmod) AS data_type FROM pg_index i JOIN   pg_attribute a ON a.attrelid = i.indrelid AND a.attnum = ANY(i.indkey) WHERE  i.indrelid = '{table}'::regclass AND i.indisprimary;"
         )
         return df["attname"]

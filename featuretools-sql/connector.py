@@ -5,7 +5,8 @@ import pandas as pd
 import psycopg2
 import pandas.io.sql as sqlio 
 
-from db_connectors import postgres_connector 
+from db_connectors import postgres_connector
+from db_connectors import mysql_connector
 class DBConnector:
     Relationship = namedtuple(
         "Relationship",
@@ -33,13 +34,15 @@ class DBConnector:
             raise NotImplementedError(
                 f"DBConnector does not currently support {database}"
             )
-        self.connection_string = f"{system_name}://{user}:{password}@{host}:{port}/{database}"
+        #self.connection_string = f"{system_name}://{user}:{password}@{host}:{port}/{database}"
         self.relationships = []
         self.tables = []
         self.dataframes = dict()
         if system_name == "postgresql": 
             assert schema != None 
-            self.connector = postgres_connector(host, port, database, user, password, schema) 
+            self.connector = postgres_connector(host, port, database, user, password, schema)
+        elif system_name == "mysql": 
+            self.connector = mysql_connector(host, port, database, user, password)
 
     def change_system_name(self, system_name: str):
         self.system_name = system_name
@@ -54,82 +57,29 @@ class DBConnector:
         self.new_host = new_host
 
     def all_tables(self) -> pd.DataFrame:
-        if self.system_name == "mysql":
-            return self.__run_query(
-                f"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{self.database}';"
-            )
-        elif self.system_name == "postgresql": 
-            return self.__run_query(
-                f"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{self.schema}';"
-            )
+        return self.connector.all_tables()
 
-    def learn_table_schema(self, table: str) -> pd.DataFrame:
-        schema = self.database
-        if self.system_name == "mysql":
-            self.__run_query(
-                f"SELECT COLUMN_NAME AS `Field`, COLUMN_TYPE AS `Type`, IS_NULLABLE AS `NULL`,  COLUMN_KEY AS `Key`, COLUMN_DEFAULT AS `Default`, EXTRA AS `Extra` FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '{schema}' AND TABLE_NAME = '{table}';"
-            )
+    # def learn_table_schema(self, table: str) -> pd.DataFrame:
+    #     schema = self.database
+    #     if self.system_name == "mysql":
+    #         self.__run_query(
+    #             f"SELECT COLUMN_NAME AS `Field`, COLUMN_TYPE AS `Type`, IS_NULLABLE AS `NULL`,  COLUMN_KEY AS `Key`, COLUMN_DEFAULT AS `Default`, EXTRA AS `Extra` FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '{schema}' AND TABLE_NAME = '{table}';"
+    #         )
 
-    def get_table(self, table: str) -> pd.DataFrame:
-        return self.__run_query(f"SELECT * FROM {table}")
+    # def get_table(self, table: str) -> pd.DataFrame:
+    #     return self.__run_query(f"SELECT * FROM {table}")
 
     def get_primary_key_from_table(self, table: str) -> pd.DataFrame:
-        db = self.database
-        if self.system_name == "mysql":
-            df = self.__run_query(
-                f"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '{db}' AND TABLE_NAME = '{table}' AND COLUMN_KEY = 'PRI';"
-            )
-            return df["COLUMN_NAME"]
-        elif self.system_name == "postgresql": 
-            return self.connector.__get_primary_key_from_table()
+        return self.connector.get_primary_key_from_table(table)
 
     def populate_dataframes(self, debug=False):
-        tables_df = self.all_tables()
-        if self.system_name == "mysql": 
-            table_index = "TABLE_NAME"
-        for table in tables_df[table_index].values:
-            self.tables.append(table)
-            table_df = self.get_table(table)
-            try:
-                table_key = self.get_primary_key_from_table(table).values[0]
-            except Exception:
-                raise Exception(
-                    "Haven't implemented support for composite primary keys yet!"
-                )
-            self.dataframes[table] = (table_df, table_key)
-        if debug:
-            for k, v in self.dataframes.items():
-                print(f"Name: {k}")
-                print(f"df: {v}")
-                print()
-        return
+        self.dataframes = self.connector.populate_dataframes(debug)
+        return self.dataframes 
 
     def populate_relationships(self, debug=False):
-        self.relationships = []
-        if self.system_name == "mysql":
-            query_str = f"SELECT TABLE_NAME, COLUMN_NAME, CONSTRAINT_NAME, REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_SCHEMA = '{self.database}'"
-        foreign_keys = self.__run_query(query_str)
-        if self.system_name == "mysql": 
-            for (
-                table_name,
-                col_name,
-                _,
-                referenced_table_name,
-                referenced_column_name,
-            ) in foreign_keys.values:
-                r = DBConnector.Relationship(
-                    referenced_table_name,
-                    referenced_column_name,
-                    table_name,
-                    col_name,
-                )
-                self.relationships.append(r)
-        return self.relationships
+        return self.connector.populate_relationships()
 
-    def __run_query(self, query: str) -> pd.DataFrame:
-        if not isinstance(query, str):
-            raise ValueError(f"Query must be of string type, not {type(query)}")
-        if DBConnector.system_to_API[self.system_name] == "ConnectorX":
-            return cx.read_sql(self.connection_string, query)
-        elif DBConnector.system_to_API[self.system_name] == "psycopg2": 
-            return self.connector.run_query(query)
+    # def __run_query(self, query: str) -> pd.DataFrame:
+    #     if not isinstance(query, str):
+    #         raise ValueError(f"Query must be of string type, not {type(query)}")
+    #     return self.connector.run_query(query) 
