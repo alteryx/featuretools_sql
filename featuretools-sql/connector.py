@@ -74,11 +74,6 @@ class DBConnector:
     #         self.__run_query(
     #             f"SELECT COLUMN_NAME AS `Field`, COLUMN_TYPE AS `Type`, IS_NULLABLE AS `NULL`,  COLUMN_KEY AS `Key`, COLUMN_DEFAULT AS `Default`, EXTRA AS `Extra` FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '{schema}' AND TABLE_NAME = '{table}';"
     #         )
-
-    # def __run_query(self, query: str) -> pd.DataFrame:
-    #     if not isinstance(query, str):
-    #         raise ValueError(f"Query must be of string type, not {type(query)}")
-    #     return self.connector.run_query(query)
     """ 
 
     def get_primary_key_from_table(self, table: str) -> pd.DataFrame:
