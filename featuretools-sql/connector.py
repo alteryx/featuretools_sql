@@ -77,7 +77,8 @@ class DBConnector:
         return self.dataframes 
 
     def populate_relationships(self, debug=False):
-        return self.connector.populate_relationships()
+        self.relationships = self.connector.populate_relationships()
+        return self.relationships
 
     # def __run_query(self, query: str) -> pd.DataFrame:
     #     if not isinstance(query, str):
