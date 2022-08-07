@@ -81,7 +81,6 @@ def test_can_learn_dataframes(mysql_connection):
 def test_can_learn_dataframes(postgres_connection):
     c = DBConnector(**postgres_connection)
     df = c.populate_dataframes(debug=False)
-    print(f"df: {df}")
     es = EntitySet("es", c.dataframes, [])
     assert es is not None
 

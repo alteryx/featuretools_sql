@@ -9,7 +9,6 @@ class DBConnector:
         ["referenced_table_name", "referenced_column_name", "table_name", "col_name"],
     )
 
-    system_to_API = {"postgresql": "psycopg2", "mysql": "ConnectorX"}
     supported_systems = ["postgresql", "mysql"]
 
     def __init__(
@@ -79,11 +78,11 @@ class DBConnector:
     def get_primary_key_from_table(self, table: str) -> pd.DataFrame:
         return self.connector.get_primary_key_from_table(table)
 
-    def populate_dataframes(self, debug=False) -> dict[str, tuple[pd.DataFrame, str]]:
+    def populate_dataframes(self, debug=False): # 3.9 and above -> dict[str, tuple[pd.DataFrame, str]]:
         self.dataframes = self.connector.populate_dataframes(debug)
         return self.dataframes
 
-    def populate_relationships(self, debug=False) -> List[tuple[str, str, str, str]]:
+    def populate_relationships(self, debug=False): # 3.9 and above -> List[tuple[str, str, str, str]]:
         self.relationships = self.connector.populate_relationships(debug)
         return self.relationships
 
