@@ -5,6 +5,28 @@ The `featuretools-sql` library allows users to directly import and convert their
 ## Installation 
 TODO 
 
+## Docker
+
+```
+docker compose up
+```
+
+### Run Webclient
+
+Go to http://localhost:8090/
+
+To login to postgres:
+
+server: postgres
+username: postgres
+password: example
+
+To login to mysql:
+
+server: mysql
+username: root
+password: example
+
 ## Connecting your database to `featuretools-sql` 
 Simply pass in the database connection information. For example:
 
