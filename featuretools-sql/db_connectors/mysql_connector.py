@@ -1,4 +1,5 @@
 from typing import List
+from featuretools import EntitySet
 
 import connectorx as cx
 import pandas as pd
@@ -69,9 +70,14 @@ class MySQLConnector:
 
     def get_primary_key_from_table(self, table: str) -> pd.DataFrame:
         df = self.run_query(
-            f"SELECT a.attname, AS data_type FROM pg_index i JOIN   pg_attribute a ON a.attrelid = i.indrelid AND a.attnum = ANY(i.indkey) WHERE  i.indrelid = '{table}'::regclass AND i.indisprimary;"
+            f"SELECT a.attname, format_type(a.atttypid, a.atttypmod) AS data_type FROM pg_index i JOIN   pg_attribute a ON a.attrelid = i.indrelid AND a.attnum = ANY(i.indkey) WHERE  i.indrelid = '{table}'::regclass AND i.indisprimary;"
         )
         return df["attname"]
 
     def run_query(self, query: str) -> pd.DataFrame:
         return cx.read_sql(self.connection_string, query)
+
+    def get_entity_set(self): 
+        dataframes = self.populate_dataframes()
+        relationships = self.populate_relationships()
+        return EntitySet(dataframes=dataframes,relationships=relationships)

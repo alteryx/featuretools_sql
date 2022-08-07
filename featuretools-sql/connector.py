@@ -86,3 +86,6 @@ class DBConnector:
         self.relationships = self.connector.populate_relationships(debug)
         return self.relationships
 
+    def get_entity_set(self):
+        es = self.connector.get_entity_set()
+        return es 
