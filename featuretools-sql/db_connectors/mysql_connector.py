@@ -5,7 +5,7 @@ import pandas as pd
 import pandas.io.sql as sqlio
 
 
-class mysql_connector:
+class MySQLConnector:
     def __init__(self, host, port, database, user, password):
         self.connection_string = f"mysql://{user}:{password}@{host}:{port}/{database}"
         self.system_name = "postgresql"

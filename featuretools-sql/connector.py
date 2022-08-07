@@ -1,6 +1,6 @@
 from collections import namedtuple
 import pandas as pd
-from db_connectors import mysql_connector, postgres_connector
+from db_connectors import MySQLConnector, PostgresConnector
 from typing import List 
 
 class DBConnector:
@@ -42,11 +42,11 @@ class DBConnector:
         if system_name == "postgresql":
             if self.schema is None: 
                 raise ValueError("Cannot pass None to schema parameter if using Postgres")
-            self.connector = postgres_connector(
+            self.connector = PostgresConnector(
                 host, port, database, user, password, schema
             )
         elif system_name == "mysql":
-            self.connector = mysql_connector(host, port, database, user, password)
+            self.connector = MySQLConnector(host, port, database, user, password)
 
     def change_system_name(self, system_name: str):
         self.system_name = system_name

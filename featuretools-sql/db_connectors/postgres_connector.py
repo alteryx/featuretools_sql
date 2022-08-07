@@ -5,7 +5,7 @@ import pandas.io.sql as sqlio
 import psycopg2
 
 
-class postgres_connector:
+class PostgresConnector:
     def __init__(self, host, port, database, user, password, schema):
         conn_string = "host='{}' port={} dbname='{}' user={} password={}".format(
             host, port, database, user, password
