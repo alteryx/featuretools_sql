@@ -43,12 +43,11 @@ class MySQLConnector:
         return self.run_query(f"SELECT * FROM {table}")
 
     def populate_relationships(self, debug=False):  # 3.9 and above: -> List[tuple(str, str, str, str)]:
-        query_str = f"SELECT TABLE_NAME, COLUMN_NAME, CONSTRAINT_NAME, REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_SCHEMA = '{self.database}'"
+        query_str = f"SELECT TABLE_NAME, COLUMN_NAME, REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_SCHEMA = '{self.database}'"
         foreign_keys = self.run_query(query_str)
         for (
             table_name,
             col_name,
-            _,
             referenced_table_name,
             referenced_column_name,
         ) in foreign_keys.values:
@@ -70,7 +69,7 @@ class MySQLConnector:
 
     def get_primary_key_from_table(self, table: str) -> pd.DataFrame:
         df = self.run_query(
-            f"SELECT a.attname, format_type(a.atttypid, a.atttypmod) AS data_type FROM pg_index i JOIN   pg_attribute a ON a.attrelid = i.indrelid AND a.attnum = ANY(i.indkey) WHERE  i.indrelid = '{table}'::regclass AND i.indisprimary;"
+            f"SELECT a.attname, AS data_type FROM pg_index i JOIN   pg_attribute a ON a.attrelid = i.indrelid AND a.attnum = ANY(i.indkey) WHERE  i.indrelid = '{table}'::regclass AND i.indisprimary;"
         )
         return df["attname"]
 
