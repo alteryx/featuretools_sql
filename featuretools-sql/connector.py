@@ -48,18 +48,6 @@ class DBConnector:
         elif system_name == "mysql":
             self.connector = MySQLConnector(host, port, database, user, password)
 
-    def change_system_name(self, system_name: str):
-        self.system_name = system_name
-
-    def change_password(self, new_password: str):
-        self.password = new_password
-
-    def change_user(self, new_user: str):
-        self.new_user = new_user
-
-    def change_host(self, new_host: str):
-        self.new_host = new_host
-
     def all_tables(self) -> pd.DataFrame:
         return self.connector.all_tables()
 
