@@ -40,8 +40,6 @@ class DBConnector:
         self.tables = []
         self.dataframes = dict()
         if system_name == "postgresql":
-            if self.schema is None: 
-                raise ValueError("Cannot pass None to schema parameter if using Postgres")
             self.connector = PostgresConnector(
                 host, port, database, user, password, schema
             )

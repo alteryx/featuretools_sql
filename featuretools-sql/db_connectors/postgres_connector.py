@@ -10,6 +10,8 @@ class PostgresConnector:
         conn_string = "host='{}' port={} dbname='{}' user={} password={}".format(
             host, port, database, user, password
         )
+        if schema is None: 
+            raise ValueError("Cannot pass None to schema parameter if using Postgres")
         self.postgres_connection = psycopg2.connect(conn_string)
 
         self.system_name = "postgresql"
