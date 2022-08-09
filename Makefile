@@ -4,18 +4,18 @@ setup: requirements.txt
 
 .PHONY: lint
 lint:
-	isort --check-only featuretools-sql
-	black featuretools-sql -t py310 --check
-	flake8 featuretools-sql
+	isort --check-only featuretools_sql
+	black featuretools_sql -t py310 --check
+	flake8 featuretools_sql
 
 .PHONY: lint-fix
 lint-fix:
-	black featuretools-sql -t py310 
-	isort featuretools-sql 
+	black featuretools_sql -t py310 
+	isort featuretools_sql 
 
 .PHONY: test
 test: 
-	pytest -s -vv featuretools-sql/tests/* 
+	pytest featuretools_sql/tests/* 
 
 .PHONY: clean
 clean: 

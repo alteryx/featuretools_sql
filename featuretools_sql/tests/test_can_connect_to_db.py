@@ -1,5 +1,5 @@
 import pytest
-from connector import DBConnector
+from ..connector import DBConnector
 from featuretools import EntitySet
 
 """

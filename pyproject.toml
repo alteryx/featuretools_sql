@@ -7,16 +7,26 @@ build-backend = "setuptools.build_meta"
 
 [tool.isort]
 profile = "black"
-forced_separate = "featuretools-sql"
-known_first_party = "featuretools-sql"
+forced_separate = "featuretools_sql"
+known_first_party = "featuretools_sql"
 skip = "__init__.py"
 multi_line_output = 3
 
 [tool.black]
 target-version = ['py310']
 
+[tool.pytest.ini_options]
+addopts = "-s -vv"
+testpaths = [
+    "featuretools_sql/tests/*"
+]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::PendingDeprecationWarning"
+]
+
 [project]
-name = "featuretool-sql" 
+name = "featuretool_sql" 
 version = "0.0.1" 
 authors = [
   { name="Shripad Badithe", email="slyokapi@gmail.com"}, 
