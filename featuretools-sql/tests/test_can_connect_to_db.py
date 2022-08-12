@@ -30,6 +30,7 @@ def test_populate_dataframes():
 
             df.to_sql(name, engine, index=False)
 
+            # TODO: add relationships to es
             with engine.connect() as con:
                 rs = con.execute(f'ALTER TABLE public.{name} add primary key ({idx_col})')
 
@@ -40,6 +41,8 @@ def test_populate_dataframes():
         connector = DBConnector(**config)
 
         connector.populate_dataframes()
+
+        
 
         breakpoint()
 
