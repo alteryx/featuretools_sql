@@ -1,9 +1,0 @@
-featuretools==1.11.1
-woodwork
-mysql-connector-python
-SQLAlchemy==1.4
-pytest
-PyMySQL
-typing
-pytest-timeout
-connectorx
