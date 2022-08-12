@@ -1,7 +1,7 @@
 from collections import namedtuple
 import pandas as pd
 from db_connectors import MySQLConnector, PostgresConnector
-from typing import List 
+from typing import Optional
 
 class DBConnector:
     Relationship = namedtuple(
@@ -15,10 +15,10 @@ class DBConnector:
         self,
         system_name: str,
         user: str,
-        password: str,
         host: str,
         port: str,
         database: str,
+        password: Optional[str] = None,
         schema=None,
     ):
         self.system_name = system_name
@@ -30,7 +30,7 @@ class DBConnector:
         self.schema = schema
 
         # TODO: Password security
-        if None in [user, password, host, port, database]:
+        if None in [user, host, port, database]:
             raise ValueError("Cannot pass None as argument to DBConnector constructor")
         if system_name not in DBConnector.supported_systems:
             raise NotImplementedError(

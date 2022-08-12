@@ -15,7 +15,7 @@ lint-fix:
 
 .PHONY: test
 test: 
-	pytest featuretools_sql/tests/* 
+	pytest featuretools-sql/tests/* 
 
 .PHONY: clean
 clean: 

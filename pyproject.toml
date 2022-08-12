@@ -7,8 +7,8 @@ build-backend = "setuptools.build_meta"
 
 [tool.isort]
 profile = "black"
-forced_separate = "featuretools_sql"
-known_first_party = "featuretools_sql"
+forced_separate = "featuretools-sql"
+known_first_party = "featuretools-sql"
 skip = "__init__.py"
 multi_line_output = 3
 
@@ -18,7 +18,7 @@ target-version = ['py310']
 [tool.pytest.ini_options]
 addopts = "-s -vv"
 testpaths = [
-    "featuretools_sql/tests/*"
+    "featuretools-sql/tests/*"
 ]
 filterwarnings = [
     "ignore::DeprecationWarning",

@@ -1,10 +1,49 @@
 import pytest
 from connector import DBConnector
 from featuretools import EntitySet
-
+import pandas as pd
 """
 TODO: Create mock fixtures to actually test equality 
 """
+
+
+import psycopg2
+import unittest
+import testing.postgresql
+
+
+
+def test_populate_dataframes():
+    # Lanuch new PostgreSQL server
+    with testing.postgresql.Postgresql() as postgresql:
+
+        from sqlalchemy import create_engine
+        engine = create_engine(postgresql.url())
+
+        import featuretools as ft
+
+        es = ft.demo.load_retail()  
+
+        for df in es.dataframes:
+            name = df.ww.name
+            idx_col = df.ww.index   
+
+            df.to_sql(name, engine, index=False)
+
+            with engine.connect() as con:
+                rs = con.execute(f'ALTER TABLE public.{name} add primary key ({idx_col})')
+
+        config = postgresql.dsn()
+        config['system_name'] = 'postgresql'
+        config['schema'] = 'public'
+
+        connector = DBConnector(**config)
+
+        connector.populate_dataframes()
+
+        breakpoint()
+
+        
 
 
 @pytest.fixture

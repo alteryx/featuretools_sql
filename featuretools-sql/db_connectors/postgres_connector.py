@@ -7,12 +7,17 @@ from featuretools import EntitySet
 
 class PostgresConnector:
     def __init__(self, host, port, database, user, password, schema):
-        conn_string = "host='{}' port={} dbname='{}' user={} password={}".format(
-            host, port, database, user, password
-        )
-        if schema is None: 
-            raise ValueError("Cannot pass None to schema parameter if using Postgres")
-        self.postgres_connection = psycopg2.connect(conn_string)
+
+        conn_dict = {}
+        conn_dict["host"] = host
+        conn_dict["port"] = port
+        conn_dict["database"] = database
+        conn_dict["user"] = user
+
+        if password:
+            conn_dict["password"] = password
+       
+        self.postgres_connection = psycopg2.connect(**conn_dict)
 
         self.system_name = "postgresql"
         self.user = user
@@ -36,6 +41,8 @@ class PostgresConnector:
         for table in tables_df[table_index].values:
             self.tables.append(table)
             table_df = self.get_table(table)
+            # TODO: error handling on tables here
+
             table_key = self.get_primary_key_from_table(table).values[0]
             dataframes[table] = (table_df, table_key)
         if debug:
