@@ -1,5 +1,5 @@
 import pytest
-from connector import DBConnector
+from ..connector import DBConnector
 from featuretools import EntitySet
 import pandas as pd
 import psycopg2
@@ -28,7 +28,10 @@ def load_dataframes_into_postgres(es, engine):
     
 
 def test_populate_dataframes():
-    # Lanuch new PostgreSQL server
+    """ 
+    Launch new Postgres instance, load data from demo database
+    Tests that `populate_dataframes` works correctly
+    """
     with testing.postgresql.Postgresql() as postgresql:
 
         from sqlalchemy import create_engine

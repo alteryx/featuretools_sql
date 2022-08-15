@@ -61,7 +61,7 @@ class PostgresConnector:
             select kcu.table_schema || '.' || kcu.table_name as foreign_table, 
             rel_kcu.table_schema || '.' || rel_kcu.table_name as primary_table, 
             kcu.column_name as fk_column, 
-            rel_kcu.column_name as pk_column, 
+            rel_kcu.column_name as pk_column
             from information_schema.table_constraints tco 
             join information_schema.key_column_usage kcu 
             on tco.constraint_schema = kcu.constraint_schema 
@@ -76,7 +76,7 @@ class PostgresConnector:
             where tco.constraint_type = 'FOREIGN KEY' 
             order by kcu.table_schema, 
             kcu.table_name,  
-            kcu.ordinal_position ;
+            kcu.ordinal_position;
             """
         )
         relationships = []

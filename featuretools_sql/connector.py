@@ -1,6 +1,6 @@
 from collections import namedtuple
 import pandas as pd
-from db_connectors import MySQLConnector, PostgresConnector
+from .db_connectors import MySQLConnector, PostgresConnector
 from typing import Optional
 
 class DBConnector:
