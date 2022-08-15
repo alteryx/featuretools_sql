@@ -2,36 +2,42 @@ import pytest
 from connector import DBConnector
 from featuretools import EntitySet
 import pandas as pd
+import psycopg2
+import unittest
+import testing.postgresql
+
 """
 TODO: Create mock fixtures to actually test equality 
 """
 
 
-import psycopg2
-import unittest
-import testing.postgresql
+def load_dataframes_into_postgres(es, engine): 
+    """ 
+    Given an entityset and an engine, 
+    load all the dataframes in the entity set into 
+    the relational database. Also, set the primary keys
+    """
+    for df in es.dataframes:
+        name = df.ww.name
+        idx_col = df.ww.index   
 
+        df.to_sql(name, engine, index=False)
 
+        with engine.connect() as con:
+            rs = con.execute(f'ALTER TABLE public.{name} add primary key ({idx_col})')
+    
 
 def test_populate_dataframes():
     # Lanuch new PostgreSQL server
     with testing.postgresql.Postgresql() as postgresql:
 
         from sqlalchemy import create_engine
-        engine = create_engine(postgresql.url())
-
         import featuretools as ft
 
+        engine = create_engine(postgresql.url())
         es = ft.demo.load_retail()  
 
-        for df in es.dataframes:
-            name = df.ww.name
-            idx_col = df.ww.index   
-
-            df.to_sql(name, engine, index=False)
-
-            with engine.connect() as con:
-                rs = con.execute(f'ALTER TABLE public.{name} add primary key ({idx_col})')
+        load_dataframes_into_postgres(es, engine)
 
         config = postgresql.dsn()
         config['system_name'] = 'postgresql'
@@ -39,11 +45,8 @@ def test_populate_dataframes():
 
         connector = DBConnector(**config)
 
-        connector.populate_dataframes()
-
-        breakpoint()
-
-        
+        dfs = connector.populate_dataframes()
+        print(f"dataframes: {dfs}")
 
 
 @pytest.fixture
@@ -138,3 +141,4 @@ def test_can_get_relationships(postgres_connection):
     sql_connection.populate_relationships()
     es = EntitySet("es", sql_connection.dataframes, sql_connection.relationships)
     assert es is not None
+
