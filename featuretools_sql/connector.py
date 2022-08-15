@@ -1,7 +1,10 @@
 from collections import namedtuple
-import pandas as pd
-from .db_connectors import MySQLConnector, PostgresConnector
 from typing import Optional
+
+import pandas as pd
+
+from .db_connectors import MySQLConnector, PostgresConnector
+
 
 class DBConnector:
     Relationship = namedtuple(
@@ -49,7 +52,6 @@ class DBConnector:
     def all_tables(self) -> pd.DataFrame:
         return self.connector.all_tables()
 
-
     """
     TODO: 
 
@@ -59,19 +61,23 @@ class DBConnector:
     #         self.__run_query(
     #             f"SELECT COLUMN_NAME AS `Field`, COLUMN_TYPE AS `Type`, IS_NULLABLE AS `NULL`,  COLUMN_KEY AS `Key`, COLUMN_DEFAULT AS `Default`, EXTRA AS `Extra` FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '{schema}' AND TABLE_NAME = '{table}';"
     #         )
-    """ 
+    """
 
     def get_primary_key_from_table(self, table: str) -> pd.DataFrame:
         return self.connector.get_primary_key_from_table(table)
 
-    def populate_dataframes(self, debug=False): # 3.9 and above -> dict[str, tuple[pd.DataFrame, str]]:
+    def populate_dataframes(
+        self, debug=False
+    ):  # 3.9 and above -> dict[str, tuple[pd.DataFrame, str]]:
         self.dataframes = self.connector.populate_dataframes(debug)
         return self.dataframes
 
-    def populate_relationships(self, debug=False): # 3.9 and above -> List[tuple[str, str, str, str]]:
+    def populate_relationships(
+        self, debug=False
+    ):  # 3.9 and above -> List[tuple[str, str, str, str]]:
         self.relationships = self.connector.populate_relationships(debug)
         return self.relationships
 
     def get_entity_set(self):
         es = self.connector.get_entity_set()
-        return es 
+        return es

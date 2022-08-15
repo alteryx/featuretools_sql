@@ -1,9 +1,9 @@
-#from typing import List
+# from typing import List
 import pandas as pd
 import pandas.io.sql as sqlio
 import psycopg2
-
 from featuretools import EntitySet
+
 
 class PostgresConnector:
     def __init__(self, host, port, database, user, password, schema):
@@ -16,7 +16,7 @@ class PostgresConnector:
 
         if password:
             conn_dict["password"] = password
-       
+
         self.postgres_connection = psycopg2.connect(**conn_dict)
 
         self.system_name = "postgresql"
@@ -33,7 +33,9 @@ class PostgresConnector:
             f"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{self.schema}';"
         )
 
-    def populate_dataframes(self, debug=False): # 3.9 and above -> dict[str, tuple[pd.DataFrame, str]]:
+    def populate_dataframes(
+        self, debug=False
+    ):  # 3.9 and above -> dict[str, tuple[pd.DataFrame, str]]:
         tables_df = self.all_tables()
         table_index = "table_name"
         self.tables = []
@@ -55,9 +57,10 @@ class PostgresConnector:
     def get_table(self, table: str) -> pd.DataFrame:
         return self.run_query(f"SELECT * FROM {table}")
 
-    def populate_relationships(self, debug=False): # 3.9 and above -> List[tuple(str, str, str, str)]
-        query_str = (
-            """
+    def populate_relationships(
+        self, debug=False
+    ):  # 3.9 and above -> List[tuple(str, str, str, str)]
+        query_str = """
             select kcu.table_schema || '.' || kcu.table_name as foreign_table, 
             rel_kcu.table_schema || '.' || rel_kcu.table_name as primary_table, 
             kcu.column_name as fk_column, 
@@ -78,7 +81,6 @@ class PostgresConnector:
             kcu.table_name,  
             kcu.ordinal_position;
             """
-        )
         relationships = []
         foreign_keys = self.run_query(query_str)
         if self.system_name == "postgresql":
@@ -94,8 +96,13 @@ class PostgresConnector:
                     primary_table = self.__cut_schema_name(primary_table)
                 r = (primary_table, primary_col, foreign_table, foreign_col)
                 relationships.append(r)
-        if debug: 
-            for referenced_table_name, referenced_column_name, table_name, col_name in self.relationships:
+        if debug:
+            for (
+                referenced_table_name,
+                referenced_column_name,
+                table_name,
+                col_name,
+            ) in self.relationships:
                 print(f"referenced_table_name: {referenced_table_name}")
                 print(f"referenced_column_name: {referenced_column_name}")
                 print(f"table_name: {table_name}")
@@ -114,7 +121,7 @@ class PostgresConnector:
     def run_query(self, query: str) -> pd.DataFrame:
         return sqlio.read_sql_query(query, self.postgres_connection)
 
-    def get_entity_set(self): 
+    def get_entity_set(self):
         dataframes = self.populate_dataframes()
         relationships = self.populate_relationships()
-        return EntitySet(dataframes=dataframes,relationships=relationships)
+        return EntitySet(dataframes=dataframes, relationships=relationships)

@@ -1,9 +1,9 @@
 from typing import List
-from featuretools import EntitySet
 
 import connectorx as cx
 import pandas as pd
 import pandas.io.sql as sqlio
+from featuretools import EntitySet
 
 
 class MySQLConnector:
@@ -25,7 +25,9 @@ class MySQLConnector:
             f"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{self.database}';"
         )
 
-    def populate_dataframes(self, debug=False) : #typing 3.9 and above -> dict[str, tuple[pd.DataFrame, str]]:
+    def populate_dataframes(
+        self, debug=False
+    ):  # typing 3.9 and above -> dict[str, tuple[pd.DataFrame, str]]:
         tables_df = self.all_tables()
         table_index = "TABLE_NAME"
         for table in tables_df[table_index].values:
@@ -43,7 +45,9 @@ class MySQLConnector:
     def get_table(self, table: str) -> pd.DataFrame:
         return self.run_query(f"SELECT * FROM {table}")
 
-    def populate_relationships(self, debug=False):  # 3.9 and above: -> List[tuple(str, str, str, str)]:
+    def populate_relationships(
+        self, debug=False
+    ):  # 3.9 and above: -> List[tuple(str, str, str, str)]:
         query_str = f"SELECT TABLE_NAME, COLUMN_NAME, REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_SCHEMA = '{self.database}'"
         foreign_keys = self.run_query(query_str)
         for (
@@ -59,8 +63,13 @@ class MySQLConnector:
                 col_name,
             )
             self.relationships.append(r)
-        if debug: 
-            for referenced_table_name, referenced_column_name, table_name, col_name in self.relationships:
+        if debug:
+            for (
+                referenced_table_name,
+                referenced_column_name,
+                table_name,
+                col_name,
+            ) in self.relationships:
                 print(f"referenced_table_name: {referenced_table_name}")
                 print(f"referenced_column_name: {referenced_column_name}")
                 print(f"table_name: {table_name}")
@@ -77,7 +86,7 @@ class MySQLConnector:
     def run_query(self, query: str) -> pd.DataFrame:
         return cx.read_sql(self.connection_string, query)
 
-    def get_entity_set(self): 
+    def get_entity_set(self):
         dataframes = self.populate_dataframes()
         relationships = self.populate_relationships()
-        return EntitySet(dataframes=dataframes,relationships=relationships)
+        return EntitySet(dataframes=dataframes, relationships=relationships)

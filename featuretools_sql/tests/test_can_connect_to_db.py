@@ -1,55 +1,64 @@
-import pytest
-from ..connector import DBConnector
-from featuretools import EntitySet
+import unittest
+
 import pandas as pd
 import psycopg2
-import unittest
+import pytest
 import testing.postgresql
+from featuretools import EntitySet
+
+from ..connector import DBConnector
 
 """
 TODO: Create mock fixtures to actually test equality 
 """
 
 
-def load_dataframes_into_postgres(es, engine): 
-    """ 
-    Given an entityset and an engine, 
-    load all the dataframes in the entity set into 
+def load_dataframes_into_postgres(es, engine):
+    """
+    Given an entityset and an engine,
+    load all the dataframes in the entity set into
     the relational database. Also, set the primary keys
     """
     for df in es.dataframes:
         name = df.ww.name
-        idx_col = df.ww.index   
+        idx_col = df.ww.index
 
         df.to_sql(name, engine, index=False)
 
         with engine.connect() as con:
-            rs = con.execute(f'ALTER TABLE public.{name} add primary key ({idx_col})')
-    
+            rs = con.execute(f"ALTER TABLE public.{name} add primary key ({idx_col})")
+
 
 def test_populate_dataframes():
-    """ 
+    """
     Launch new Postgres instance, load data from demo database
     Tests that `populate_dataframes` works correctly
     """
     with testing.postgresql.Postgresql() as postgresql:
 
-        from sqlalchemy import create_engine
         import featuretools as ft
+        from sqlalchemy import create_engine
 
         engine = create_engine(postgresql.url())
-        es = ft.demo.load_retail()  
+        es = ft.demo.load_retail()
 
         load_dataframes_into_postgres(es, engine)
 
         config = postgresql.dsn()
-        config['system_name'] = 'postgresql'
-        config['schema'] = 'public'
+        config["system_name"] = "postgresql"
+        config["schema"] = "public"
 
         connector = DBConnector(**config)
 
-        dfs = connector.populate_dataframes()
-        print(f"dataframes: {dfs}")
+        df_dict_actual = connector.populate_dataframes()
+
+    df_dict_expected = dict()
+    for df in es.dataframes:
+        # TODO: Should we bother to compare the actual dataframes?
+        # they are quite big and it is slow
+        df_dict_expected[df.ww.name] = None
+
+    assert df_dict_expected.keys() == df_dict_actual.keys()
 
 
 @pytest.fixture
@@ -144,4 +153,3 @@ def test_can_get_relationships(postgres_connection):
     sql_connection.populate_relationships()
     es = EntitySet("es", sql_connection.dataframes, sql_connection.relationships)
     assert es is not None
-
