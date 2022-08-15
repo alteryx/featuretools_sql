@@ -1,5 +1,5 @@
-# featuretools-sql 
-The `featuretools-sql` library allows users to directly import and convert their relational data into a 
+# featuretools_sql 
+The `featuretools_sql` library allows users to directly import and convert their relational data into a 
 [Featuretools](https://github.com/Featuretools/featuretools) compatible format. 
 
 ## Installation 
@@ -27,7 +27,7 @@ server: mysql
 username: root
 password: example
 
-## Connecting your database to `featuretools-sql` 
+## Connecting your database to `featuretools_sql` 
 Simply pass in the database connection information. For example:
 
 ```python
@@ -46,14 +46,14 @@ entity_set = sql_connector.get_entity_set()
 
 The relational data is now a `featuretools.EntitySet` object, ready for feature engineering.
 
-`featuretools-sql` currently supports importing data from the following database management systems: 
+`featuretools_sql` currently supports importing data from the following database management systems: 
   - `MySQL` 
 
 ## Development
 TODO
 
 ## Built at Alteryx
-`featuretools-sql` is an open source project maintained by Alteryx. To see the other open source projects we’re working on, visit Alteryx Open Source. If building impactful data science pipelines is important to you or your business, please get in touch.
+`featuretools_sql` is an open source project maintained by Alteryx. To see the other open source projects we’re working on, visit Alteryx Open Source. If building impactful data science pipelines is important to you or your business, please get in touch.
 
 <p align="center">
   <a href="https://www.alteryx.com/open-source">
