@@ -1,40 +1,12 @@
-import unittest
-from re import A
-
 import pandas as pd
 import psycopg2
 import pytest
 import testing.postgresql
 from featuretools import EntitySet
 
+# TODO: Fix relative import
 from ..connector import DBConnector
-
-"""
-TODO: Create mock fixtures to actually test equality 
-"""
-
-def verify_relationships_are_equal(actual, expected): 
-    for r, es_rel in zip(actual, expected):
-        parent_table, parent_col, child_table, child_col = r
-        assert child_table == es_rel._child_dataframe_name
-        assert parent_table == es_rel._parent_dataframe_name
-        assert child_col == es_rel._child_column_name
-        assert parent_col == es_rel._parent_column_name
-
-def load_dataframes_into_postgres(es, engine):
-    """
-    Given an entityset and an engine,
-    load all the dataframes in the entity set into
-    the relational database. Also, set the primary keys
-    """
-    for df in es.dataframes:
-        name = df.ww.name
-        idx_col = df.ww.index
-
-        df.to_sql(name, engine, index=False)
-
-        with engine.connect() as con:
-            rs = con.execute(f"ALTER TABLE public.{name} add primary key ({idx_col})")
+from .testing_utils import load_dataframes_into_engine, verify_relationships_are_equal
 
 
 def test_populate_dataframes_and_populate_relationships():
@@ -50,7 +22,7 @@ def test_populate_dataframes_and_populate_relationships():
         engine = create_engine(postgresql.url())
         es = ft.demo.load_retail()
 
-        load_dataframes_into_postgres(es, engine) 
+        load_dataframes_into_engine(es.dataframes, engine)
 
         with engine.connect() as con:
             con.execute(
@@ -69,7 +41,7 @@ def test_populate_dataframes_and_populate_relationships():
 
         connector = DBConnector(**config)
         connector.populate_dataframes()
-        
+
     verify_relationships_are_equal(connector.relationships, es.relationships)
     assert sorted(set(df.ww.name for df in es.dataframes)) == sorted(
         connector.dataframes.keys()
