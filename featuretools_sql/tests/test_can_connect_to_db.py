@@ -1,4 +1,5 @@
 import unittest
+from re import A
 
 import pandas as pd
 import psycopg2
@@ -29,7 +30,7 @@ def load_dataframes_into_postgres(es, engine):
             rs = con.execute(f"ALTER TABLE public.{name} add primary key ({idx_col})")
 
 
-def test_populate_dataframes():
+def test_populate_dataframes_and_populate_relationships():
     """
     Launch new Postgres instance, load data from demo database
     Tests that `populate_dataframes` works correctly
@@ -42,23 +43,46 @@ def test_populate_dataframes():
         engine = create_engine(postgresql.url())
         es = ft.demo.load_retail()
 
-        load_dataframes_into_postgres(es, engine)
+        for df in es.dataframes:
+            name = df.ww.name
+            idx_col = df.ww.index
+
+            df.to_sql(name, engine, index=False)
+
+            with engine.connect() as con:
+                rs = con.execute(
+                    f"ALTER TABLE public.{name} add primary key ({idx_col})"
+                )
+
+        with engine.connect() as con:
+            con.execute(
+                f"ALTER TABLE public.order_products ADD CONSTRAINT fk FOREIGN KEY (product_id) REFERENCES products (product_id) MATCH FULL"
+            )
+            con.execute(
+                f"ALTER TABLE public.order_products ADD CONSTRAINT fk1 FOREIGN KEY (order_id) REFERENCES orders (order_id) MATCH FULL"
+            )
+            con.execute(
+                f"ALTER TABLE public.orders ADD CONSTRAINT fk2 FOREIGN KEY (customer_name) REFERENCES customers (customer_name) MATCH FULL"
+            )
 
         config = postgresql.dsn()
         config["system_name"] = "postgresql"
         config["schema"] = "public"
 
         connector = DBConnector(**config)
+        connector.populate_dataframes()
+        relationships = connector.populate_relationships()
 
-        df_dict_actual = connector.populate_dataframes()
+        for r, es_rel in zip(relationships, es.relationships):
+            parent_table, parent_col, child_table, child_col = r
+            assert child_table == es_rel._child_dataframe_name
+            assert parent_table == es_rel._parent_dataframe_name
+            assert child_col == es_rel._child_column_name
+            assert parent_col == es_rel._parent_column_name
 
-    df_dict_expected = dict()
-    for df in es.dataframes:
-        # TODO: Should we bother to compare the actual dataframes?
-        # they are quite big and it is slow
-        df_dict_expected[df.ww.name] = None
-
-    assert df_dict_expected.keys() == df_dict_actual.keys()
+    assert sorted(set(df.ww.name for df in es.dataframes)) == sorted(
+        connector.dataframes.keys()
+    )
 
 
 @pytest.fixture

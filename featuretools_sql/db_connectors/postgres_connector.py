@@ -83,6 +83,7 @@ class PostgresConnector:
             """
         relationships = []
         foreign_keys = self.run_query(query_str)
+        print(f"Foreign keys: {foreign_keys}")
         if self.system_name == "postgresql":
             for (
                 foreign_table,
