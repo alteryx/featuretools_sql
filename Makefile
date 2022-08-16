@@ -1,6 +1,6 @@
 .PHONY: setup
-setup: requirements.txt
-	pip3 install -r requirements.txt
+setup: 
+	pip install -e featuretools_sql
 
 .PHONY: lint
 lint:
