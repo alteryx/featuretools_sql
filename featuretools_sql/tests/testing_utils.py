@@ -16,7 +16,7 @@ def add_foreign_key_postgres(
     referenced_col,
 ):
     connection.execute(
-        f"ALTER TABLE {referencing_table} ADD CONSTRAINT {constraint_name} FOREIGN KEY ({referncing_col}) REFERENCES {referenced_table} ({referenced_col}) MATCH FULL"
+        f"ALTER TABLE {referencing_table} ADD CONSTRAINT {constraint_name} FOREIGN KEY ({referencing_col}) REFERENCES {referenced_table} ({referenced_col}) MATCH FULL"
     )
 
 
