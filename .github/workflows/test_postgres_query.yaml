@@ -3,7 +3,7 @@ on:
     types: [opened, synchronize]
   push:
 
-name: postgres Check 
+name: Postgres Check 
 jobs:
   my_sql_check:
     name: ${{ matrix.python_version }} postgres check

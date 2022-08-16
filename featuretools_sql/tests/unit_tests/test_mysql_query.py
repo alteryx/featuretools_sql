@@ -49,7 +49,6 @@ def test_can_get_all_tables(mysql_connection):
 def test_can_learn_dataframes(mysql_connection):
     c = DBConnector(**mysql_connection)
     c.populate_dataframes(debug=False)
-    assert len(c.dataframes) > 0 
     es = EntitySet("es", c.dataframes, [])
     assert es is not None
 
