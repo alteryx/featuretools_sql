@@ -1,8 +1,6 @@
-import pandas as pd
-import psycopg2
 import pytest
 import testing.postgresql
-from featuretools import EntitySet, demo
+from featuretools import demo
 
 # TODO: Fix relative import
 from ..connector import DBConnector
