@@ -37,4 +37,4 @@ jobs:
           mysql password: 'harrypotter' 
       - name: run tests
         run: | 
-          pytest --timeout=250 featuretools_sql/tests/unit_tests/test_mysql_query.py
+          pytest featuretools_sql/tests/unit_tests/test_mysql_query.py
