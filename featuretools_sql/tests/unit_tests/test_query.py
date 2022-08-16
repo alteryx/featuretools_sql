@@ -4,7 +4,7 @@
 import pytest
 from featuretools import EntitySet
 
-from ...connector import DBConnector
+from featuretools_sql.connector import DBConnector
 
 
 @pytest.fixture

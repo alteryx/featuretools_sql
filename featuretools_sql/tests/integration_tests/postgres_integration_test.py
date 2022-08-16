@@ -3,8 +3,8 @@ import testing.postgresql
 from featuretools import demo
 
 # TODO: Fix relative import
-from ...connector import DBConnector
-from ..testing_utils import (
+from featuretools_sql.connector import DBConnector
+from featuretools_sql.tests.testing_utils import (
     add_foreign_key_postgres,
     load_dataframes_into_engine,
     verify_relationships_are_equal,
