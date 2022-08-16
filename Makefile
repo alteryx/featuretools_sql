@@ -1,6 +1,6 @@
 .PHONY: setup
 setup: 
-	pip install -e featuretools_sql
+	pip install -e .
 
 .PHONY: lint
 lint:
