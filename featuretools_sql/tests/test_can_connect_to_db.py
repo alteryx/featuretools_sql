@@ -2,11 +2,15 @@ import pandas as pd
 import psycopg2
 import pytest
 import testing.postgresql
-from featuretools import EntitySet
+from featuretools import EntitySet, demo
 
 # TODO: Fix relative import
 from ..connector import DBConnector
-from .testing_utils import load_dataframes_into_engine, verify_relationships_are_equal
+from .testing_utils import (
+    add_foreign_key_postgres,
+    load_dataframes_into_engine,
+    verify_relationships_are_equal,
+)
 
 
 def test_populate_dataframes_and_populate_relationships():
@@ -16,23 +20,32 @@ def test_populate_dataframes_and_populate_relationships():
     """
     with testing.postgresql.Postgresql() as postgresql:
 
-        import featuretools as ft
         from sqlalchemy import create_engine
 
         engine = create_engine(postgresql.url())
-        es = ft.demo.load_retail()
+        es = demo.load_retail()
 
         load_dataframes_into_engine(es.dataframes, engine)
 
         with engine.connect() as con:
-            con.execute(
-                f"ALTER TABLE public.order_products ADD CONSTRAINT fk FOREIGN KEY (product_id) REFERENCES products (product_id) MATCH FULL"
+            add_foreign_key_postgres(
+                con,
+                "public.order_products",
+                "fk",
+                "product_id",
+                "products",
+                "product_id",
             )
-            con.execute(
-                f"ALTER TABLE public.order_products ADD CONSTRAINT fk1 FOREIGN KEY (order_id) REFERENCES orders (order_id) MATCH FULL"
+            add_foreign_key_postgres(
+                con, "public.order_products", "fk1", "order_id", "orders", "order_id"
             )
-            con.execute(
-                f"ALTER TABLE public.orders ADD CONSTRAINT fk2 FOREIGN KEY (customer_name) REFERENCES customers (customer_name) MATCH FULL"
+            add_foreign_key_postgres(
+                con,
+                "public.orders",
+                "fk2",
+                "customer_name",
+                "customers",
+                "customer_name",
             )
 
         config = postgresql.dsn()

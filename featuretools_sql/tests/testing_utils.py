@@ -7,6 +7,19 @@ def verify_relationships_are_equal(actual, expected):
         assert parent_col == es_rel._parent_column_name
 
 
+def add_foreign_key_postgres(
+    connection,
+    referencing_table,
+    constraint_name,
+    referencing_col,
+    referenced_table,
+    referenced_col,
+):
+    connection.execute(
+        f"ALTER TABLE {referencing_table} ADD CONSTRAINT {constraint_name} FOREIGN KEY ({referncing_col}) REFERENCES {referenced_table} ({referenced_col}) MATCH FULL"
+    )
+
+
 def load_dataframes_into_engine(dataframes, engine):
     """
     Given an entityset and an engine,
@@ -20,4 +33,4 @@ def load_dataframes_into_engine(dataframes, engine):
         df.to_sql(name, engine, index=False)
 
         with engine.connect() as con:
-            rs = con.execute(f"ALTER TABLE public.{name} add primary key ({idx_col})")
+            con.execute(f"ALTER TABLE public.{name} add primary key ({idx_col})")
