@@ -1,9 +1,10 @@
-#TODO: Fix imports 
-#TODO: Actually compare the results to something
+# TODO: Fix imports
+# TODO: Actually compare the results to something
 
-import pytest 
-from ...connector import DBConnector
+import pytest
 from featuretools import EntitySet
+
+from ...connector import DBConnector
 
 
 @pytest.fixture
