@@ -3,8 +3,7 @@ from typing import Optional
 
 import pandas as pd
 
-# TODO: Fix import issue
-from .db_connectors import MySQLConnector, PostgresConnector
+from featuretools_sql.db_connectors import MySQLConnector, PostgresConnector
 
 
 class DBConnector:
@@ -80,5 +79,4 @@ class DBConnector:
         return self.relationships
 
     def get_entity_set(self):
-        es = self.connector.get_entity_set()
-        return es
+        return self.connector.get_entity_set()
