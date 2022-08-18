@@ -1,6 +1,8 @@
 from collections import namedtuple
 from typing import Optional
+
 import pandas as pd
+
 from featuretools_sql.db_connectors import MySQLConnector, PostgresConnector
 
 
