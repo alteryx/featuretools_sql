@@ -1,5 +1,5 @@
-.PHONY: setup
-setup: 
+.PHONY: installdeps
+installdeps: 
 	pip install -e .
 
 .PHONY: lint
