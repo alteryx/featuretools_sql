@@ -1,3 +1,35 @@
+<p align="center">
+<img width=50% src="https://www.featuretools.com/wp-content/uploads/2017/12/FeatureLabs-Logo-Tangerine-800.png" alt="Featuretool-SQL" />
+</p>
+<p align="center">
+<i>"EntitySet relationships made easy!</a>
+</p>
+
+<p align="center">
+    <a href="https://github.com/alteryx/featuretools/actions?query=branch%3Amain+workflow%3ATests" target="_blank">
+        <img src="https://github.com/alteryx/featuretools/workflows/Tests/badge.svg?branch=main" alt="Tests" />
+    </a>
+    <a href="https://codecov.io/gh/alteryx/featuretools">
+        <img src="https://codecov.io/gh/alteryx/featuretools/branch/main/graph/badge.svg"/>
+    </a>
+    <a href='https://featuretools.alteryx.com/en/stable/?badge=stable'>
+        <img src='https://readthedocs.com/projects/feature-labs-inc-featuretools/badge/?version=stable' alt='Documentation Status' />
+    </a>
+    <a href="https://badge.fury.io/py/featuretools" target="_blank">
+        <img src="https://badge.fury.io/py/featuretools.svg?maxAge=2592000" alt="PyPI Version" />
+    </a>
+    <a href="https://anaconda.org/conda-forge/featuretools" target="_blank">
+        <img src="https://anaconda.org/conda-forge/featuretools/badges/version.svg" alt="Anaconda Version" />
+    </a>
+    <a href="https://stackoverflow.com/questions/tagged/featuretools" target="_blank">
+        <img src="http://img.shields.io/badge/questions-on_stackoverflow-blue.svg" alt="StackOverflow" />
+    </a>
+    <a href="https://pepy.tech/project/featuretools" target="_blank">
+        <img src="https://pepy.tech/badge/featuretools/month" alt="PyPI Downloads" />
+    </a>
+</p>
+<hr>
+
 # featuretools_sql 
 The `featuretools_sql` library allows users to directly import and convert their relational data into a 
 [Featuretools](https://github.com/Featuretools/featuretools) compatible format. 
