@@ -1,5 +1,5 @@
 <p align="center">
-<i>"EntitySet relationships made easy!</a>
+<i>"EntitySet relationships made easy!"</a>
 </p>
 
 # featuretools_sql 
