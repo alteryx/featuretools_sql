@@ -1,7 +1,0 @@
-Metadata-Version: 2.1
-Name: featuretool-sql
-Version: 0.0.1
-Author-email: Shripad Badithe <slyokapi@gmail.com>
-Requires-Python: >=3.7
-Provides-Extra: dev
-Provides-Extra: test
