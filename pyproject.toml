@@ -44,7 +44,8 @@ classifiers = [
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
 ]
+version = "0.0.1"
 authors = [
-  { name="Shripad Badithe", email="slyokapi@gmail.com"},
+  { name="Shripad Badithe", email="baditheshripad@gmail.com"},
 ]
 requires-python = ">=3.8,<4"
