@@ -33,10 +33,9 @@ entity_set = sql_connector.get_entity_set()
 ft.dfs(dataframes=entity_set.dataframes, relationships=entity_set.relationships)
 ```
 
-The relational data is now a `featuretools.EntitySet` object, ready for feature engineering.
-
 `featuretools_sql` currently supports importing data from the following database management systems: 
   - `MySQL` 
+  - `Postgres`
 
 ## Development
 TODO
