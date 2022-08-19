@@ -31,6 +31,10 @@ entity_set = sql_connector.get_entity_set()
 
 # This means that you are ready to call DFS!
 ft.dfs(dataframes=entity_set.dataframes, relationships=entity_set.relationships)
+
+# If you'd rather inspect the data structures first, you can do that too. 
+dataframes = entity_set.dataframes 
+relationships = entity_set.relationships 
 ```
 
 `featuretools_sql` currently supports importing data from the following database management systems: 
