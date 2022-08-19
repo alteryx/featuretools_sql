@@ -27,7 +27,23 @@ filterwarnings = [
 
 [project]
 name = "featuretool_sql"
-version = "0.0.1"
+readme = "README.md"
+description = "directly import and convert their relational data into a Featuretools"
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development",
+    "Topic :: Scientific/Engineering",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX",
+    "Operating System :: Unix",
+    "Operating System :: MacOS",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+]
 authors = [
   { name="Shripad Badithe", email="slyokapi@gmail.com"},
 ]
