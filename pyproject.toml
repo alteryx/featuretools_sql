@@ -46,6 +46,9 @@ classifiers = [
 ]
 version = "0.0.1"
 authors = [
-  { name="Shripad Badithe", email="baditheshripad@gmail.com"},
+     {name = "Alteryx, Inc."}
+]
+maintainers = [
+    {name = "Alteryx, Inc."}
 ]
 requires-python = ">=3.8,<4"
