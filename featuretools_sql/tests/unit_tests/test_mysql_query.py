@@ -1,4 +1,13 @@
 # TODO: Actually compare the results to something
+
+"""
+Are these 'unit tests'?
+More of integration tests
+
+Mock database
+"""
+
+
 import pytest
 from featuretools import EntitySet
 
@@ -21,7 +30,7 @@ def mysql_connection():
 def expected_entity_set():
     dataframes = {}
     relationships = []
-    es = EntitySet(dataframes=dataframes, relationships=relationships)
+    EntitySet(dataframes=dataframes, relationships=relationships)
 
 
 def test_can_connect_to_dummy_db(mysql_connection):

@@ -1,6 +1,6 @@
 commands
 *.pyc
-pytest_cache/* 
-featuretools_sql/__pycache__/* 
-featuretools_sql/tests/__pycache__/* 
+pytest_cache/*
+featuretools_sql/__pycache__/*
+featuretools_sql/tests/__pycache__/*
 featuretool_sql.egg_info/*

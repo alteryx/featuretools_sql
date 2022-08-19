@@ -5,10 +5,10 @@ on:
     branches:
       - main
 
-name: Postgres Featuretools Demo Data Test Integration Test
+name: Lint Check
 jobs:
   lint_test:
-    name: ${{ matrix.python_version }} Postgres Featuretools Demo Data Test
+    name: ${{ matrix.python_version }} lint check
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -29,5 +29,5 @@ jobs:
           pip config --site set global.progress_bar off
           python -m pip install --upgrade pip
           python -m pip install -e .[dev]
-      - name: Run test
-        run: pytest featuretools_sql/tests/integration_tests/postgres_integration_test.py
+      - name: Run lint test
+        run: make lint

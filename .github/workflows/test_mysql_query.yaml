@@ -3,7 +3,7 @@ on:
     types: [opened, synchronize]
   push:
 
-name: MySQL Check 
+name: MySQL Check
 jobs:
   my_sql_check:
     name: ${{ matrix.python_version }} MySQL check
@@ -22,19 +22,19 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.ref }}
           repository: ${{ github.event.pull_request.head.repo.full_name }}
-      - name: Install requirements 
+      - name: Install requirements
         run: |
-          make installdeps 
-      - name: end initial MySQL 
-        run: | 
+          make installdeps
+      - name: end initial MySQL
+        run: |
           sudo service mysql stop
       - name: Set up MySQL
         uses: mirromutth/mysql-action@v1.1
         with:
           mysql database: 'dummy'
           mysql root password: 'harrypotter'
-          mysql user: 'root' 
-          mysql password: 'harrypotter' 
+          mysql user: 'root'
+          mysql password: 'harrypotter'
       - name: run tests
-        run: | 
+        run: |
           pytest featuretools_sql/tests/unit_tests/test_mysql_query.py

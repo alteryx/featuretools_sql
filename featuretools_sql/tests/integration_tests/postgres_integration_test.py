@@ -1,4 +1,3 @@
-import pytest
 import testing.postgresql
 from featuretools import demo
 

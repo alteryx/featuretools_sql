@@ -4,6 +4,10 @@ import pandas.io.sql as sqlio
 import psycopg2
 from featuretools import EntitySet
 
+"""
+Unit tests should not require database connection
+"""
+
 
 class PostgresConnector:
     def __init__(self, host, port, database, user, password, schema):
@@ -32,11 +36,21 @@ class PostgresConnector:
         return self.run_query(
             f"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{self.schema}';"
         )
+        """
+        asserts read_sql_query get called with the expected string
+        """
 
     def populate_dataframes(
         self, debug=False
     ):  # 3.9 and above -> dict[str, tuple[pd.DataFrame, str]]:
         tables_df = self.all_tables()
+        """
+        Mock response from all_tables, check subsequent logic
+
+        Mock with one table
+
+        Make sure every line is covered
+        """
         table_index = "table_name"
         self.tables = []
         dataframes = dict()
@@ -61,24 +75,24 @@ class PostgresConnector:
         self, debug=False
     ):  # 3.9 and above -> List[tuple(str, str, str, str)]
         query_str = """
-            select kcu.table_schema || '.' || kcu.table_name as foreign_table, 
-            rel_kcu.table_schema || '.' || rel_kcu.table_name as primary_table, 
-            kcu.column_name as fk_column, 
+            select kcu.table_schema || '.' || kcu.table_name as foreign_table,
+            rel_kcu.table_schema || '.' || rel_kcu.table_name as primary_table,
+            kcu.column_name as fk_column,
             rel_kcu.column_name as pk_column
-            from information_schema.table_constraints tco 
-            join information_schema.key_column_usage kcu 
-            on tco.constraint_schema = kcu.constraint_schema 
-            and tco.constraint_name = kcu.constraint_name 
-            join information_schema.referential_constraints rco 
-            on tco.constraint_schema = rco.constraint_schema 
-            and tco.constraint_name = rco.constraint_name 
-            join information_schema.key_column_usage rel_kcu 
-            on rco.unique_constraint_schema = rel_kcu.constraint_schema 
-            and rco.unique_constraint_name = rel_kcu.constraint_name 
-            and kcu.ordinal_position = rel_kcu.ordinal_position 
-            where tco.constraint_type = 'FOREIGN KEY' 
-            order by kcu.table_schema, 
-            kcu.table_name,  
+            from information_schema.table_constraints tco
+            join information_schema.key_column_usage kcu
+            on tco.constraint_schema = kcu.constraint_schema
+            and tco.constraint_name = kcu.constraint_name
+            join information_schema.referential_constraints rco
+            on tco.constraint_schema = rco.constraint_schema
+            and tco.constraint_name = rco.constraint_name
+            join information_schema.key_column_usage rel_kcu
+            on rco.unique_constraint_schema = rel_kcu.constraint_schema
+            and rco.unique_constraint_name = rel_kcu.constraint_name
+            and kcu.ordinal_position = rel_kcu.ordinal_position
+            where tco.constraint_type = 'FOREIGN KEY'
+            order by kcu.table_schema,
+            kcu.table_name,
             kcu.ordinal_position;
             """
         relationships = []

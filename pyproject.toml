@@ -26,9 +26,9 @@ filterwarnings = [
 ]
 
 [project]
-name = "featuretool_sql" 
-version = "0.0.1" 
+name = "featuretool_sql"
+version = "0.0.1"
 authors = [
-  { name="Shripad Badithe", email="slyokapi@gmail.com"}, 
+  { name="Shripad Badithe", email="slyokapi@gmail.com"},
 ]
-requires-python = ">=3.7" 
+requires-python = ">=3.7"

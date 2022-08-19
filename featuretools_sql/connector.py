@@ -53,7 +53,7 @@ class DBConnector:
         return self.connector.all_tables()
 
     """
-    TODO: 
+    TODO:
 
     # def learn_table_schema(self, table: str) -> pd.DataFrame:
     #     schema = self.database

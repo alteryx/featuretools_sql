@@ -1,8 +1,5 @@
-from typing import List
-
 import connectorx as cx
 import pandas as pd
-import pandas.io.sql as sqlio
 from featuretools import EntitySet
 
 

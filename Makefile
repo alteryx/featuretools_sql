@@ -1,5 +1,5 @@
 .PHONY: installdeps
-installdeps: 
+installdeps:
 	pip install -e .
 
 .PHONY: lint
@@ -10,13 +10,13 @@ lint:
 
 .PHONY: lint-fix
 lint-fix:
-	black featuretools_sql -t py310 
-	isort featuretools_sql 
+	black featuretools_sql -t py310
+	isort featuretools_sql
 
 .PHONY: test
-test: 
-	pytest featuretools_sql/tests/* 
+test:
+	pytest featuretools_sql/tests/*
 
 .PHONY: clean
-clean: 
-	rm -rf __pycache__ 
+clean:
+	rm -rf __pycache__
