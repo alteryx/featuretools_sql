@@ -44,8 +44,14 @@ relationships = entity_set.relationships
   - `MySQL` 
   - `Postgres`
 
-## Development
-TODO
+## Testing and Development 
+
+
+## Support 
+The Alteryx community is happy to provide support to users of `Featuretools-SQL`.
+Please feel free to file a [GitHub issue](https://github.com/alteryx/featuretools_sql/issues) if you have any questions, encountered any bugs, or
+would like to make a feature request! We would love to hear from you.
+
 
 ## Built at Alteryx
 `featuretools_sql` is an open source project maintained by Alteryx. To see the other open source projects we’re working on, visit Alteryx Open Source. If building impactful data science pipelines is important to you or your business, please get in touch.
