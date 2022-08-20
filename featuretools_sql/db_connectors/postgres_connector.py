@@ -1,13 +1,10 @@
 # from typing import List
+import warnings
+
 import pandas as pd
 import pandas.io.sql as sqlio
 import psycopg2
-import warnings
 from featuretools import EntitySet
-
-"""
-Unit tests should not require database connection
-"""
 
 
 class PostgresConnector:
@@ -37,21 +34,11 @@ class PostgresConnector:
         return self.run_query(
             f"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{self.schema}';"
         )
-        """
-        asserts read_sql_query get called with the expected string
-        """
 
     def populate_dataframes(
         self, debug=False
     ):  # 3.9 and above -> dict[str, tuple[pd.DataFrame, str]]:
         tables_df = self.all_tables()
-        """
-        Mock response from all_tables, check subsequent logic
-
-        Mock with one table
-
-        Make sure every line is covered
-        """
         table_index = "table_name"
         self.tables = []
         dataframes = dict()
@@ -129,7 +116,9 @@ class PostgresConnector:
             f"SELECT a.attname, format_type(a.atttypid, a.atttypmod) AS data_type FROM pg_index i JOIN   pg_attribute a ON a.attrelid = i.indrelid AND a.attnum = ANY(i.indkey) WHERE  i.indrelid = '{table}'::regclass AND i.indisprimary;"
         )
         if df.empty:
-            raise ValueError(f"In order to determine table relationships, each table needs to have a primary key. Currently, {table} does not have a defined primary key. Please define one and retry.")
+            raise ValueError(
+                f"In order to determine table relationships, each table needs to have a primary key. Currently, {table} does not have a defined primary key. Please define one and retry."
+            )
         return df["attname"]
 
     def __cut_schema_name(self, string: str) -> str:
