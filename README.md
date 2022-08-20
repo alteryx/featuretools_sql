@@ -1,5 +1,5 @@
 <p align="center">
-<i>"EntitySet relationships made easy!"</a>
+<i>Seamlessly integrate SQL data with Featuretools</a>
 </p>
 
 # featuretools_sql 
@@ -7,7 +7,10 @@ The `featuretools_sql` library allows users to directly import and convert their
 [Featuretools](https://github.com/Featuretools/featuretools) compatible format. 
 
 ## Installation 
-TODO 
+### `featuretools_sql` can be installed with `pip` or `conda`
+### Install with `pip` 
+`python -m pip install featuretools_sql`
+### Install with `conda` from the Conda-forge channel 
 
 ## Connecting your database to `featuretools_sql` 
 Simply pass in the database connection information. For example:
@@ -30,7 +33,7 @@ entity_set = sql_connector.get_entity_set()
 # data structures already populated as member data.
 
 # This means that you are ready to call DFS!
-ft.dfs(dataframes=entity_set.dataframes, relationships=entity_set.relationships)
+feature_defs, feature_matrix = ft.dfs(dataframes=entity_set.dataframes, relationships=entity_set.relationships)
 
 # If you'd rather inspect the data structures first, you can do that too. 
 dataframes = entity_set.dataframes 

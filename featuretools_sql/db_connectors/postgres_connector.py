@@ -2,6 +2,7 @@
 import pandas as pd
 import pandas.io.sql as sqlio
 import psycopg2
+import warnings
 from featuretools import EntitySet
 
 """
@@ -127,6 +128,8 @@ class PostgresConnector:
         df = self.run_query(
             f"SELECT a.attname, format_type(a.atttypid, a.atttypmod) AS data_type FROM pg_index i JOIN   pg_attribute a ON a.attrelid = i.indrelid AND a.attnum = ANY(i.indkey) WHERE  i.indrelid = '{table}'::regclass AND i.indisprimary;"
         )
+        if df.empty:
+            raise ValueError(f"In order to determine table relationships, each table needs to have a primary key. Currently, {table} does not have a defined primary key. Please define one and retry.")
         return df["attname"]
 
     def __cut_schema_name(self, string: str) -> str:
