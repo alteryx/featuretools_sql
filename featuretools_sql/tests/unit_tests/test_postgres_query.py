@@ -44,6 +44,7 @@ def test_can_connect_to_postgres(postgres_connection):
 def test_can_get_all_tables(postgres_connection):
     c = DBConnector(**postgres_connection)
     df = c.all_tables()
+    print(f"df: {df}")
     assert df is not None
 
 
@@ -59,4 +60,6 @@ def test_can_get_relationships(postgres_connection):
     sql_connection.populate_dataframes()
     sql_connection.populate_relationships()
     es = EntitySet("es", sql_connection.dataframes, sql_connection.relationships)
+    print(f"df: {es.dataframes}")
+    print(f"relationships: {es.relationships}")
     assert es is not None
