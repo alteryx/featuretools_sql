@@ -43,7 +43,6 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -e .[dev]
       - name: Seed the database
-        run: just seed-db
         env:
           POSTGRES_URL: "postgresql://postgres:postgres@postgres:5432/postgres"
       - name: Run test
