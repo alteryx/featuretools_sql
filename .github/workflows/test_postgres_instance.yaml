@@ -43,8 +43,11 @@ jobs:
           python -m pip install -e .[dev]
       - name: start postgres
         run: |
-          sudo apt-get install postgresql
+          apt-get update
+          apt-get install -y postgresql
           sudo service postgresql start
+        env:
+          DEBIAN_FRONTEND: noninteractive
       - name: Seed the database
         run: psql $POSTGRES_URL -f scripts/postgres.sql
         env:
