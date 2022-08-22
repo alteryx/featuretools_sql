@@ -29,7 +29,7 @@ def postgres_connection():
     config["port"] = "5432"
     config["password"] = "postgres"
     config["user"] = "postgres"
-    config["database"] = "dummy"
+    config["database"] = "postgres"
     config["schema"] = "public"
 
     print(os.getenv("POSTGRESURL"))
