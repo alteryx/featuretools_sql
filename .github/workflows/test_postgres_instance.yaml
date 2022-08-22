@@ -52,6 +52,6 @@ jobs:
       - name: Seed the database
         env:
           PGPASSWORD: postgres
-        run: sudo psql -h localhost -U postgres -f scripts/postgres.sql
+        run: sudo psql postgresql://postgres:postgres@localhost/postgres -f scripts/postgres.sql
       - name: Run test
         run: pytest featuretools_sql/tests/unit_tests/test_postgres_query.py
