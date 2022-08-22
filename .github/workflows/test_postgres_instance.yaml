@@ -6,7 +6,7 @@ on:
     branches:
       - main
 env:
-  POSTGRES_URL: postgres://postgres:postgres@postgres:5432/postgres
+  POSTGRES_URL: postgres://postgres:postgres@localhost:5432/postgres
 name: Test postgres instance
 jobs:
   postgres-test:
@@ -47,6 +47,6 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -e .[dev]
       - name: Seed the database
-        run: sudo psql $POSTGRES_URL -f scripts/postgres.sql
+        run: sudo psql -h localhost -U postgres -f scripts/postgres.sql
       - name: Run test
         run: pytest featuretools_sql/tests/unit_tests/test_postgres_query.py
