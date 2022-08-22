@@ -6,7 +6,7 @@ on:
     branches:
       - main
 env:
-  POSTGRES_URL: "postgresql://postgres:password@postgres:5432/postgres"
+  POSTGRES_URL: postgres://postgres:password@localhost/postgres
 name: Test postgres instance
 jobs:
   postgres-test:
