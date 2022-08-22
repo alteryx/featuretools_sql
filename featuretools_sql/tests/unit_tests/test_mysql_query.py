@@ -22,7 +22,7 @@ def mysql_connection():
     config["port"] = "3306"
     config["password"] = "password"
     config["user"] = "root"
-    config["database"] = "dummy"
+    config["database"] = "db"
     return config
 
 
