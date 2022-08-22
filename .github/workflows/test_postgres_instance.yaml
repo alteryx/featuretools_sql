@@ -11,6 +11,7 @@ jobs:
   postgres-test:
     # Containers have to run on Linux
     runs-on: ubuntu-latest
+    container: ubuntu:20.04
     strategy:
       fail-fast: true
       matrix:
@@ -19,7 +20,7 @@ jobs:
       postgres:
         image: postgres
         env:
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_PASSWORD: password
         # health checks -- borrowed from connectorX
         options: >-
           --health-cmd pg_isready
@@ -44,9 +45,9 @@ jobs:
       - name: Seed the database
         run: sudo psql $POSTGRES_URL -f scripts/postgres.sql
         env:
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_PASSWORD: password
           POSTGRES_URL: "postgresql://postgres:postgres@postgres:5432/postgres"
       - name: Run test
         run: pytest featuretools_sql/tests/unit_tests/test_postgres_query.py
         env:
-          POSTGRES_URL: "postgresql://postgres:postgres@postgres:5432/postgres"
+          POSTGRES_URL: "postgresql://postgres:password@postgres:5432/postgres"
