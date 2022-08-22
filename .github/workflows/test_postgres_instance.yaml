@@ -11,7 +11,6 @@ jobs:
   postgres-test:
     # Containers have to run on Linux
     runs-on: ubuntu-latest
-    container: ubuntu:20.04
     strategy:
       fail-fast: true
       matrix:
@@ -37,8 +36,6 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.ref }}
           repository: ${{ github.event.pull_request.head.repo.full_name }}
-      - name: install pip
-        run: sudo apt-get install pip
       - name: Install featuretools_sql with optional, dev, and test requirements
         run: |
           pip config --site set global.progress_bar off
