@@ -1,4 +1,5 @@
 import os
+
 import pytest
 from featuretools import EntitySet
 
@@ -31,7 +32,7 @@ def postgres_connection():
     config["database"] = "dummy"
     config["schema"] = "public"
 
-    print(os.getenv('POSTGRESURL'))
+    print(os.getenv("POSTGRESURL"))
 
     return config
 

@@ -1,8 +1,12 @@
 # Testing how to get postgres running in CI
 
 name: Test postgres instance
-on: push #TODO: Add PR
-
+on:
+  pull_request:
+    types: [opened, synchronize]
+  push:
+    branches:
+      - main
 jobs:
   postgres-test:
     # Containers have to run on Linux
