@@ -6,7 +6,7 @@ on:
     branches:
       - main
 env:
-  POSTGRES_URL: postgres://postgres:password@localhost/postgres
+  POSTGRES_URL: postgres://postgres:postgres@postgres:5432/postgres
 name: Test postgres instance
 jobs:
   postgres-test:
@@ -20,8 +20,12 @@ jobs:
       postgres:
         image: postgres
         env:
-          POSTGRES_PASSWORD: password
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_DATABASE: postgres
         # health checks -- borrowed from connectorX
+        ports:
+          - 5432:5432
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
