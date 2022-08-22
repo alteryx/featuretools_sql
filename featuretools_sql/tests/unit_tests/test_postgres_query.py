@@ -31,15 +31,11 @@ def postgres_connection():
     config["user"] = "postgres"
     config["database"] = "postgres"
     config["schema"] = "public"
-
-    print(os.getenv("POSTGRESURL"))
-
     return config
 
 
 def test_can_connect_to_postgres(postgres_connection):
     DBConnector(**postgres_connection)
-
 
 def test_can_get_all_tables(postgres_connection):
     c = DBConnector(**postgres_connection)
@@ -47,19 +43,11 @@ def test_can_get_all_tables(postgres_connection):
     print(f"df: {df}")
     assert df is not None
 
-
-def test_can_learn_dataframes(postgres_connection):
-    c = DBConnector(**postgres_connection)
-    c.populate_dataframes(debug=False)
-    es = EntitySet("es", c.dataframes, [])
-    assert es is not None
-
-
-def test_can_get_relationships(postgres_connection):
+def test_can_learn_dataframes_and_relationships(postgres_connection):
     sql_connection = DBConnector(**postgres_connection)
     sql_connection.populate_dataframes()
     sql_connection.populate_relationships()
     es = EntitySet("es", sql_connection.dataframes, sql_connection.relationships)
-    print(f"df: {es.dataframes}")
-    print(f"relationships: {es.relationships}")
-    assert es is not None
+    names = sorted(df.ww.name for df in es.dataframes)
+    assert names == ["products", "transactions"]
+    assert len(es.relationships) == 1
