@@ -1,5 +1,4 @@
 # from typing import List
-import warnings
 
 import pandas as pd
 import pandas.io.sql as sqlio
