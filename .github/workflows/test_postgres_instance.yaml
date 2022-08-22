@@ -43,8 +43,8 @@ jobs:
           python -m pip install -e .[dev]
       - name: start postgres
         run: |
-          apt-get update
-          apt-get install -y postgresql
+          sudo apt-get update
+          sudo apt-get install -y postgresql
           sudo service postgresql start
         env:
           DEBIAN_FRONTEND: noninteractive
