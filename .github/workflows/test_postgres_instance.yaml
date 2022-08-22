@@ -41,16 +41,11 @@ jobs:
           pip config --site set global.progress_bar off
           python -m pip install --upgrade pip
           python -m pip install -e .[dev]
-      - name: start postgres
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y postgresql
-          sudo service postgresql start
-        env:
-          DEBIAN_FRONTEND: noninteractive
       - name: Seed the database
         run: psql $POSTGRES_URL -f scripts/postgres.sql
         env:
           POSTGRES_URL: "postgresql://postgres:postgres@localhost:5432/postgres"
       - name: Run test
         run: pytest featuretools_sql/tests/unit_tests/test_postgres_query.py
+        env:
+          POSTGRES_URL: "postgresql://postgres:postgres@localhost:5432/postgres"
