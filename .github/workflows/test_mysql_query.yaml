@@ -17,6 +17,12 @@ jobs:
       fail-fast: true
       matrix:
         python_version: ["3.10"]
+    services:
+      mysql:
+        image: mysql
+        env:
+          MYSQL_ROOT_PASSWORD: password
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
     steps:
       - name: Set up python ${{ matrix.python_version }}
         uses: actions/setup-python@v2
@@ -32,8 +38,9 @@ jobs:
           python -m pip install .
       - name: Set up MySQL
         run: |
-          sudo service mysql start
-          mysql -e 'CREATE DATABASE db;' -u root -p password
+          apt-get update
+          apt-get install -y mysql-client
+          mysql --host localhost -e 'CREATE DATABASE db;' -u root -p password
       - name: Seed DB
         run:
           mysql --host=localhost --user=root --password=password < scripts/postgres.sql
