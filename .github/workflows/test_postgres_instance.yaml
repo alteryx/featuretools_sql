@@ -5,7 +5,8 @@ on:
   push:
     branches:
       - main
-
+env:
+  POSTGRES_URL: "postgresql://postgres:password@postgres:5432/postgres"
 name: Test postgres instance
 jobs:
   postgres-test:
