@@ -44,7 +44,6 @@ jobs:
       - name: Seed the database
         run: sudo psql $POSTGRES_URL -f scripts/postgres.sql
         env:
-          POSTGRES_PASSWORD: password
           POSTGRES_URL: "postgresql://postgres:password@postgres:5432/postgres"
       - name: Run test
         run: pytest featuretools_sql/tests/unit_tests/test_postgres_query.py
