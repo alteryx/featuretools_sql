@@ -27,7 +27,7 @@ def postgres_connection():
     config["system_name"] = "postgresql"
     config["host"] = "127.0.0.1"
     config["port"] = "5432"
-    config["password"] = "s"
+    config["password"] = "postgres"
     config["user"] = "postgres"
     config["database"] = "dummy"
     config["schema"] = "public"
