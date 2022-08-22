@@ -5,11 +5,6 @@ on:
   push:
     branches:
       - main
-env:
-  POSTGRES_URL: postgresql://postgres:postgres@localhost:5432/postgres
-  POSTGRES_PASSWORD: postgres
-  POSTGRES_USER: postgres
-  POSTGRES_DATABASE: postgres
 name: Test postgres instance
 jobs:
   postgres-test:
@@ -22,6 +17,10 @@ jobs:
     services:
       postgres:
         image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_DATABASE: postgres
         ports:
           - 5432:5432
         options: >-
@@ -47,6 +46,7 @@ jobs:
       - name: Seed the database
         env:
           PGPASSWORD: postgres
+          POSTGRES_URL: postgresql://postgres:postgres@localhost:5432/postgres
         run: sudo psql $POSTGRES_URL -f scripts/postgres.sql
       - name: Run test
         run: pytest featuretools_sql/tests/unit_tests/test_postgres_query.py
