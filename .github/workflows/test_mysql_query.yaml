@@ -32,7 +32,7 @@ jobs:
           python -m pip install .
       - name: Set up MySQL
         run: |
-          sudo /etc/init.d/mysql start
+          sudo service mysql start
           mysql -e 'CREATE DATABASE db;' -u root -p password
       - name: Seed DB
         run:
