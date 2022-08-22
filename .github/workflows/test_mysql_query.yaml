@@ -34,7 +34,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y mysql-client
-          sudo mysql.server start
+          sudo /etc/init.d/mysql start
       - name: run tests
         run: |
           pytest featuretools_sql/tests/unit_tests/test_mysql_query.py
