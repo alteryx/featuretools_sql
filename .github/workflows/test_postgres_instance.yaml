@@ -19,8 +19,6 @@ jobs:
       postgres:
         image: postgres
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_NAME: postgres
           POSTGRES_PASSWORD: postgres
         # health checks -- borrowed from connectorX
         options: >-
