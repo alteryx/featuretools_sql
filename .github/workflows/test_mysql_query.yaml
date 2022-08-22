@@ -37,9 +37,12 @@ jobs:
         uses: mirromutth/mysql-action@v1.1
         with:
           mysql database: 'dummy'
-          mysql root password: 'harrypotter'
+          mysql root password: 'password'
           mysql user: 'root'
-          mysql password: 'harrypotter'
+          mysql password: 'password'
+      - name: Seed DB
+        run:
+          mysql --host=localhost --user=root --password=password < scripts/postgres.sql
       - name: run tests
         run: |
           pytest featuretools_sql/tests/unit_tests/test_mysql_query.py
