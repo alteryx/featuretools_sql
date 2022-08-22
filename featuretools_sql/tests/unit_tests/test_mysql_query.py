@@ -20,17 +20,10 @@ def mysql_connection():
     config["system_name"] = "mysql"
     config["host"] = "127.0.0.1"
     config["port"] = "3306"
-    config["password"] = "harrypotter"
+    config["password"] = "password"
     config["user"] = "root"
     config["database"] = "dummy"
     return config
-
-
-@pytest.fixture
-def expected_entity_set():
-    dataframes = {}
-    relationships = []
-    EntitySet(dataframes=dataframes, relationships=relationships)
 
 
 def test_can_connect_to_dummy_db(mysql_connection):
@@ -60,11 +53,14 @@ def test_can_learn_dataframes(mysql_connection):
     c.populate_dataframes(debug=False)
     es = EntitySet("es", c.dataframes, [])
     assert es is not None
+    assert 2 == len(es.dataframes)
 
 
-def test_can_get_relationships(mysql_connection):
+def test_can_learn_dataframes_and_relationships(mysql_connection):
     sql_connection = DBConnector(**mysql_connection)
     sql_connection.populate_dataframes()
     sql_connection.populate_relationships()
     es = EntitySet("es", sql_connection.dataframes, sql_connection.relationships)
     assert es is not None
+    assert sorted(df.ww.name for df in es.dataframes) == ["products", "transactions"]
+    assert len(es.relationships) == 1
