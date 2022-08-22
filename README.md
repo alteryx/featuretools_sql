@@ -9,7 +9,8 @@ The `featuretools_sql` library allows users to directly import and convert their
 ## Installation 
 ### `featuretools_sql` can be installed with `pip` or `conda`
 ### Install with `pip` 
-`python -m pip install featuretools[sql]`
+```shell
+python -m pip install featuretools[sql]
 ### Or from the `Conda-forge` channel on [conda](https://anaconda.org/conda-forge/featuretools) 
 ```shell
 conda install -c conda-forge featuretools featuretools_sql
