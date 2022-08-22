@@ -7,6 +7,9 @@ on:
       - main
 env:
   POSTGRES_URL: postgres://postgres:postgres@localhost:5432/postgres
+  POSTGRES_PASSWORD: postgres
+  POSTGRES_USER: postgres
+  POSTGRES_DATABASE: postgres
 name: Test postgres instance
 jobs:
   postgres-test:
