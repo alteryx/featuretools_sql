@@ -38,8 +38,8 @@ jobs:
           python -m pip install .
       - name: Set up MySQL
         run: |
-          apt-get update
-          apt-get install -y mysql-client
+          sudo apt-get update
+          sudo apt-get install -y mysql-client
           mysql --host localhost -e 'CREATE DATABASE db;' -u root -p password
       - name: Seed DB
         run:
