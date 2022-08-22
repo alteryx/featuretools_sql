@@ -46,6 +46,6 @@ jobs:
       - name: Seed the database
         run: psql $POSTGRES_URL -f scripts/postgres.sql
         env:
-          POSTGRES_URL: "postgresql://postgres:postgres@postgres:5432/postgres"
+          POSTGRES_URL: "postgresql://postgres:postgres@localhost:5432/postgres"
       - name: Run test
         run: pytest featuretools_sql/tests/unit_tests/test_postgres_query.py
