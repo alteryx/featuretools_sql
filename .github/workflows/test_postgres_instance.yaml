@@ -6,7 +6,7 @@ on:
     branches:
       - main
 env:
-  POSTGRES_URL: postgres://postgres:postgres@localhost:5432/postgres
+  POSTGRES_URL: postgresql://postgres:postgres@localhost:5432/postgres
   POSTGRES_PASSWORD: postgres
   POSTGRES_USER: postgres
   POSTGRES_DATABASE: postgres
