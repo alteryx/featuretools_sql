@@ -36,7 +36,7 @@ jobs:
           sudo apt-get install -y mysql-client
       - name: Seed DB
         run:
-          mysql --host=localhost --user=root --password=password < scripts/postgres.sql
+          mysql --host=127.0.0.1 --user=root --password=password < scripts/postgres.sql
       - name: run tests
         run: |
           pytest featuretools_sql/tests/unit_tests/test_mysql_query.py
