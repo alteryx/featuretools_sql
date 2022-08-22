@@ -1,5 +1,5 @@
 <p align="center">
-<i>Seamlessly integrate SQL data with Featuretools</a>
+<i>Seamlessly integrate SQL data with Featuretools</i>
 </p>
 
 # featuretools_sql 
@@ -9,8 +9,9 @@ The `featuretools_sql` library allows users to directly import and convert their
 ## Installation 
 ### `featuretools_sql` can be installed with `pip` or `conda`
 ### Install with `pip` 
-`python -m pip install featuretools_sql`
-### Install with `conda` from the Conda-forge channel 
+`python -m pip install featuretools[sql]`
+### Or from the `Conda-forge` channel on [conda](https://anaconda.org/conda-forge/featuretools) 
+conda install -c conda-forge featuretools featuretools_sql
 
 ## Connecting your database to `featuretools_sql` 
 Simply pass in the database connection information. For example:
@@ -62,25 +63,3 @@ would like to make a feature request! We would love to hear from you.
   </a>
 </p>
 
-
-## Docker
-
-```
-docker compose up
-```
-
-### Run Webclient
-
-Go to http://localhost:8090/
-
-To login to postgres:
-
-server: postgres
-username: postgres
-password: example
-
-To login to mysql:
-
-server: mysql
-username: root
-password: example
