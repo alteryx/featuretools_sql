@@ -8,6 +8,10 @@ on:
     branches:
       - main
 
+env:
+  DB_DATABASE = db
+  DB_USER = root
+  DB_PASSWORD = password
 name: MySQL Check
 jobs:
   my_sql_check:
@@ -17,10 +21,6 @@ jobs:
       fail-fast: true
       matrix:
         python_version: ["3.10"]
-    env:
-      DB_DATABASE = db
-      DB_USER = root
-      DB_PASSWORD = password
     steps:
       - name: Set up python ${{ matrix.python_version }}
         uses: actions/setup-python@v2
