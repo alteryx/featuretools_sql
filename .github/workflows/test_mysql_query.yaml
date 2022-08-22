@@ -34,7 +34,6 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y mysql-client
-          mysql --host localhost -e 'CREATE DATABASE db;' -u root -p password
       - name: Seed DB
         run:
           mysql --host=localhost --user=root --password=password < scripts/postgres.sql
