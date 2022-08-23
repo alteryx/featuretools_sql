@@ -18,6 +18,7 @@ jobs:
       matrix:
         python_version: ["3.10"]
     services:
+      # Refer: https://stackoverflow.com/questions/58222386/github-actions-using-mysql-service-throws-access-denied-for-user-rootlocalh
       mysql:
         image: mysql:8.0
         env:
