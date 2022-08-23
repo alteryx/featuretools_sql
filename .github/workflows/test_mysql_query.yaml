@@ -30,6 +30,8 @@ jobs:
       - name: Install requirements
         run: |
           python -m pip install .
+          ps xa | grep mysqld >> op
+          cat op
       - name: run tests
         run: |
           mysql -h 127.0.0.1 -P 3306 -u root -p root -e "create database db;"
