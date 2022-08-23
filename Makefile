@@ -2,6 +2,14 @@
 installdeps:
 	pip install -e .
 
+.PHONY: installdeps-dev
+installdeps-dev:
+	pip install -e ".[dev]"
+
+.PHONY: installdeps-test
+installdeps-test:
+    pip install -e ".[test]"
+
 .PHONY: lint
 lint:
 	isort --check-only featuretools_sql

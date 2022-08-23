@@ -1,4 +1,3 @@
-# Testing how to get postgres running in CI
 on:
   pull_request:
     types: [opened, synchronize]
@@ -42,7 +41,7 @@ jobs:
         run: |
           pip config --site set global.progress_bar off
           python -m pip install --upgrade pip
-          python -m pip install -e .[test]
+          make installdeps-test
       - name: Seed the database
         env:
           POSTGRES_URL: postgresql://postgres:postgres@localhost:5432/postgres

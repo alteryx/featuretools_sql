@@ -1,6 +1,5 @@
 import pytest
 from featuretools import EntitySet
-
 from featuretools_sql.connector import DBConnector
 
 

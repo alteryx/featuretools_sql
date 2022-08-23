@@ -1,13 +1,3 @@
-# TODO: Actually compare the results to something
-
-"""
-Are these 'unit tests'?
-More of integration tests
-
-Mock database
-"""
-
-
 import pytest
 from featuretools import EntitySet
 

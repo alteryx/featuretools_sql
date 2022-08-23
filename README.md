@@ -13,7 +13,7 @@ The `featuretools_sql` library allows users to directly import and convert their
 python -m pip install featuretools[sql]
 ```
 
-### Or from the `Conda-forge` channel on [conda](https://anaconda.org/conda-forge/featuretools) 
+### Or from the `Conda-forge` channel on [conda](https://anaconda.org/conda-forge/featuretools_sql) 
 ```shell
 conda install -c conda-forge featuretools featuretools_sql
 ```
