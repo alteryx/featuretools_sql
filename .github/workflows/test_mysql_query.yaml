@@ -42,5 +42,5 @@ jobs:
         run: |
           sudo mysqld_safe --skip-grant-tables --skip-networking &
           echo "Got here!"
-          mysql -u root -p root -e "create database db;"
+          mysql -u root -e "create database db;"
           pytest featuretools_sql/tests/unit_tests/test_mysql_query.py
