@@ -39,4 +39,5 @@ jobs:
           mysql -e 'CREATE DATABASE db;' -u root -p root
       - name: run tests
         run: |
+          echo "Got here!"
           pytest featuretools_sql/tests/unit_tests/test_mysql_query.py
