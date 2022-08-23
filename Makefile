@@ -8,7 +8,7 @@ installdeps-dev:
 
 .PHONY: installdeps-test
 installdeps-test:
-    pip install -e ".[test]"
+	pip install -e ".[test]"
 
 .PHONY: lint
 lint:
