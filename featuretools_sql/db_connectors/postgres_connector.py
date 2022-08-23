@@ -1,8 +1,9 @@
+from typing import Dict, List, Tuple
+
 import pandas as pd
 import pandas.io.sql as sqlio
 import psycopg2
 from featuretools import EntitySet
-from typing import List, Dict, Tuple
 
 
 class PostgresConnector:
@@ -33,9 +34,7 @@ class PostgresConnector:
             f"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{self.schema}';"
         )
 
-    def populate_dataframes(
-        self, debug=False
-    ) -> Dict[str, Tuple[pd.DataFrame, str]]:
+    def populate_dataframes(self, debug=False) -> Dict[str, Tuple[pd.DataFrame, str]]:
         tables_df = self.all_tables()
         table_index = "table_name"
         self.tables = []
@@ -57,9 +56,7 @@ class PostgresConnector:
     def get_table(self, table: str) -> pd.DataFrame:
         return self.run_query(f"SELECT * FROM {table}")
 
-    def populate_relationships(
-        self, debug=False
-    ) -> List[tuple(str, str, str, str)]:
+    def populate_relationships(self, debug=False) -> List[tuple(str, str, str, str)]:
         query_str = """
             select kcu.table_schema || '.' || kcu.table_name as foreign_table,
             rel_kcu.table_schema || '.' || rel_kcu.table_name as primary_table,
