@@ -1,6 +1,6 @@
 [project]
 name = "featuretool_sql"
-dynamic = ["version"]
+dynamic = ["version", "readme"]
 description = "directly import and convert their relational data into a Featuretools"
 classifiers = [
     "Intended Audience :: Science/Research",
@@ -24,6 +24,10 @@ maintainers = [
     {name = "Alteryx, Inc."}
 ]
 requires-python = ">=3.8,<4"
+
+[tool.setuptools.dynamic]
+version = {attr = "featuretool_sql.version.__version__"}
+readme = {file = ["README.rst"]}
 
 [build-system]
 requires = [
