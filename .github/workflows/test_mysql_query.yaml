@@ -28,11 +28,9 @@ jobs:
           ref: ${{ github.event.pull_request.head.ref }}
           repository: ${{ github.event.pull_request.head.repo.full_name }}
       - name: Install requirements
-        run: |
-          python -m pip install .
+        run: python -m pip install .
       - name: Display processes
-        run: |
-          echo | ps xa | grep mysqld
+        run: echo | ps xa | grep mysqld
       - name: run tests
         run: |
           mysql -h 127.0.0.1 -P 3306 -u root -p root -e "create database db;"
