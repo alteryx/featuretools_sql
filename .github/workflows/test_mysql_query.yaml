@@ -40,5 +40,5 @@ jobs:
           echo
       - name: run tests
         run: |
-          mysql -h 127.0.0.1 -P 3306 -u root -p -e "create database db;"
+          mysql -h 127.0.0.1 -P 3306 -u root -e "create database db;"
           pytest featuretools_sql/tests/unit_tests/test_mysql_query.py
