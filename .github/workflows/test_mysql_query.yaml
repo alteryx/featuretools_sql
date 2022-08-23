@@ -17,6 +17,15 @@ jobs:
       fail-fast: true
       matrix:
         python_version: ["3.10"]
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: test
+        ports:
+          - '8888:3306'
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
       - name: Set up python ${{ matrix.python_version }}
         uses: actions/setup-python@v2
@@ -31,9 +40,8 @@ jobs:
         run: python -m pip install .
       - name: Display processes
         run: |
-          sudo service mysql start
           echo | ps xa | grep mysqld
       - name: run tests
         run: |
-          mysql -h 127.0.0.1 -P 3306 -u root -p root -e "create database db;"
+          mysql -h 127.0.0.1 --port 8888 -u root -ppassword -e 'CREATE DATABASE IF NOT EXISTS test;'\
           echo "Got here!"
