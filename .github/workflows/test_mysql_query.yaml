@@ -30,17 +30,7 @@ jobs:
       - name: Install requirements
         run: |
           python -m pip install .
-      - name: Update ubuntu
-        run: |
-          sudo service mysql stop
-          sleep 15
-      - name: Install MySQL
-        uses: mirromutth/mysql-action@v1.1
-        with:
-          mysql database: 'db' # Optional, default value is "test". The specified database which will be create
-          mysql user: 'developer' # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Can use secrets, too
-          mysql password: 'pwd' #  Required if "mysql user" exists. The password for the "mysql user"
       - name: run tests
         run: |
-          mysql -h 127.0.0.1 -P 3306 -u developer -p pwd -e "create database db;"
+          mysql -h 127.0.0.1 -P 3306 -u root -p root -e "create database db;"
           echo "Got here!"
