@@ -19,7 +19,7 @@ def mysql_connection():
     config = dict()
     config["system_name"] = "mysql"
     config["host"] = "127.0.0.1"
-    config["port"] = "3306"
+    config["port"] = "8888"
     config["password"] = "password"
     config["user"] = "root"
     config["database"] = "db"
@@ -35,17 +35,10 @@ def test_faulty_connection_fails():
         DBConnector(None, None, None, None, None, None)
 
 
-# def test_can_run_query(mysql_connection):
-#     c = DBConnector(**mysql_connection)
-#     c._DBConnector__run_query(
-#         "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{c.database}'"
-#     )
-
-
 def test_can_get_all_tables(mysql_connection):
     c = DBConnector(**mysql_connection)
     df = c.all_tables()
-    assert df is not None
+    assert len(df) == 2
 
 
 def test_can_learn_dataframes(mysql_connection):
