@@ -31,7 +31,7 @@ jobs:
         run: python -m pip install .
       - name: Display processes
         run: |
-          echo | cat /etc/init.d/mysql
+          sudo /etc/init.d/mysqld start
           echo | ps xa | grep mysqld
       - name: run tests
         run: |
