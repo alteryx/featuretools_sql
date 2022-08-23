@@ -36,6 +36,7 @@ jobs:
           sudo apt-get install -y mysql-client
       - name: Set up MySQL
         run: |
+          sydo systemctl start mysql
           mysql -e 'CREATE DATABASE db;' -u root -p root
       - name: run tests
         run: |
