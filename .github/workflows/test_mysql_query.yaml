@@ -39,7 +39,7 @@ jobs:
         with:
           mysql database: 'db' # Optional, default value is "test". The specified database which will be create
           mysql user: 'developer' # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Can use secrets, too
-          mysql password: 'pwd'#  Required if "mysql user" exists. The password for the "mysql user"
+          mysql password: 'pwd' #  Required if "mysql user" exists. The password for the "mysql user"
       - name: run tests
         run: |
           mysql -h 127.0.0.1 -P 3306 -u developer -p pwd -e "create database db;"
