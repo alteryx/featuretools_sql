@@ -32,7 +32,6 @@ jobs:
           python -m pip install .
       - name: Update ubuntu
         run: |
-          sudo apt-get update
           sudo service mysql stop
           sleep 15
       - name: Install MySQL
