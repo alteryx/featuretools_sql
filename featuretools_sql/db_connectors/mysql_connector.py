@@ -76,7 +76,7 @@ class MySQLConnector:
 
     def get_primary_key_from_table(self, table: str) -> pd.DataFrame:
         df = self.run_query(
-            f"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '{self.db}' AND TABLE_NAME = '{table}' AND COLUMN_KEY = 'PRI';"
+            f"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '{self.database}' AND TABLE_NAME = '{table}' AND COLUMN_KEY = 'PRI';"
         )
         return df["COLUMN_NAME"]
 
