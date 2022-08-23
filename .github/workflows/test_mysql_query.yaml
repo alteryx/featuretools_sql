@@ -36,10 +36,11 @@ jobs:
           sudo apt-get install -y mysql-client
       - name: Set up MySQL
         run: |
-          sudo systemctl start mysql
+          sudo systemctl stop mysql
           echo
       - name: run tests
         run: |
+          sudo mysqld_safe --skip-grant-tables --skip-networking &
           echo "Got here!"
           mysql -u root -p root -e "create database db;"
           pytest featuretools_sql/tests/unit_tests/test_mysql_query.py
