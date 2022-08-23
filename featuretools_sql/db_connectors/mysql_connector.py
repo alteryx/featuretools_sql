@@ -42,7 +42,7 @@ class MySQLConnector:
     def get_table(self, table: str) -> pd.DataFrame:
         return self.run_query(f"SELECT * FROM {table}")
 
-    def populate_relationships(self, debug=False) -> List[tuple(str, str, str, str)]:
+    def populate_relationships(self, debug=False) -> List[Tuple[str, str, str, str]]:
         query_str = f"SELECT TABLE_NAME, COLUMN_NAME, REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_SCHEMA = '{self.database}'"
         foreign_keys = self.run_query(query_str)
         for (

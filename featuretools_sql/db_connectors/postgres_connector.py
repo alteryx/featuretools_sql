@@ -42,12 +42,10 @@ class PostgresConnector:
         for table in tables_df[table_index].values:
             self.tables.append(table)
             table_df = self.get_table(table)
-            # TODO: error handling on tables here
-
             table_key = self.get_primary_key_from_table(table).values[0]
             dataframes[table] = (table_df, table_key)
         if debug:
-            for k, v in self.dataframes.items():
+            for k, v in dataframes.items():
                 print(f"Name: {k}")
                 print(f"df: {v}")
                 print()
@@ -56,7 +54,7 @@ class PostgresConnector:
     def get_table(self, table: str) -> pd.DataFrame:
         return self.run_query(f"SELECT * FROM {table}")
 
-    def populate_relationships(self, debug=False) -> List[tuple(str, str, str, str)]:
+    def populate_relationships(self, debug=False) -> List[Tuple[str, str, str, str]]:
         query_str = """
             select kcu.table_schema || '.' || kcu.table_name as foreign_table,
             rel_kcu.table_schema || '.' || rel_kcu.table_name as primary_table,
