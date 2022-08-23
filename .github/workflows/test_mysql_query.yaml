@@ -30,10 +30,11 @@ jobs:
       - name: Install requirements
         run: |
           python -m pip install .
-      - name: Set up MySQL
+      - name: Update ubuntu
         run: |
           sudo apt-get update
           sudo apt-get install -y mysql-client
+      - name: Set up MySQL
           sudo /etc/init.d/mysql start
           mysql -e 'CREATE DATABASE db;' -u root -p root
       - name: run tests
