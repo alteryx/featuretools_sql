@@ -75,10 +75,10 @@ class MySQLConnector:
         return self.relationships
 
     def get_primary_key_from_table(self, table: str) -> pd.DataFrame:
-        df = self.run_query(
-            f"SELECT a.attname, format_type(a.atttypid, a.atttypmod) AS data_type FROM pg_index i JOIN   pg_attribute a ON a.attrelid = i.indrelid AND a.attnum = ANY(i.indkey) WHERE  i.indrelid = '{table}'::regclass AND i.indisprimary;"
+        df = self.__run_query(
+            f"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '{self.db}' AND TABLE_NAME = '{table}' AND COLUMN_KEY = 'PRI';"
         )
-        return df["attname"]
+        return df["COLUMN_NAME"]
 
     def run_query(self, query: str) -> pd.DataFrame:
         return cx.read_sql(self.connection_string, query)
