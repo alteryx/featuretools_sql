@@ -37,7 +37,6 @@ jobs:
       - name: Set up MySQL
         run: |
           sudo systemctl start mysql
-          mysql -e 'CREATE DATABASE db;' -u root -p root
       - name: run tests
         run: |
           echo "Got here!"
