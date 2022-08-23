@@ -1,9 +1,8 @@
-# from typing import List
-
 import pandas as pd
 import pandas.io.sql as sqlio
 import psycopg2
 from featuretools import EntitySet
+from typing import List, Dict, Tuple
 
 
 class PostgresConnector:
@@ -36,7 +35,7 @@ class PostgresConnector:
 
     def populate_dataframes(
         self, debug=False
-    ):  # 3.9 and above -> dict[str, tuple[pd.DataFrame, str]]:
+    ) -> Dict[str, Tuple[pd.DataFrame, str]]:
         tables_df = self.all_tables()
         table_index = "table_name"
         self.tables = []
@@ -60,7 +59,7 @@ class PostgresConnector:
 
     def populate_relationships(
         self, debug=False
-    ):  # 3.9 and above -> List[tuple(str, str, str, str)]
+    ) -> List[tuple(str, str, str, str)]:
         query_str = """
             select kcu.table_schema || '.' || kcu.table_name as foreign_table,
             rel_kcu.table_schema || '.' || rel_kcu.table_name as primary_table,
