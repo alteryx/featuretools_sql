@@ -47,4 +47,4 @@ jobs:
           POSTGRES_URL: postgresql://postgres:postgres@localhost:5432/postgres
         run: sudo psql $POSTGRES_URL -f scripts/postgres.sql
       - name: Run test
-        run: pytest featuretools_sql/tests/integration_tests/test_postgres_query.py
+        run: pytest featuretools_sql/tests/integration_tests/postgres/test_postgres_query.py
