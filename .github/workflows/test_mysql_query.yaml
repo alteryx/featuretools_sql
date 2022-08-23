@@ -34,6 +34,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo service mysql stop
+          sleep 15
       - name: Install MySQL
         uses: mirromutth/mysql-action@v1.1
         with:
