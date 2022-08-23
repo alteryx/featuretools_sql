@@ -4,3 +4,4 @@ pytest_cache/*
 featuretools_sql/__pycache__/*
 featuretools_sql/tests/__pycache__/*
 featuretool_sql.egg_info/*
+**/.DS_Store
