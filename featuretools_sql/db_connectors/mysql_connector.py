@@ -78,6 +78,10 @@ class MySQLConnector:
         df = self.run_query(
             f"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '{self.database}' AND TABLE_NAME = '{table}' AND COLUMN_KEY = 'PRI';"
         )
+        if df.empty:
+            raise ValueError(
+                f"In order to determine table relationships, each table needs to have a primary key. Currently, {table} does not have a defined primary key. Please define one and retry."
+            )
         return df["COLUMN_NAME"]
 
     def run_query(self, query: str) -> pd.DataFrame:
