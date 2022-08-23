@@ -38,10 +38,11 @@ jobs:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
       - name: Install requirements
         run: python -m pip install .
-      - name: Display processes
+        # Debug step to see if the MySQL process is running
+      - name: Determine if MySQL process is running
         run: |
           echo | ps xa | grep mysqld
+      # for some reason, putting a space between -p and password causes the command to fail.
       - name: run tests
         run: |
           mysql -h 127.0.0.1 --port 8888 -u root -ppassword -e "CREATE DATABASE db;"
-          echo "Got here!"

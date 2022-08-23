@@ -20,7 +20,7 @@ def mysql_connection():
     config["system_name"] = "mysql"
     config["host"] = "127.0.0.1"
     config["port"] = "3306"
-    config["password"] = "root"
+    config["password"] = "password"
     config["user"] = "root"
     config["database"] = "db"
     return config
