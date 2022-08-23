@@ -1,3 +1,30 @@
+[project]
+name = "featuretool_sql"
+dynamic = ["version", "readme"]
+description = "directly import and convert their relational data into a Featuretools"
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development",
+    "Topic :: Scientific/Engineering",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX",
+    "Operating System :: Unix",
+    "Operating System :: MacOS",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+]
+authors = [
+     {name = "Alteryx, Inc."}
+]
+maintainers = [
+    {name = "Alteryx, Inc."}
+]
+requires-python = ">=3.8,<4"
+
 [build-system]
 requires = [
     "setuptools >= 47",
@@ -24,31 +51,3 @@ filterwarnings = [
     "ignore::DeprecationWarning",
     "ignore::PendingDeprecationWarning"
 ]
-
-[project]
-name = "featuretool_sql"
-dynamic = ["version", "readme"]
-description = "directly import and convert their relational data into a Featuretools"
-classifiers = [
-    "Intended Audience :: Science/Research",
-    "Intended Audience :: Developers",
-    "Topic :: Software Development",
-    "Topic :: Scientific/Engineering",
-    "Operating System :: Microsoft :: Windows",
-    "Operating System :: POSIX",
-    "Operating System :: Unix",
-    "Operating System :: MacOS",
-    "Programming Language :: Python",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-]
-version = "0.0.1"
-authors = [
-     {name = "Alteryx, Inc."}
-]
-maintainers = [
-    {name = "Alteryx, Inc."}
-]
-requires-python = ">=3.8,<4"

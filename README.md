@@ -1,5 +1,5 @@
 <p align="center">
-<i>Seamlessly integrate SQL data with Featuretools</i>
+<i>Turns your relational data into an EntitySet, ready for feature engineering</i>
 </p>
 
 # featuretools_sql 
