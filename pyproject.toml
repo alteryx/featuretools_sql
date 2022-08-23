@@ -27,7 +27,7 @@ filterwarnings = [
 
 [project]
 name = "featuretool_sql"
-readme = "README.md"
+dynamic = ["version", "readme"]
 description = "directly import and convert their relational data into a Featuretools"
 classifiers = [
     "Intended Audience :: Science/Research",
