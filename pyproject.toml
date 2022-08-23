@@ -1,6 +1,6 @@
 [project]
 name = "featuretool_sql"
-dynamic = ["version", "readme"]
+dynamic = ["version"]
 description = "directly import and convert their relational data into a Featuretools"
 classifiers = [
     "Intended Audience :: Science/Research",
