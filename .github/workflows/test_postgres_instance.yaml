@@ -5,7 +5,7 @@ on:
   push:
     branches:
       - main
-name: Test Postgres queries
+name: Test Postgres Queries
 jobs:
   postgres-test:
     # Containers have to run on Linux

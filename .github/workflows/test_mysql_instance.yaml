@@ -8,7 +8,7 @@ on:
     branches:
       - main
 
-name: MySQL Check
+name: Test MySQL Queries
 jobs:
   my_sql_check:
     name: ${{ matrix.python_version }} MySQL check
