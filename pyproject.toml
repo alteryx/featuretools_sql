@@ -31,6 +31,7 @@ dependencies = [
     "psycopg2 >= 2.9.3",
     "connectorx >= 0.3.0",
 ]
+
 [project.optional-dependencies]
 dev = [
     "flake8 == 5.0.4",
@@ -42,9 +43,17 @@ test = [
     "pytest >= 7.1.2",
     "pytest-cov >= 3.0.0",
 ]
+
 [project.urls]
 Code = "https://github.com/alteryx/featuretools_sql"
 Tracker = "https://github.com/alteryx/featuretools_sql/issues"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["featuretools_sql"]
+
 [tool.setuptools.dynamic]
 version = {attr = "featuretools_sql.version.__version__"}
 readme = {file = ["README.rst"]}
