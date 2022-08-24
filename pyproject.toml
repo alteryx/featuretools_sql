@@ -23,6 +23,7 @@ authors = [
 maintainers = [
     {name = "Alteryx, Inc."}
 ]
+license = {file = "LICENSE"}
 requires-python = ">=3.8,<4"
 dependencies = [
     "numpy >= 1.17.5",
