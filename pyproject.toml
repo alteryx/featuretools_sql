@@ -1,3 +1,54 @@
+[project]
+name = "featuretools_sql"
+dynamic = ["version", "readme"]
+description = "directly import and convert their relational data into a Featuretools"
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development",
+    "Topic :: Scientific/Engineering",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX",
+    "Operating System :: Unix",
+    "Operating System :: MacOS",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+]
+authors = [
+     {name = "Alteryx, Inc."}
+]
+maintainers = [
+    {name = "Alteryx, Inc."}
+]
+requires-python = ">=3.8,<4"
+dependencies = [
+    "numpy >= 1.17.5",
+    "pandas >= 1.3.0",
+    "featuretools >= 1.5.0",
+    "psycopg2 >= 2.9.3",
+    "connectorx >= 0.3.0",
+]
+[project.optional-dependencies]
+dev = [
+    "flake8 == 5.0.4",
+    "isort == 5.10.1",
+    "black == 22.6.0",
+    "featuretools_sql[test]",
+]
+test = [
+    "pytest >= 7.1.2",
+    "pytest-cov >= 3.0.0",
+]
+[project.urls]
+Code = "https://github.com/alteryx/featuretools_sql"
+Tracker = "https://github.com/alteryx/featuretools_sql/issues"
+[tool.setuptools.dynamic]
+version = {attr = "featuretools_sql.version.__version__"}
+readme = {file = ["README.rst"]}
+
 [build-system]
 requires = [
     "setuptools >= 47",
@@ -24,11 +75,3 @@ filterwarnings = [
     "ignore::DeprecationWarning",
     "ignore::PendingDeprecationWarning"
 ]
-
-[project]
-name = "featuretool_sql" 
-version = "0.0.1" 
-authors = [
-  { name="Shripad Badithe", email="slyokapi@gmail.com"}, 
-]
-requires-python = ">=3.7" 

@@ -1,0 +1,47 @@
+on:
+  pull_request:
+    types: [opened, synchronize]
+  push:
+    branches:
+      - main
+
+name: Test MySQL Queries
+jobs:
+  my_sql_check:
+    name: ${{ matrix.python_version }} MySQL check
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        python_version: ["3.10"]
+    services:
+      # Refer: https://stackoverflow.com/questions/58222386/github-actions-using-mysql-service-throws-access-denied-for-user-rootlocalh
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: test
+        ports:
+          - '8888:3306'
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    steps:
+      - name: Set up python ${{ matrix.python_version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python_version }}
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+      - name: Install requirements
+        run:  make installdeps-test
+        # Debug step to see if the MySQL process is running
+      - name: Determine if MySQL process is running
+        run: |
+          echo | ps xa | grep mysqld
+      # for some reason, putting a space between -p and password causes the command to fail.
+      - name: run tests
+        run: |
+          mysql -h 127.0.0.1 --port 8888 -u root -ppassword < scripts/mysql.sql
+          pytest featuretools_sql/tests/integration_tests/mysql/ -s -vv
