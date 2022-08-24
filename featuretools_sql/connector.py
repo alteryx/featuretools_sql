@@ -73,8 +73,9 @@ class DBConnector:
 
     def populate_dataframes(
         self,
+        select_only=None,
     ) -> Dict[str, Tuple[pd.DataFrame, str]]:
-        self.dataframes = self.connector.populate_dataframes()
+        self.dataframes = self.connector.populate_dataframes(select_only)
         return self.dataframes
 
     def populate_relationships(
