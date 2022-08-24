@@ -1,6 +1,10 @@
 exclude: ^LICENSE/|\.(html|csv|svg|md)$
 default_stages: [commit]
 repos:
+  - repo: https://github.com/john-hen/Flake8-pyproject
+    rev: 1.1.0.post0
+    hooks:
+    -   id: Flake8-pyproject
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.3.0
     hooks:
@@ -26,7 +30,3 @@ repos:
       - id: black
         args: [--target-version=py310]
         types_or: [python]
-  - repo: https://github.com/john-hen/Flake8-pyproject
-    rev: 1.1.0.post0
-    hooks:
-    -   id: Flake8-pyproject
