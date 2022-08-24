@@ -120,7 +120,7 @@ class PostgresConnector:
     def run_query(self, query: str) -> pd.DataFrame:
         return sqlio.read_sql_query(query, self.postgres_connection)
 
-    def get_entity_set(self):
+    def get_entityset(self):
         dataframes = self.populate_dataframes()
         relationships = self.populate_relationships()
         return EntitySet(dataframes=dataframes, relationships=relationships)
