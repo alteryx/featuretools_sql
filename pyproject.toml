@@ -42,6 +42,7 @@ dev = [
     "Flake8-pyproject == 1.1.0.post0",
     "isort == 5.10.1",
     "black == 22.6.0",
+    "pre-commit == 2.20.0",
     "featuretools_sql[test]",
 ]
 
