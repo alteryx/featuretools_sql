@@ -71,7 +71,7 @@ Before starting major work, you should touch base with the maintainers of Featur
   ```
 * Create a pull request to merge the changes from your forked repo branch into the Featuretools-SQL `main` branch. Creating the pull request will automatically run our continuous integration.
 * If this is your first contribution, you will need to sign the Contributor License Agreement as directed.
-* Update the "Future Release" section of the release notes (`docs/source/release_notes.rst`) to include your pull request and add your github username to the list of contributors.  Add a description of your PR to the subsection that most closely matches your contribution:
+* Update the "Future Release" section of the release notes (`docs/release_notes.rst`) to include your pull request and add your github username to the list of contributors.  Add a description of your PR to the subsection that most closely matches your contribution:
     * Enhancements: new features or additions to Featuretools-SQL.
     * Fixes: things like bugfixes or adding more descriptive error messages.
     * Changes: modifications to an existing part of Featuretools-SQL.
