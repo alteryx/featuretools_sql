@@ -73,16 +73,14 @@ class DBConnector:
 
     def populate_dataframes(
         self,
-        debug=False,
     ):  # 3.9 and above -> dict[str, tuple[pd.DataFrame, str]]:
-        self.dataframes = self.connector.populate_dataframes(debug)
+        self.dataframes = self.connector.populate_dataframes()
         return self.dataframes
 
     def populate_relationships(
         self,
-        debug=False,
     ):  # 3.9 and above -> List[tuple[str, str, str, str]]:
-        self.relationships = self.connector.populate_relationships(debug)
+        self.relationships = self.connector.populate_relationships()
         return self.relationships
 
     def get_entityset(self):

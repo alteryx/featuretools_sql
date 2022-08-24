@@ -24,11 +24,11 @@ class MySQLConnector:
         if isinstance(select_only, list):
             select_only_tables = ", ".join(select_only)
             return self.run_query(
-                f"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{self.schema}' AMD TABLE_NAME NOT IN ({select_only_tables});",
+                f"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME NOT IN ({select_only_tables});",
             )
         elif select_only is None:
             return self.run_query(
-                f"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{self.schema}';",
+                "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES;",
             )
         else:
             raise ValueError(
