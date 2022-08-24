@@ -20,6 +20,7 @@ class MySQLConnector:
         self.relationships = []
 
     def all_tables(self, select_only=None) -> pd.DataFrame:
+        print(f"Select only: {select_only}")
         if isinstance(select_only, list):
             select_only_tables = ", ".join([f"'{i}'" for i in select_only])
             return self.run_query(
