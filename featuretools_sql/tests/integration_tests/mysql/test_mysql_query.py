@@ -28,7 +28,7 @@ def test_faulty_connection_fails():
 def test_can_get_all_tables(mysql_connection):
     c = DBConnector(**mysql_connection)
     df = c.all_tables()
-    assert len(df) == 2
+    assert len(df) == 3
 
 
 def test_can_learn_dataframes(mysql_connection):
@@ -42,6 +42,7 @@ def test_can_learn_dataframes(mysql_connection):
 def test_can_learn_dataframes_and_relationships(mysql_connection):
     sql_connection = DBConnector(**mysql_connection)
     sql_connection.populate_dataframes(select_only=["products", "transactions"])
+    print(f"Dataframes: {sql_connection.dataframes}")
     sql_connection.populate_relationships()
     es = EntitySet("es", sql_connection.dataframes, sql_connection.relationships)
     assert es is not None
