@@ -1,7 +1,15 @@
+[build-system]
+requires = [
+    "setuptools >= 47",
+    "wheel",
+]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "featuretools_sql"
 dynamic = ["version", "readme"]
 description = "directly import and convert their relational data into a Featuretools"
+keywords = ["relational data", "sql", "feature engineering", "data science", "machine learning"]
 classifiers = [
     "Intended Audience :: Science/Research",
     "Intended Audience :: Developers",
@@ -18,7 +26,7 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
 ]
 authors = [
-     {name = "Alteryx, Inc."}
+    {name = "Alteryx, Inc."}
 ]
 maintainers = [
     {name = "Alteryx, Inc."}
@@ -49,8 +57,11 @@ dev = [
 
 
 [project.urls]
-Code = "https://github.com/alteryx/featuretools_sql"
-Tracker = "https://github.com/alteryx/featuretools_sql/issues"
+homepage = "https://github.com/alteryx/featuretools_sql"
+documentation = "https://featuretools.alteryx.com"
+repository = "https://github.com/alteryx/featuretools_sql"
+changelog = "https://github.com/alteryx/featuretools/blob/main/source/release_notes.rst"
+tracker = "https://github.com/alteryx/featuretools_sql/issues"
 
 [tool.setuptools]
 include-package-data = true
@@ -59,13 +70,6 @@ packages = ["featuretools_sql"]
 [tool.setuptools.dynamic]
 version = {attr = "featuretools_sql.version.__version__"}
 readme = {file = ["README.rst"]}
-
-[build-system]
-requires = [
-    "setuptools >= 47",
-    "wheel",
-]
-build-backend = "setuptools.build_meta"
 
 [tool.isort]
 profile = "black"
