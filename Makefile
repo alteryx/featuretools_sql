@@ -5,6 +5,7 @@ installdeps:
 .PHONY: installdeps-dev
 installdeps-dev:
 	pip install -e ".[dev]"
+	pre-commit install
 
 .PHONY: installdeps-test
 installdeps-test:

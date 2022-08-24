@@ -11,7 +11,22 @@ repos:
     hooks:
       - id: absolufy-imports
         files: ^featuretools_sql/
+  - repo: https://github.com/asottile/add-trailing-comma
+    rev: v2.2.3
+    hooks:
+      - id: add-trailing-comma
+        name: Add trailing comma
+  - repo: https://github.com/PyCQA/isort
+    rev: 5.10.1
+    hooks:
+      - id: isort
+  - repo: https://github.com/python/black
+    rev: 22.6.0
+    hooks:
+      - id: black
+        args: [--target-version=py310]
+        types_or: [python]
   - repo: https://github.com/john-hen/Flake8-pyproject
-    rev: 1.0.1
+    rev: 1.1.0.post0
     hooks:
     -   id: Flake8-pyproject

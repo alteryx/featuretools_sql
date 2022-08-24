@@ -31,7 +31,7 @@ class PostgresConnector:
 
     def all_tables(self) -> pd.DataFrame:
         return self.run_query(
-            f"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{self.schema}';"
+            f"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{self.schema}';",
         )
 
     def populate_dataframes(self, debug=False) -> Dict[str, Tuple[pd.DataFrame, str]]:
@@ -106,11 +106,11 @@ class PostgresConnector:
 
     def get_primary_key_from_table(self, table: str) -> pd.DataFrame:
         df = self.run_query(
-            f"SELECT a.attname, format_type(a.atttypid, a.atttypmod) AS data_type FROM pg_index i JOIN   pg_attribute a ON a.attrelid = i.indrelid AND a.attnum = ANY(i.indkey) WHERE  i.indrelid = '{table}'::regclass AND i.indisprimary;"
+            f"SELECT a.attname, format_type(a.atttypid, a.atttypmod) AS data_type FROM pg_index i JOIN   pg_attribute a ON a.attrelid = i.indrelid AND a.attnum = ANY(i.indkey) WHERE  i.indrelid = '{table}'::regclass AND i.indisprimary;",
         )
         if df.empty:
             raise ValueError(
-                f"In order to determine table relationships, each table needs to have a primary key. Currently, {table} does not have a defined primary key. Please define one and retry."
+                f"In order to determine table relationships, each table needs to have a primary key. Currently, {table} does not have a defined primary key. Please define one and retry.",
             )
         return df["attname"]
 
