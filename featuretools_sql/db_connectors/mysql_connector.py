@@ -20,6 +20,7 @@ class MySQLConnector:
         self.relationships = []
 
     def all_tables(self, select_only=None) -> pd.DataFrame:
+        print(f"Select_only: {select_only}")
         if isinstance(select_only, list):
             select_only_tables = ", ".join(select_only)
             return self.run_query(
@@ -37,7 +38,6 @@ class MySQLConnector:
     def populate_dataframes(
         self,
         select_only=None,
-        debug=False,
     ) -> Dict[str, Tuple[pd.DataFrame, str]]:
         tables_df = self.all_tables(select_only)
         table_index = "TABLE_NAME"
@@ -46,19 +46,12 @@ class MySQLConnector:
             table_df = self.get_table(table)
             table_key = self.get_primary_key_from_table(table).values[0]
             self.dataframes[table] = (table_df, table_key)
-        """
-        if debug:
-            for k, v in self.dataframes.items():
-                print(f"Name: {k}")
-                print(f"df: {v}")
-                print()
-        """
         return self.dataframes
 
     def get_table(self, table: str) -> pd.DataFrame:
         return self.run_query(f"SELECT * FROM {table}")
 
-    def populate_relationships(self, debug=False) -> List[Tuple[str, str, str, str]]:
+    def populate_relationships(self) -> List[Tuple[str, str, str, str]]:
         query_str = f"SELECT TABLE_NAME, COLUMN_NAME, REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_SCHEMA = '{self.database}'"
         foreign_keys = self.run_query(query_str)
         for (
@@ -75,17 +68,6 @@ class MySQLConnector:
             )
             if referenced_table_name in self.tables and table_name in self.tables:
                 self.relationships.append(r)
-        if debug:
-            for (
-                referenced_table_name,
-                referenced_column_name,
-                table_name,
-                col_name,
-            ) in self.relationships:
-                print(f"referenced_table_name: {referenced_table_name}")
-                print(f"referenced_column_name: {referenced_column_name}")
-                print(f"table_name: {table_name}")
-                print(f"col_name: {col_name}")
 
         return self.relationships
 
