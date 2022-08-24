@@ -4,7 +4,9 @@ on:
   push:
     branches:
       - main
-name: Test Postgres Queries
+  workflow_dispatch:
+
+name: Integration Tests - Postgres
 jobs:
   postgres-test:
     # Containers have to run on Linux

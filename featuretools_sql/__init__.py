@@ -1,1 +1,1 @@
-from .connector import DBConnector
+from featuretools_sql.connector import DBConnector

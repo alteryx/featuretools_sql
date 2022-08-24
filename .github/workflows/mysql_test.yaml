@@ -4,8 +4,9 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
-name: Test MySQL Queries
+name: Integration Tests - MySQL
 jobs:
   my_sql_check:
     name: ${{ matrix.python_version }} MySQL check

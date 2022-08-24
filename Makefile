@@ -5,6 +5,7 @@ installdeps:
 .PHONY: installdeps-dev
 installdeps-dev:
 	pip install -e ".[dev]"
+	pre-commit install
 
 .PHONY: installdeps-test
 installdeps-test:
@@ -32,3 +33,18 @@ clean:
 	find . -name __pycache__ -delete
 	find . -name '*~' -delete
 	find . -name '.coverage.*' -delete
+
+.PHONY: upgradepip
+upgradepip:
+	python -m pip install --upgrade pip
+
+.PHONY: upgradebuild
+upgradebuild:
+	python -m pip install --upgrade build
+
+.PHONY: package
+package: upgradepip upgradebuild
+	python -m build
+	$(eval PACKAGE=$(shell python -c "from pep517.meta import load; metadata = load('.'); print(metadata.version)"))
+	tar -zxvf "dist/featuretools_sql-${PACKAGE}.tar.gz"
+	mv "featuretools_sql-${PACKAGE}" unpacked_sdist
