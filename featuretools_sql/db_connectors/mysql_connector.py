@@ -22,7 +22,6 @@ class MySQLConnector:
     def all_tables(self, select_only=None) -> pd.DataFrame:
         if isinstance(select_only, list):
             select_only_tables = ", ".join([f"'{i}'" for i in select_only])
-            print(f"Select only: {select_only_tables}")
             return self.run_query(
                 f"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{self.database}' AND TABLE_NAME IN ({select_only_tables});",
             )
