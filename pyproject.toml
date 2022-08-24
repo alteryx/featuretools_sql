@@ -33,16 +33,18 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = [
-    "flake8 == 5.0.4",
-    "isort == 5.10.1",
-    "black == 22.6.0",
-    "featuretools_sql[test]",
-]
 test = [
     "pytest >= 7.1.2",
     "pytest-cov >= 3.0.0",
 ]
+dev = [
+    "flake8 == 5.0.4",
+    "Flake8-pyproject == 1.1.0.post0",
+    "isort == 5.10.1",
+    "black == 22.6.0",
+    "featuretools_sql[test]",
+]
+
 
 [project.urls]
 Code = "https://github.com/alteryx/featuretools_sql"
@@ -50,9 +52,7 @@ Tracker = "https://github.com/alteryx/featuretools_sql/issues"
 
 [tool.setuptools]
 include-package-data = true
-
-[tool.setuptools.packages.find]
-where = ["featuretools_sql"]
+packages = ["featuretools_sql"]
 
 [tool.setuptools.dynamic]
 version = {attr = "featuretools_sql.version.__version__"}
@@ -74,6 +74,16 @@ multi_line_output = 3
 
 [tool.black]
 target-version = ['py310']
+
+[tool.flake8]
+ignore = ['E501', 'W504', 'W503']
+per-file-ignores = [
+    '**/__init__.py:F401',
+    '**/tests/*:D'
+]
+max-line-length = 88
+extend-ignore = ['E203']
+exclude = ['docs/*']
 
 [tool.pytest.ini_options]
 addopts = "-s -vv"
