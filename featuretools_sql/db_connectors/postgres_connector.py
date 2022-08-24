@@ -29,13 +29,27 @@ class PostgresConnector:
         self.schema = schema
         self.tables = []
 
-    def all_tables(self) -> pd.DataFrame:
-        return self.run_query(
-            f"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{self.schema}';",
-        )
+    def all_tables(self, select_only=None) -> pd.DataFrame:
+        if isinstance(select_only, list):
+            select_only_tables = ", ".join(select_only)
+            return self.run_query(
+                f"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{self.schema}' AMD TABLE_NAME NOT IN ({select_only_tables});",
+            )
+        elif select_only is None:
+            return self.run_query(
+                f"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{self.schema}';",
+            )
+        else:
+            raise ValueError(
+                f"select_only parameter must be list or None, got {type(select_only)}",
+            )
 
-    def populate_dataframes(self, debug=False) -> Dict[str, Tuple[pd.DataFrame, str]]:
-        tables_df = self.all_tables()
+    def populate_dataframes(
+        self,
+        select_only=None,
+        debug=False,
+    ) -> Dict[str, Tuple[pd.DataFrame, str]]:
+        tables_df = self.all_tables(select_only)
         table_index = "table_name"
         self.tables = []
         dataframes = dict()
