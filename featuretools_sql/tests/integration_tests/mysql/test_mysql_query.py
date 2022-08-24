@@ -41,7 +41,7 @@ def test_can_learn_dataframes(mysql_connection):
 
 def test_can_learn_dataframes_and_relationships(mysql_connection):
     sql_connection = DBConnector(**mysql_connection)
-    sql_connection.populate_dataframes(select_only=["products", "transactions"])
+    sql_connection.populate_dataframes(select_only=["PRODUCTS", "TRANSACTIONS"])
     print(f"Dataframes: {sql_connection.dataframes}")
     sql_connection.populate_relationships()
     es = EntitySet("es", sql_connection.dataframes, sql_connection.relationships)
