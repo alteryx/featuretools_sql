@@ -1,5 +1,5 @@
 from collections import namedtuple
-from typing import Optional
+from typing import Dict, List, Optional, Tuple
 
 import pandas as pd
 
@@ -73,13 +73,13 @@ class DBConnector:
 
     def populate_dataframes(
         self,
-    ):  # 3.9 and above -> dict[str, tuple[pd.DataFrame, str]]:
+    ) -> Dict[str, Tuple[pd.DataFrame, str]]:
         self.dataframes = self.connector.populate_dataframes()
         return self.dataframes
 
     def populate_relationships(
         self,
-    ):  # 3.9 and above -> List[tuple[str, str, str, str]]:
+    ) -> List[Tuple[str, str, str, str]]:
         self.relationships = self.connector.populate_relationships()
         return self.relationships
 
