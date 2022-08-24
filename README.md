@@ -1,6 +1,6 @@
 # Featuretools-SQL 
-The `featuretools_sql` library allows you to directly import and convert your relational data into a 
-[Featuretools](https://github.com/alteryx/featuretools) compatible format and run automated feature engineering. 
+The `featuretools_sql` library allows you to directly import your relational data into
+[Featuretools](https://github.com/alteryx/featuretools) to run automated feature engineering.
 
 <p align="center">
 <i>Quickly run automated feature engineering on your relational database.</i>
