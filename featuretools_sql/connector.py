@@ -32,7 +32,6 @@ class DBConnector:
         self.port = port
         self.schema = schema
 
-        # TODO: Password security
         if None in [user, host, port, database]:
             raise ValueError("Cannot pass None as argument to DBConnector constructor")
         if system_name not in DBConnector.supported_systems:
