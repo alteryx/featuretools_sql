@@ -52,7 +52,6 @@ class PostgresConnector:
     def populate_dataframes(
         self,
         select_only=None,
-        debug=False,
     ) -> Dict[str, Tuple[pd.DataFrame, str]]:
         tables_df = self.all_tables(select_only)
         table_index = "table_name"
@@ -63,11 +62,6 @@ class PostgresConnector:
             table_df = self.get_table(table)
             table_key = self.get_primary_key_from_table(table).values[0]
             dataframes[table] = (table_df, table_key)
-        if debug:
-            for k, v in dataframes.items():
-                print(f"Name: {k}")
-                print(f"df: {v}")
-                print()
         return dataframes
 
     def get_table(self, table: str) -> pd.DataFrame:
