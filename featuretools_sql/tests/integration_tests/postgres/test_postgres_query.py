@@ -30,8 +30,8 @@ def test_can_get_all_tables(postgres_connection):
 @pytest.mark.parametrize(
     "select_only, expected_dataframe_names, expected_relationship_length",
     [
-        (None, ["products", "testtable", "transactions"], 1),
-        (["products", "testtable"], ["products", "testtable"], 0),
+        (None, ["products", "testtable", "transactions"], 2),
+        (["products", "testtable"], ["products", "testtable"], 1),
         (["products", "transactions"], ["products", "transactions"], 1),
     ],
 )
