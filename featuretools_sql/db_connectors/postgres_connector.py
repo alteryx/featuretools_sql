@@ -29,13 +29,27 @@ class PostgresConnector:
         self.schema = schema
         self.tables = []
 
-    def all_tables(self) -> pd.DataFrame:
-        return self.run_query(
-            f"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{self.schema}';",
-        )
+    def all_tables(self, select_only=None) -> pd.DataFrame:
+        if isinstance(select_only, list):
+            select_only_tables = ", ".join([f"'{i}'" for i in select_only])
+            return self.run_query(
+                f"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{self.schema}' AND TABLE_NAME IN ({select_only_tables});",
+            )
+        elif select_only is None:
+            return self.run_query(
+                f"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{self.schema}';",
+            )
+        else:
+            raise ValueError(
+                f"select_only parameter must be list or None, got {type(select_only)}",
+            )
 
-    def populate_dataframes(self, debug=False) -> Dict[str, Tuple[pd.DataFrame, str]]:
-        tables_df = self.all_tables()
+    def populate_dataframes(
+        self,
+        select_only=None,
+        debug=False,
+    ) -> Dict[str, Tuple[pd.DataFrame, str]]:
+        tables_df = self.all_tables(select_only)
         table_index = "table_name"
         self.tables = []
         dataframes = dict()
@@ -54,7 +68,7 @@ class PostgresConnector:
     def get_table(self, table: str) -> pd.DataFrame:
         return self.run_query(f"SELECT * FROM {table}")
 
-    def populate_relationships(self, debug=False) -> List[Tuple[str, str, str, str]]:
+    def populate_relationships(self) -> List[Tuple[str, str, str, str]]:
         query_str = """
             select kcu.table_schema || '.' || kcu.table_name as foreign_table,
             rel_kcu.table_schema || '.' || rel_kcu.table_name as primary_table,
@@ -89,19 +103,9 @@ class PostgresConnector:
                     foreign_table = self.__cut_schema_name(foreign_table)
                 if "." in primary_table:
                     primary_table = self.__cut_schema_name(primary_table)
-                r = (primary_table, primary_col, foreign_table, foreign_col)
-                relationships.append(r)
-        if debug:
-            for (
-                referenced_table_name,
-                referenced_column_name,
-                table_name,
-                col_name,
-            ) in self.relationships:
-                print(f"referenced_table_name: {referenced_table_name}")
-                print(f"referenced_column_name: {referenced_column_name}")
-                print(f"table_name: {table_name}")
-                print(f"col_name: {col_name}")
+                if foreign_table in self.tables and primary_table in self.tables:
+                    r = (primary_table, primary_col, foreign_table, foreign_col)
+                    relationships.append(r)
         return relationships
 
     def get_primary_key_from_table(self, table: str) -> pd.DataFrame:

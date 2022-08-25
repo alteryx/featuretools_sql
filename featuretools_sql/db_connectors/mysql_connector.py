@@ -19,30 +19,38 @@ class MySQLConnector:
         self.dataframes = dict()
         self.relationships = []
 
-    def all_tables(self) -> pd.DataFrame:
-        return self.run_query(
-            f"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{self.database}';",
-        )
+    def all_tables(self, select_only=None) -> pd.DataFrame:
+        if isinstance(select_only, list):
+            select_only_tables = ", ".join([f"'{i}'" for i in select_only])
+            return self.run_query(
+                f"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{self.database}' AND TABLE_NAME IN ({select_only_tables});",
+            )
+        elif select_only is None:
+            return self.run_query(
+                f"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{self.database}'",
+            )
+        else:
+            raise ValueError(
+                f"select_only parameter must be list or None, got {type(select_only)}",
+            )
 
-    def populate_dataframes(self, debug=False) -> Dict[str, Tuple[pd.DataFrame, str]]:
-        tables_df = self.all_tables()
+    def populate_dataframes(
+        self,
+        select_only=None,
+    ) -> Dict[str, Tuple[pd.DataFrame, str]]:
+        tables_df = self.all_tables(select_only)
         table_index = "TABLE_NAME"
         for table in tables_df[table_index].values:
             self.tables.append(table)
             table_df = self.get_table(table)
             table_key = self.get_primary_key_from_table(table).values[0]
             self.dataframes[table] = (table_df, table_key)
-        if debug:
-            for k, v in self.dataframes.items():
-                print(f"Name: {k}")
-                print(f"df: {v}")
-                print()
         return self.dataframes
 
     def get_table(self, table: str) -> pd.DataFrame:
         return self.run_query(f"SELECT * FROM {table}")
 
-    def populate_relationships(self, debug=False) -> List[Tuple[str, str, str, str]]:
+    def populate_relationships(self) -> List[Tuple[str, str, str, str]]:
         query_str = f"SELECT TABLE_NAME, COLUMN_NAME, REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_SCHEMA = '{self.database}'"
         foreign_keys = self.run_query(query_str)
         for (
@@ -57,18 +65,8 @@ class MySQLConnector:
                 table_name,
                 col_name,
             )
-            self.relationships.append(r)
-        if debug:
-            for (
-                referenced_table_name,
-                referenced_column_name,
-                table_name,
-                col_name,
-            ) in self.relationships:
-                print(f"referenced_table_name: {referenced_table_name}")
-                print(f"referenced_column_name: {referenced_column_name}")
-                print(f"table_name: {table_name}")
-                print(f"col_name: {col_name}")
+            if referenced_table_name in self.tables and table_name in self.tables:
+                self.relationships.append(r)
 
         return self.relationships
 
