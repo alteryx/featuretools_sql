@@ -43,7 +43,7 @@ def test_can_learn_dataframes_and_relationships(
     expected_relationship_length,
 ):
     sql_connection = DBConnector(**postgres_connection)
-    sql_connection.populate_dataframes(select_only=[i.upper() for i in select_only])
+    sql_connection.populate_dataframes(select_only=select_only)
     sql_connection.populate_relationships()
     es = EntitySet("es", sql_connection.dataframes, sql_connection.relationships)
     assert es is not None
