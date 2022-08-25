@@ -42,9 +42,9 @@ def test_can_learn_dataframes(mysql_connection):
 @pytest.mark.parametrize(
     "select_only, expected_dataframe_names, expected_relationship_length",
     [
-        (None, ["PRODUCTS", "TRANSACTIONS", "TESTTABLE"], 2),
-        (["PRODUCTS", "TESTTABLE"], ["PRODUCTS", "TESTTABLE"], 1),
-        (["PRODUCTS", "TRANSACTIONS"], ["PRODUCTS", "TRANSACTIONS"], 1),
+        (None, ["products", "transactions", "testtable"], 2),
+        (["PRODUCTS", "TESTTABLE"], ["products", "testtable"], 1),
+        (["PRODUCTS", "TRANSACTIONS"], ["products", "transactions"], 1),
         (["PRODUCTS"], ["PRODUCTS"], 0),
     ],
 )
