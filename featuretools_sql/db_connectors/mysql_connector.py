@@ -8,15 +8,13 @@ from featuretools import EntitySet
 class MySQLConnector:
     def __init__(self, host, port, database, user, password):
         self.connection_string = f"mysql://{user}:{password}@{host}:{port}/{database}"
-        self.system_name = "postgresql"
+        self.system_name = "mysql"
         self.user = user
         self.password = password
         self.host = host
         self.database = database
         self.port = port
         self.tables = []
-
-        self.dataframes = dict()
         self.relationships = []
 
     def all_tables(self, select_only=None) -> pd.DataFrame:
@@ -38,14 +36,15 @@ class MySQLConnector:
         self,
         select_only=None,
     ) -> Dict[str, Tuple[pd.DataFrame, str]]:
+        dataframes = dict()
         tables_df = self.all_tables(select_only)
         table_index = "TABLE_NAME"
         for table in tables_df[table_index].values:
             self.tables.append(table)
             table_df = self.get_table(table)
             table_key = self.get_primary_key_from_table(table).values[0]
-            self.dataframes[table] = (table_df, table_key)
-        return self.dataframes
+            dataframes[table] = (table_df, table_key)
+        return dataframes
 
     def get_table(self, table: str) -> pd.DataFrame:
         return self.run_query(f"SELECT * FROM {table}")
