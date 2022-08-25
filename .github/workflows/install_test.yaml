@@ -32,6 +32,9 @@ jobs:
         run: |
           pip config --site set global.progress_bar off
           python -m pip install "unpacked_sdist/"
+      - name: Test version
+        run: |
+          pytest featuretools_sql/tests/test_version.py
       - name: Test by importing packages
         run: |
           python -c "import featuretools"

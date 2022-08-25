@@ -27,21 +27,24 @@ def test_can_get_all_tables(postgres_connection):
     assert len(df) == 3
 
 
-def test_can_learn_dataframes_and_relationships(postgres_connection):
+@pytest.mark.parametrize(
+    "select_only, expected_dataframe_names, expected_relationship_length",
+    [
+        (None, ["products", "transactions", "testtable"], 1),
+        (["products", "testtable"], ["products", "testtable"], 0),
+        (["products", "transactions"], ["products", "transactions"], 1),
+    ],
+)
+def test_can_learn_dataframes_and_relationships(
+    postgres_connection,
+    select_only,
+    expected_dataframe_names,
+    expected_relationship_length,
+):
     sql_connection = DBConnector(**postgres_connection)
-    sql_connection.populate_dataframes(select_only=["products", "transactions"])
+    sql_connection.populate_dataframes(select_only=select_only)
     sql_connection.populate_relationships()
     es = EntitySet("es", sql_connection.dataframes, sql_connection.relationships)
     assert es is not None
-    assert sorted(df.ww.name for df in es.dataframes) == ["products", "transactions"]
-    assert len(es.relationships) == 1
-
-
-def test_can_learn_dataframes_and_relationships_select_one(postgres_connection):
-    sql_connection = DBConnector(**postgres_connection)
-    sql_connection.populate_dataframes(select_only=["products"])
-    sql_connection.populate_relationships()
-    es = EntitySet("es", sql_connection.dataframes, sql_connection.relationships)
-    assert es is not None
-    assert sorted(df.ww.name for df in es.dataframes) == ["products"]
-    assert len(es.relationships) == 0
+    assert sorted(df.ww.name for df in es.dataframes) == expected_dataframe_names
+    assert len(es.relationships) == expected_relationship_length

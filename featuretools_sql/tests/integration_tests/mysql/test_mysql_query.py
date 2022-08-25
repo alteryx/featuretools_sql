@@ -39,7 +39,20 @@ def test_can_learn_dataframes(mysql_connection):
     assert len(es.dataframes) == 3
 
 
-def test_can_learn_dataframes_and_relationships(mysql_connection):
+@pytest.mark.parametrize(
+    "select_only, expected_dataframe_names, expected_relationship_length",
+    [
+        (None, ["products", "transactions", "testtable"], 1),
+        (["products", "testtable"], ["products", "testtable"], 0),
+        (["products", "transactions"], ["products", "transactions"], 1),
+    ],
+)
+def test_can_learn_dataframes_and_relationships(
+    mysql_connection,
+    select_only,
+    expected_dataframe_names,
+    expected_relationship_length,
+):
     sql_connection = DBConnector(**mysql_connection)
     sql_connection.populate_dataframes(select_only=["PRODUCTS", "TRANSACTIONS"])
     sql_connection.populate_relationships()
