@@ -49,7 +49,6 @@ test = [
 ]
 dev = [
     "flake8 == 5.0.4",
-    "Flake8-pyproject == 1.1.0.post0",
     "isort == 5.10.1",
     "black == 22.6.0",
     "pre-commit == 2.20.0",
@@ -96,12 +95,6 @@ multi_line_output = 3
 [tool.black]
 target-version = ['py310']
 
-[tool.flake8]
-ignore = ['E501', 'W504', 'W503']
-per-file-ignores = [
-    '**/__init__.py:F401',
-    '**/tests/*:D'
-]
 max-line-length = 88
 extend-ignore = ['E203']
 exclude = ['docs/*']
