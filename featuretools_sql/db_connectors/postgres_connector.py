@@ -9,16 +9,21 @@ from featuretools import EntitySet
 class PostgresConnector:
     def __init__(self, host, port, database, user, password, schema):
 
-        conn_dict = {}
-        conn_dict["host"] = host
-        conn_dict["port"] = port
-        conn_dict["database"] = database
-        conn_dict["user"] = user
-
         if password:
-            conn_dict["password"] = password
-
-        self.postgres_connection = psycopg2.connect(**conn_dict)
+            self.postgres_connection = psycopg2.connect(
+                host=host,
+                port=port,
+                database=database,
+                user=user,
+                password=password,
+            )
+        else:
+            self.postgres_connection = psycopg2.connect(
+                host=host,
+                port=port,
+                database=database,
+                user=user,
+            )
 
         self.system_name = "postgresql"
         self.user = user
