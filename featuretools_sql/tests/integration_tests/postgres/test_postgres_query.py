@@ -48,3 +48,9 @@ def test_can_learn_dataframes_and_relationships(
     assert es is not None
     assert sorted(df.ww.name for df in es.dataframes) == expected_dataframe_names
     assert len(es.relationships) == expected_relationship_length
+
+
+def test_invalid_argument_populate_dataframes(mysql_connection):
+    sql_connection = DBConnector(**mysql_connection)
+    with pytest.raises(ValueError):
+        sql_connection.populate_dataframes(select_only="PRODUCTS")
