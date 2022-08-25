@@ -33,6 +33,7 @@ def test_can_get_all_tables(postgres_connection):
         (None, ["products", "testtable", "transactions"], 2),
         (["products", "testtable"], ["products", "testtable"], 1),
         (["products", "transactions"], ["products", "transactions"], 1),
+        (["products"], ["products"], 0),
     ],
 )
 def test_can_learn_dataframes_and_relationships(
@@ -50,7 +51,7 @@ def test_can_learn_dataframes_and_relationships(
     assert len(es.relationships) == expected_relationship_length
 
 
-def test_invalid_argument_populate_dataframes(mysql_connection):
-    sql_connection = DBConnector(**mysql_connection)
+def test_invalid_argument_populate_dataframes(postgres_connection):
+    sql_connection = DBConnector(**postgres_connection)
     with pytest.raises(ValueError):
         sql_connection.populate_dataframes(select_only="PRODUCTS")

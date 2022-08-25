@@ -45,6 +45,7 @@ def test_can_learn_dataframes(mysql_connection):
         (None, ["products", "transactions", "testtable"], 2),
         (["products", "testtable"], ["products", "testtable"], 1),
         (["products", "transactions"], ["products", "transactions"], 1),
+        (["products"], ["products"], 0),
     ],
 )
 def test_can_learn_dataframes_and_relationships(
@@ -54,12 +55,12 @@ def test_can_learn_dataframes_and_relationships(
     expected_relationship_length,
 ):
     sql_connection = DBConnector(**mysql_connection)
-    sql_connection.populate_dataframes(select_only=["PRODUCTS", "TRANSACTIONS"])
+    sql_connection.populate_dataframes(select_only=select_only)
     sql_connection.populate_relationships()
     es = EntitySet("es", sql_connection.dataframes, sql_connection.relationships)
     assert es is not None
-    assert sorted(df.ww.name for df in es.dataframes) == ["PRODUCTS", "TRANSACTIONS"]
-    assert len(es.relationships) == 1
+    assert sorted(df.ww.name for df in es.dataframes) == expected_dataframe_names
+    assert len(es.relationships) == expected_relationship_length
 
 
 def test_can_learn_dataframes_and_relationships_select_one(mysql_connection):
