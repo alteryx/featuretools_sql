@@ -2,21 +2,27 @@ from typing import Dict, List, Tuple
 
 import pandas as pd
 import pandas.io.sql as sqlio
-import psycopg2
 import snowflake.connector
 from featuretools import EntitySet
 
 
 class SnowflakeConnector:
-    def __init__(self, host, port, database, user, password, schema):
+    def __init__(self, host, port, database, user, password, account, schema):
         self.system_name = "snowflake"
         self.user = user
         self.password = password
         self.host = host
         self.database = database
         self.port = port
+        self.account = account
         self.schema = schema
         self.tables = []
+
+        self.snowflake_connection = snowflake.connector.connect(
+            user=self.user,
+            password=self.password,
+            account=self.account,
+        )
 
     def all_tables(self, select_only=None) -> pd.DataFrame:
         if isinstance(select_only, list):
@@ -75,7 +81,7 @@ class SnowflakeConnector:
             """
         relationships = []
         foreign_keys = self.run_query(query_str)
-        if self.system_name == "postgresql":
+        if self.system_name == "snowflake":
             for (
                 foreign_table,
                 primary_table,
