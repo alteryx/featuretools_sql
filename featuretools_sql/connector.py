@@ -3,7 +3,11 @@ from typing import Dict, List, Optional, Tuple
 
 import pandas as pd
 
-from featuretools_sql.db_connectors import MySQLConnector, PostgresConnector
+from featuretools_sql.db_connectors import (
+    MySQLConnector,
+    PostgresConnector,
+    SnowflakeConnector,
+)
 
 
 class DBConnector:
@@ -12,7 +16,7 @@ class DBConnector:
         ["referenced_table_name", "referenced_column_name", "table_name", "col_name"],
     )
 
-    supported_systems = ["postgresql", "mysql"]
+    supported_systems = ["postgresql", "mysql", "snowflake"]
 
     def __init__(
         self,
@@ -52,6 +56,8 @@ class DBConnector:
             )
         elif system_name == "mysql":
             self.connector = MySQLConnector(host, port, database, user, password)
+        elif system_name == "snowflake":
+            self.connector = SnowflakeConnector()
 
     def all_tables(self) -> pd.DataFrame:
         return self.connector.all_tables()
