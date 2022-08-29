@@ -1,8 +1,9 @@
 Future Release
 ==============
     * Enhancements
+        * Adds `release_notes_updated` workflow on GitHub
     * Fixes
-        * Fixes dead link (:pr:``)
+        * Fixes dead link (:pr:`33`)
     * Changes
     * Documentation Changes
     * Testing Changes
