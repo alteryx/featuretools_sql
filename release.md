@@ -66,7 +66,7 @@ After merging, verify again that ReadtheDocs "latest" is correct.
 
 ## 2. Create Github Release
 
-After the release pull request has been merged into the `main` branch, it is time draft the github release. [Example release](https://github.com/alteryx/featuretools_sql/releases/tag/v0.13.3)
+After the release pull request has been merged into the `main` branch, it is time draft the github release. [Example release](https://github.com/alteryx/featuretools/releases/tag/v0.13.3)
 
 - The target should be the `main` branch
 - The tag should be the version number with a v prefix (e.g. v0.13.3)
