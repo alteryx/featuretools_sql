@@ -13,4 +13,4 @@ v0.0.1 Aug 29, 2022
     * Initial release
 
     Thanks to the following people for contributing to this release:
-    :user: `dvreed77`, :user:`gsheni`, :user:`sbadithe`
+    :user:`dvreed77`, :user:`gsheni`, :user:`sbadithe`
