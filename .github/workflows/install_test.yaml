@@ -36,6 +36,7 @@ jobs:
         run: |
           python -c "import featuretools"
           python -c "import featuretools_sql"
+          python -c "from featuretools.sql import DBConnector"
       - name: Check package conflicts
         run: |
           python -m pip check
