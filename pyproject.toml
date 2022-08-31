@@ -64,7 +64,7 @@ dev = [
 "Chat" = "https://join.slack.com/t/alteryx-oss/shared_invite/zt-182tyvuxv-NzIn6eiCEf8TBziuKp0bNA"
 
 [project.entry-points."featuretools_plugin"]
-sql = "featuretools_sql:DBConnector"
+sql = "featuretools_sql"
 
 [tool.setuptools]
 include-package-data = true
