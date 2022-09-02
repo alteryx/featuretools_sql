@@ -6,7 +6,7 @@ Future Release
         * Fixes dead link (:pr:`33`)
     * Changes
     * Documentation Changes
-        * Adds badge with number of downloads (:pr:`38`)
+        * Adds badge displaying number of downloads (:pr:`38`)
     * Testing Changes
 
     Thanks to the following people for contributing to this release:
