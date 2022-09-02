@@ -3,8 +3,13 @@ The `featuretools_sql` library allows you to directly import your relational dat
 [Featuretools](https://github.com/alteryx/featuretools) to run automated feature engineering.
 
 <p align="center">
-<i>Quickly run automated feature engineering on your relational database.</i>
+<i>Automated creation of EntitySets from relational data stored in SQL databases</i>
 </p>
+
+</a>
+    <a href="https://pepy.tech/project/featuretools-sql" target="_blank">
+    <img src="https://pepy.tech/badge/featuretools-sql/month" alt="PyPI Downloads" />
+</a>
 
 ## Installation 
 
