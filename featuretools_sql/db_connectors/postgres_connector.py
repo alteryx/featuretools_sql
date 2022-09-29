@@ -103,8 +103,7 @@ class PostgresConnector:
                 if "." in primary_table:
                     primary_table = self.__cut_schema_name(primary_table)
                 if foreign_table in self.tables and primary_table in self.tables:
-                    r = (primary_table, primary_col, foreign_table, foreign_col)
-                    relationships.append(r)
+                    relationships.append((primary_table, primary_col, foreign_table, foreign_col))
         return relationships
 
     def get_primary_key_from_table(self, table: str) -> pd.DataFrame:

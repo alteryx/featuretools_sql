@@ -7,16 +7,13 @@ from featuretools import EntitySet
 
 
 class SnowflakeConnector:
-    def __init__(self, host, port, database, user, password, account, schema):
+    def __init__(self, user, password, account, database, schema):
         self.system_name = "snowflake"
         self.user = user
         self.password = password
-        self.host = host
-        self.database = database
-        self.port = port
         self.account = account
+        self.database = database
         self.schema = schema
-        self.tables = []
 
         self.snowflake_connection = snowflake.connector.connect(
             user=self.user,
@@ -28,11 +25,11 @@ class SnowflakeConnector:
         if isinstance(select_only, list):
             select_only_tables = ", ".join([f"'{i}'" for i in select_only])
             return self.run_query(
-                f"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{self.schema}' AND TABLE_NAME IN ({select_only_tables});",
+                f"SELECT TABLE_NAME FROM {self.database}.INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{self.schema}' AND TABLE_NAME IN ({select_only_tables});",
             )
         elif select_only is None:
             return self.run_query(
-                f"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{self.schema}';",
+                f"SELECT TABLE_NAME FROM {self.database}.INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{self.schema}';",
             )
         else:
             raise ValueError(
@@ -44,7 +41,8 @@ class SnowflakeConnector:
         select_only=None,
     ) -> Dict[str, Tuple[pd.DataFrame, str]]:
         tables_df = self.all_tables(select_only)
-        table_index = "table_name"
+        print(f"tables_df: {tables_df}")
+        table_index = "TABLE_NAME"
         self.tables = []
         dataframes = dict()
         for table in tables_df[table_index].values:
@@ -52,10 +50,11 @@ class SnowflakeConnector:
             table_df = self.get_table(table)
             table_key = self.get_primary_key_from_table(table).values[0]
             dataframes[table] = (table_df, table_key)
+        print(f"Dataframes: {dataframes}")
         return dataframes
 
     def get_table(self, table: str) -> pd.DataFrame:
-        return self.run_query(f"SELECT * FROM {table}")
+        return self.run_query(f"SELECT * FROM {self.database}.{self.schema}.{table}")
 
     def populate_relationships(self) -> List[Tuple[str, str, str, str]]:
         query_str = """
