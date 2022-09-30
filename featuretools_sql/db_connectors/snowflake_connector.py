@@ -98,13 +98,13 @@ class SnowflakeConnector:
 
     def get_primary_key_from_table(self, table: str) -> pd.DataFrame:
         df = self.run_query(
-            f"Need to find query to run here.",
+            f"SHOW PRIMARY KEYS IN {self.database}.{self.schema}.{table}",
         )
         if df.empty:
             raise ValueError(
                 f"In order to determine table relationships, each table needs to have a primary key. Currently, {table} does not have a defined primary key. Please define one and retry.",
             )
-        return df["attname"]
+        return df["column_name"]
 
     def __cut_schema_name(self, string: str) -> str:
         return string[string.find(".") + 1 :]
