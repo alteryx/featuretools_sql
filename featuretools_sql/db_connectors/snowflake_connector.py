@@ -5,6 +5,7 @@ import pandas.io.sql as sqlio
 from featuretools import EntitySet
 from sqlalchemy import create_engine
 
+
 class SnowflakeConnector:
     def __init__(self, user, password, account, database, schema):
         self.system_name = "snowflake"
