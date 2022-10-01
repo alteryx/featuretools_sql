@@ -21,7 +21,7 @@ def test_can_connect_to_dummy_db(mysql_connection):
 
 
 def test_faulty_connection_fails():
-    with pytest.raises(ValueError):
+    with pytest.raises(NotImplementedError):
         DBConnector(None, None, None, None, None, None)
 
 
@@ -67,5 +67,5 @@ def test_can_learn_dataframes_and_relationships(
 
 def test_invalid_argument_populate_dataframes(mysql_connection):
     sql_connection = DBConnector(**mysql_connection)
-    with pytest.raises(NotImplementedError):
+    with pytest.raises(ValueError):
         sql_connection.populate_dataframes(select_only="PRODUCTS")

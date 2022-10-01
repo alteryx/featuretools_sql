@@ -40,7 +40,8 @@ dependencies = [
     "featuretools >= 1.5.0",
     "psycopg2 >= 2.9.3",
     "connectorx >= 0.3.0",
-    "snowflake-connector-python"
+    "snowflake-connector-python",
+    "sqlalchemy"
 ]
 
 [project.optional-dependencies]

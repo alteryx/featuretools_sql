@@ -51,7 +51,7 @@ class DBConnector:
 
         if system_name == "snowflake":
             if None in [user, password, account, database, schema]:
-                raise ValueError("Must pass in values for user, password, account, and database that are not None")
+                raise ValueError("Must pass in values for user, password, account, schema, and database that are not None")
 
         if system_name == "postgresql":
             self.connector = PostgresConnector(

@@ -2,9 +2,8 @@ from typing import Dict, List, Tuple
 
 import pandas as pd
 import pandas.io.sql as sqlio
-import snowflake.connector
 from featuretools import EntitySet
-
+from sqlalchemy import create_engine
 
 class SnowflakeConnector:
     def __init__(self, user, password, account, database, schema):
@@ -15,11 +14,7 @@ class SnowflakeConnector:
         self.database = database
         self.schema = schema
 
-        self.snowflake_connection = snowflake.connector.connect(
-            user=self.user,
-            password=self.password,
-            account=self.account,
-        )
+        self.engine = create_engine(f'snowflake://{user}:{password}@{account}')
 
     def all_tables(self, select_only=None) -> pd.DataFrame:
         if isinstance(select_only, list):
@@ -42,7 +37,7 @@ class SnowflakeConnector:
     ) -> Dict[str, Tuple[pd.DataFrame, str]]:
         tables_df = self.all_tables(select_only)
         print(f"tables_df: {tables_df}")
-        table_index = "TABLE_NAME"
+        table_index = "table_name"
         self.tables = []
         dataframes = dict()
         for table in tables_df[table_index].values:
@@ -110,7 +105,7 @@ class SnowflakeConnector:
         return string[string.find(".") + 1 :]
 
     def run_query(self, query: str) -> pd.DataFrame:
-        return sqlio.read_sql_query(query, self.snowflake_connection)
+        return sqlio.read_sql_query(query, self.engine)
 
     def get_entityset(self) -> EntitySet:
         dataframes = self.populate_dataframes()
