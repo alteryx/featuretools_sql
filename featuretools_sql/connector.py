@@ -37,21 +37,25 @@ class DBConnector:
         self.port = port
         self.schema = schema
 
-        if system_name not in DBConnector.supported_systems:
-            raise NotImplementedError(
-                f"DBConnector does not currently support {database}",
-            )
         self.relationships = []
         self.tables = []
         self.dataframes = dict()
 
-        if system_name in ["postgresql", "mysql"]:
-            if None in [user, host, port, database]:
-                raise ValueError("Cannot pass None as argument to DBConnector constructor")
+        integrity_checker = {"snowflake": [user, password, account, database, schema],
+                             "postgres" : [user, host, port, database],
+                             "mysql"    : [user, host, port, database]}
 
-        if system_name == "snowflake":
-            if None in [user, password, account, database, schema]:
-                raise ValueError("Must pass in values for user, password, account, schema, and database that are not None")
+        if system_name not in DBConnector.supported_systems:
+            raise NotImplementedError(
+                f"DBConnector does not currently support {database}",
+            )
+
+        if None in integrity_checker[self.system_name]:
+            if self.system_name in ["snowflake"]:
+                print("Please pass in non-None values for the following arguments: user, password, account, database, "
+                      "schema")
+            if self.system_name in ["postgres", "mysql"]:
+                print("Please pass in non-None values for the following arguments: user, host, port, database")
 
         if system_name == "postgresql":
             self.connector = PostgresConnector(

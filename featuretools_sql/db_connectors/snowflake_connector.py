@@ -14,8 +14,8 @@ class SnowflakeConnector:
         self.account = account
         self.database = database
         self.schema = schema
-
         self.engine = create_engine(f'snowflake://{user}:{password}@{account}')
+        self.tables = []
 
     def all_tables(self, select_only=None) -> pd.DataFrame:
         if isinstance(select_only, list):
@@ -38,7 +38,6 @@ class SnowflakeConnector:
     ) -> Dict[str, Tuple[pd.DataFrame, str]]:
         tables_df = self.all_tables(select_only)
         table_index = "table_name"
-        self.tables = []
         dataframes = dict()
         for table in tables_df[table_index].values:
             self.tables.append(table)
