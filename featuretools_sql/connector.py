@@ -42,7 +42,7 @@ class DBConnector:
         self.dataframes = dict()
 
         integrity_checker = {"snowflake": [user, password, account, database, schema],
-                             "postgres" : [user, host, port, database],
+                             "postgresql" : [user, host, port, database],
                              "mysql"    : [user, host, port, database]}
 
         if system_name not in DBConnector.supported_systems:
@@ -54,7 +54,7 @@ class DBConnector:
             if self.system_name in ["snowflake"]:
                 print("Please pass in non-None values for the following arguments: user, password, account, database, "
                       "schema")
-            if self.system_name in ["postgres", "mysql"]:
+            if self.system_name in ["postgresql", "mysql"]:
                 print("Please pass in non-None values for the following arguments: user, host, port, database")
 
         if system_name == "postgresql":
