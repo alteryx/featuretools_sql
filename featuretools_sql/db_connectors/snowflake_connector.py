@@ -67,7 +67,7 @@ class SnowflakeConnector:
             if "." in primary_table:
                 primary_table = self.__cut_schema_name(primary_table)
             if foreign_table in self.tables and primary_table in self.tables:
-                r = (primary_table, primary_col, foreign_table, foreign_col)  
+                r = (primary_table, primary_col, foreign_table, foreign_col)
                 relationships.append(r)
         return relationships
 
