@@ -21,7 +21,7 @@ def test_can_connect_to_dummy_db(mysql_connection):
 
 
 def test_faulty_connection_fails():
-    with pytest.raises(ValueError):
+    with pytest.raises(NotImplementedError):
         DBConnector(None, None, None, None, None, None)
 
 

@@ -103,8 +103,7 @@ class PostgresConnector:
                 if "." in primary_table:
                     primary_table = self.__cut_schema_name(primary_table)
                 if foreign_table in self.tables and primary_table in self.tables:
-                    r = (primary_table, primary_col, foreign_table, foreign_col)
-                    relationships.append(r)
+                    relationships.append((primary_table, primary_col, foreign_table, foreign_col))
         return relationships
 
     def get_primary_key_from_table(self, table: str) -> pd.DataFrame:
@@ -123,7 +122,7 @@ class PostgresConnector:
     def run_query(self, query: str) -> pd.DataFrame:
         return sqlio.read_sql_query(query, self.postgres_connection)
 
-    def get_entityset(self):
+    def get_entityset(self) -> EntitySet:
         dataframes = self.populate_dataframes()
         relationships = self.populate_relationships()
         return EntitySet(dataframes=dataframes, relationships=relationships)

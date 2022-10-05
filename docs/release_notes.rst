@@ -2,7 +2,8 @@ Future Release
 ==============
     * Enhancements
         * Adds `release_notes_updated` workflow on GitHub
-        * Add entry_point for featuretools import (:pr:`35`)
+        * Adds entry_point for featuretools import (:pr:`35`)
+        * Adds Snowflake compatibility (:pr:`31`)
     * Fixes
         * Fixes dead link (:pr:`33`)
     * Changes

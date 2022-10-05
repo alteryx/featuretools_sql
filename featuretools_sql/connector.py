@@ -3,7 +3,11 @@ from typing import Dict, List, Optional, Tuple
 
 import pandas as pd
 
-from featuretools_sql.db_connectors import MySQLConnector, PostgresConnector
+from featuretools_sql.db_connectors import (
+    MySQLConnector,
+    PostgresConnector,
+    SnowflakeConnector,
+)
 
 
 class DBConnector:
@@ -12,15 +16,14 @@ class DBConnector:
         ["referenced_table_name", "referenced_column_name", "table_name", "col_name"],
     )
 
-    supported_systems = ["postgresql", "mysql"]
-
     def __init__(
         self,
         system_name: str,
         user: str,
-        host: str,
-        port: str,
         database: str,
+        account: Optional[str] = None,
+        host: Optional[str] = None,
+        port: Optional[str] = None,
         password: Optional[str] = None,
         schema=None,
     ):
@@ -32,15 +35,24 @@ class DBConnector:
         self.port = port
         self.schema = schema
 
-        if None in [user, host, port, database]:
-            raise ValueError("Cannot pass None as argument to DBConnector constructor")
-        if system_name not in DBConnector.supported_systems:
-            raise NotImplementedError(
-                f"DBConnector does not currently support {database}",
-            )
         self.relationships = []
         self.tables = []
         self.dataframes = dict()
+
+        if system_name in ["mysql", "postgresql"]:
+            inputs = [user, host, port, database]
+            error_msg = "Please provide non-None values for the user, host, port, and database arguments"
+        elif system_name == "snowflake":
+            inputs = [user, password, account, database, schema]
+            error_msg = "Please provide non-None values for the user, password, account, database, and schema arguments"
+        else:
+            raise NotImplementedError(
+                f"DBConnector does not currently support {database}",
+            )
+
+        if None in inputs:
+            raise ValueError(error_msg)
+
         if system_name == "postgresql":
             self.connector = PostgresConnector(
                 host,
@@ -52,20 +64,11 @@ class DBConnector:
             )
         elif system_name == "mysql":
             self.connector = MySQLConnector(host, port, database, user, password)
+        elif system_name == "snowflake":
+            self.connector = SnowflakeConnector(user, password, account, database, schema)
 
     def all_tables(self) -> pd.DataFrame:
         return self.connector.all_tables()
-
-    """
-    TODO:
-
-    # def learn_table_schema(self, table: str) -> pd.DataFrame:
-    #     schema = self.database
-    #     if self.system_name == "mysql":
-    #         self.__run_query(
-    #             f"SELECT COLUMN_NAME AS `Field`, COLUMN_TYPE AS `Type`, IS_NULLABLE AS `NULL`,  COLUMN_KEY AS `Key`, COLUMN_DEFAULT AS `Default`, EXTRA AS `Extra` FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '{schema}' AND TABLE_NAME = '{table}';"
-    #         )
-    """
 
     def get_primary_key_from_table(self, table: str) -> pd.DataFrame:
         return self.connector.get_primary_key_from_table(table)
