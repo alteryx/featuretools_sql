@@ -16,8 +16,6 @@ class DBConnector:
         ["referenced_table_name", "referenced_column_name", "table_name", "col_name"],
     )
 
-    supported_systems = ["postgresql", "mysql", "snowflake"]
-
     def __init__(
         self,
         system_name: str,
@@ -41,21 +39,19 @@ class DBConnector:
         self.tables = []
         self.dataframes = dict()
 
-        integrity_checker = {"snowflake": [user, password, account, database, schema],
-                             "postgresql" : [user, host, port, database],
-                             "mysql"    : [user, host, port, database]}
-
-        if system_name not in DBConnector.supported_systems:
+        if system_name in ["mysql", "postgresql"]:
+            inputs = [user, host, port, database]
+            error_msg = "Please provide non-None values for the user, host, port, and database arguments"
+        elif system_name == "snowflake":
+            inputs = [user, password, account, database, schema]
+            error_msg = "Please provide non-None values for the user, password, account, database, and schema arguments"
+        else:
             raise NotImplementedError(
                 f"DBConnector does not currently support {database}",
             )
 
-        if None in integrity_checker[self.system_name]:
-            if self.system_name in ["snowflake"]:
-                print("Please pass in non-None values for the following arguments: user, password, account, database, "
-                      "schema")
-            if self.system_name in ["postgresql", "mysql"]:
-                print("Please pass in non-None values for the following arguments: user, host, port, database")
+        if None in inputs:
+            raise ValueError(error_msg)
 
         if system_name == "postgresql":
             self.connector = PostgresConnector(
@@ -73,17 +69,6 @@ class DBConnector:
 
     def all_tables(self) -> pd.DataFrame:
         return self.connector.all_tables()
-
-    """
-    TODO:
-
-    # def learn_table_schema(self, table: str) -> pd.DataFrame:
-    #     schema = self.database
-    #     if self.system_name == "mysql":
-    #         self.__run_query(
-    #             f"SELECT COLUMN_NAME AS `Field`, COLUMN_TYPE AS `Type`, IS_NULLABLE AS `NULL`,  COLUMN_KEY AS `Key`, COLUMN_DEFAULT AS `Default`, EXTRA AS `Extra` FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '{schema}' AND TABLE_NAME = '{table}';"
-    #         )
-    """
 
     def get_primary_key_from_table(self, table: str) -> pd.DataFrame:
         return self.connector.get_primary_key_from_table(table)
