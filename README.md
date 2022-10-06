@@ -9,9 +9,6 @@ The `featuretools_sql` library allows you to directly import your relational dat
 <p align="center">
 
 </a>
-    <a href="https://github.com/alteryx/featuretools/actions?query=branch%3Amain+workflow%3ATests" target="_blank">
-        <img src="https://github.com/alteryx/featuretools/workflows/Tests/badge.svg?branch=main" alt="Tests" />
-    </a>
     <a href="https://badge.fury.io/py/featuretools-sql" target="_blank">
         <img src="https://badge.fury.io/py/featuretools-sql.svg?maxAge=2592000" alt="PyPI Version" />
     </a>
