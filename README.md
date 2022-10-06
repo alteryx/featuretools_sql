@@ -49,6 +49,7 @@ feature_defs, feature_matrix = ft.dfs(
 We currently supports importing data from the following relational database systems: 
   - `MySQL` 
   - `PostgreSQL`
+  - `Snowflake`
 
 ## Support
 The Featuretools community is happy to provide support to users. Project support can be found in four places depending on the type of question:
