@@ -6,10 +6,22 @@ The `featuretools_sql` library allows you to directly import your relational dat
 <i>Automated creation of EntitySets from relational data stored in SQL databases</i>
 </p>
 
+<p align="center">
+
 </a>
+    <a href="https://github.com/alteryx/featuretools/actions?query=branch%3Amain+workflow%3ATests" target="_blank">
+        <img src="https://github.com/alteryx/featuretools/workflows/Tests/badge.svg?branch=main" alt="Tests" />
+    </a>
+    <a href="https://badge.fury.io/py/featuretools-sql" target="_blank">
+        <img src="https://badge.fury.io/py/featuretools-sql.svg?maxAge=2592000" alt="PyPI Version" />
+    </a>
+    <a href="https://stackoverflow.com/questions/tagged/featuretools" target="_blank">
+        <img src="http://img.shields.io/badge/questions-on_stackoverflow-blue.svg" alt="StackOverflow" />
+    </a>
     <a href="https://pepy.tech/project/featuretools-sql" target="_blank">
-    <img src="https://pepy.tech/badge/featuretools-sql/month" alt="PyPI Downloads" />
-</a>
+        <img src="https://pepy.tech/badge/featuretools-sql/month" alt="PyPI Downloads" />
+    </a>
+</p>
 
 ## Installation 
 
@@ -49,6 +61,7 @@ feature_defs, feature_matrix = ft.dfs(
 We currently supports importing data from the following relational database systems: 
   - `MySQL` 
   - `PostgreSQL`
+  - `Snowflake`
 
 ## Support
 The Featuretools community is happy to provide support to users. Project support can be found in four places depending on the type of question:
