@@ -3,7 +3,7 @@ Future Release
     * Enhancements
     * Fixes
     * Changes
-        * Fix license file text on PyPI #45
+        * Fix license file text on PyPI (:pr:`45`)
     * Documentation Changes
     * Testing Changes
 
