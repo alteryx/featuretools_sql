@@ -1,13 +1,15 @@
-.. Future Release
-  ==============
+Future Release
+==============
     * Enhancements
     * Fixes
     * Changes
+        * Fix license file text on PyPI (:pr:`45`)
     * Documentation Changes
     * Testing Changes
 
-.. Thanks to the following people for contributing to this release:
-
+    Thanks to the following people for contributing to this release:
+    :user:`gsheni`
+    
 v0.0.2 Oct 12, 2022
 ===================
     * Enhancements
