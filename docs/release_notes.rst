@@ -19,7 +19,6 @@ v0.0.2 Oct 12, 2022
     * Documentation Changes
         * Adds badge displaying number of downloads (:pr:`38`)
         * Update README.md badges and formatting (:pr:`42`, :pr:`43`)
-    * Testing Changes
 
     Thanks to the following people for contributing to this release:
     :user:`gsheni`, :user:`sbadithe`
