@@ -1,12 +1,21 @@
-Future Release
-==============
+.. Future Release
+  ==============
     * Enhancements
-        * Adds `release_notes_updated` workflow on GitHub
+    * Fixes
+    * Changes
+    * Documentation Changes
+    * Testing Changes
+
+.. Thanks to the following people for contributing to this release:
+
+v0.0.2 Oct 12, 2022
+===================
+    * Enhancements
+        * Adds `release_notes_updated` workflow on GitHub (:pr:`33`)
         * Adds entry_point for featuretools import (:pr:`35`)
         * Adds Snowflake compatibility (:pr:`31`)
     * Fixes
         * Fixes dead link (:pr:`33`)
-    * Changes
     * Documentation Changes
         * Adds badge displaying number of downloads (:pr:`38`)
         * Update README.md badges and formatting (:pr:`42`, :pr:`43`)
