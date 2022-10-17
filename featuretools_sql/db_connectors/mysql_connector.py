@@ -1,9 +1,9 @@
 from typing import Dict, List, Tuple
 
-from sqlalchemy import create_engine
 import pandas as pd
-from featuretools import EntitySet
 import pandas.io.sql as sqlio
+from featuretools import EntitySet
+from sqlalchemy import create_engine
 
 
 class MySQLConnector:
