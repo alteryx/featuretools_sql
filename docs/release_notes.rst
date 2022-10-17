@@ -1,6 +1,7 @@
 Future Release
 ==============
     * Enhancements
+        * Changes MySQL connector to add Windows support (:pr:`46`)
     * Fixes
     * Changes
         * Fix license file text on PyPI (:pr:`45`)
@@ -8,7 +9,7 @@ Future Release
     * Testing Changes
 
     Thanks to the following people for contributing to this release:
-    :user:`gsheni`
+    :user:`gsheni`, :user:`sbadithe`
     
 v0.0.2 Oct 12, 2022
 ===================

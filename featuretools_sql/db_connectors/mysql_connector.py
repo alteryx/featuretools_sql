@@ -1,13 +1,15 @@
 from typing import Dict, List, Tuple
 
-import connectorx as cx
 import pandas as pd
+import pandas.io.sql as sqlio
 from featuretools import EntitySet
+from sqlalchemy import create_engine
 
 
 class MySQLConnector:
     def __init__(self, host, port, database, user, password):
-        self.connection_string = f"mysql://{user}:{password}@{host}:{port}/{database}"
+        connection_string = f"mysql+pymysql://{user}:{password}@{host}:{port}/{database}"
+        self.engine = create_engine(connection_string)
         self.system_name = "mysql"
         self.user = user
         self.password = password
@@ -80,7 +82,7 @@ class MySQLConnector:
         return df["COLUMN_NAME"]
 
     def run_query(self, query: str) -> pd.DataFrame:
-        return cx.read_sql(self.connection_string, query)
+        return sqlio.read_sql_query(query, self.engine)
 
     def get_entityset(self) -> EntitySet:
         dataframes = self.populate_dataframes()
