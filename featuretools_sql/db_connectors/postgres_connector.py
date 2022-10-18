@@ -2,7 +2,7 @@ from typing import Dict, List, Tuple
 
 import pandas as pd
 import pandas.io.sql as sqlio
-import psycopg2
+from sqlalchemy import create_engine
 from featuretools import EntitySet
 
 
@@ -10,20 +10,9 @@ class PostgresConnector:
     def __init__(self, host, port, database, user, password, schema):
 
         if password:
-            self.postgres_connection = psycopg2.connect(
-                host=host,
-                port=port,
-                database=database,
-                user=user,
-                password=password,
-            )
+            self.engine = create_engine(f"postgresql://{user}:{password}@{host}:{port}/{database}")
         else:
-            self.postgres_connection = psycopg2.connect(
-                host=host,
-                port=port,
-                database=database,
-                user=user,
-            )
+            self.engine = create_engine(f"postgresql://{user}@{host}:{port}/{database}")
 
         self.system_name = "postgresql"
         self.user = user
@@ -120,7 +109,7 @@ class PostgresConnector:
         return string[string.find(".") + 1 :]
 
     def run_query(self, query: str) -> pd.DataFrame:
-        return sqlio.read_sql_query(query, self.postgres_connection)
+        return sqlio.read_sql_query(query, self.engine)
 
     def get_entityset(self) -> EntitySet:
         dataframes = self.populate_dataframes()
