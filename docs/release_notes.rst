@@ -1,7 +1,7 @@
 Future Release
 ==============
     * Enhancements
-        * Changes MySQL connector to add Windows support (:pr:`46`)
+        * Changes MySQL and Postgres connectors to add Windows support (:pr:`46`, :pr:`47`)
     * Fixes
     * Changes
         * Fix license file text on PyPI (:pr:`45`)
