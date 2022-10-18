@@ -1,12 +1,19 @@
-Future Release
-==============
+.. Future Release
+  ==============
     * Enhancements
-        * Changes MySQL and Postgres connectors to add Windows support (:pr:`46`, :pr:`47`)
     * Fixes
     * Changes
-        * Fix license file text on PyPI (:pr:`45`)
     * Documentation Changes
     * Testing Changes
+
+.. Thanks to the following people for contributing to this release:
+
+v0.0.3 Oct 18, 2022
+===================
+    * Enhancements
+        * Changes MySQL and Postgres connectors to add Windows support (:pr:`46`, :pr:`47`)
+    * Changes
+        * Fix license file text on PyPI (:pr:`45`)
 
     Thanks to the following people for contributing to this release:
     :user:`gsheni`, :user:`sbadithe`
