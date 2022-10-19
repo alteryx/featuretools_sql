@@ -8,7 +8,7 @@
 
 .. Thanks to the following people for contributing to this release:
 
-v0.0.3 Oct 18, 2022
+v0.0.3 Oct 19, 2022
 ===================
     * Enhancements
         * Changes MySQL and Postgres connectors to add Windows support (:pr:`46`, :pr:`47`)
