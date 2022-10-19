@@ -1,12 +1,15 @@
-.. Future Release
-  ==============
+Future Release
+==============
     * Enhancements
     * Fixes
+        * Fixes Windows compatibility issue in pyproject.toml (:pr:`50`)
     * Changes
     * Documentation Changes
     * Testing Changes
+        * Adds Windows install test (:pr:`50`)
 
-.. Thanks to the following people for contributing to this release:
+    Thanks to the following people for contributing to this release:
+    :user:`sbadithe`
 
 v0.0.3 Oct 19, 2022
 ===================
