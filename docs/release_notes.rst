@@ -4,7 +4,7 @@ Future Release
     * Fixes
     * Changes
     * Documentation Changes
-       * Update README.md with new library logo (:pr:`57`)
+       * Update README.md with new library logo (:pr:`57`, :pr:`58`)
     * Testing Changes
 
     Thanks to the following people for contributing to this release:
