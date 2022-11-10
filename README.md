@@ -1,5 +1,5 @@
 <p align="center">
-<img width=50% src="https://featuretools-static.s3.amazonaws.com/Featuretools-SQL_Logo_1920_Orange%2BGrey.svg" alt"Featuretools-sql"/>
+<img width=80% src="https://featuretools-static.s3.amazonaws.com/Featuretools-SQL_Logo_1920_Orange%2BGrey.svg" alt"Featuretools-sql"/>
 </p>
 <p align="center">
 <i>Automated creation of EntitySets from relational data stored in SQL databases</i>
