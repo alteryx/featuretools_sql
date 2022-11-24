@@ -1,6 +1,7 @@
 Future Release
 ==============
     * Enhancements
+        * Add latest dependency checker (:pr:`59`)
     * Fixes
     * Changes
     * Documentation Changes
