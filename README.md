@@ -1,16 +1,20 @@
-# Featuretools-SQL 
-The `featuretools_sql` library allows you to directly import your relational data into
-[Featuretools](https://github.com/alteryx/featuretools) to run automated feature engineering.
-
+<p align="center">
+<img width=80% src="https://featuretools-static.s3.amazonaws.com/Featuretools-SQL_Logo_1920_Orange%2BGrey.svg" alt"Featuretools-sql"/>
+</p>
 <p align="center">
 <i>Automated creation of EntitySets from relational data stored in SQL databases</i>
 </p>
 
 <p align="center">
-
-</a>
+    </a>
     <a href="https://badge.fury.io/py/featuretools-sql" target="_blank">
         <img src="https://badge.fury.io/py/featuretools-sql.svg?maxAge=2592000" alt="PyPI Version" />
+    </a>
+    <a href='https://featuretools.alteryx.com/en/stable/guides/sql_database_integration.html'>
+        <img src='https://readthedocs.com/projects/feature-labs-inc-featuretools/badge/?version=stable' alt='Documentation Status' />
+    </a>
+    <a href="https://anaconda.org/conda-forge/featuretools_sql" target="_blank">
+        <img src="https://anaconda.org/conda-forge/featuretools_sql/badges/version.svg" alt="Anaconda Version" />
     </a>
     <a href="https://stackoverflow.com/questions/tagged/featuretools" target="_blank">
         <img src="http://img.shields.io/badge/questions-on_stackoverflow-blue.svg" alt="StackOverflow" />
@@ -20,6 +24,10 @@ The `featuretools_sql` library allows you to directly import your relational dat
     </a>
 </p>
 
+<hr>
+
+The `featuretools_sql` library allows you to directly import your relational data into [Featuretools](https://github.com/alteryx/featuretools) to run automated feature engineering.
+
 ## Installation 
 
 Install with pip:
@@ -27,9 +35,14 @@ Install with pip:
 ```shell
 python -m pip install "featuretools[sql]"
 ```
+or from the Conda-forge channel on [conda](https://anaconda.org/conda-forge/featuretools_sql):
+
+```
+conda install -c conda-forge featuretools
+```
 
 ## Example
-Simply pass in the database connection information. For example:
+Simply pass in the database connection information:
 
 ```python
 from featuretools_sql.connector import DBConnector

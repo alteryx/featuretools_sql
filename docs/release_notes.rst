@@ -2,9 +2,18 @@ Future Release
 ==============
     * Enhancements
     * Fixes
-        * Fixes Windows compatibility issue in pyproject.toml (:pr:`50`)
     * Changes
     * Documentation Changes
+       * Update README.md with new library logo (:pr:`57`, :pr:`58`)
+    * Testing Changes
+
+    Thanks to the following people for contributing to this release:
+    :user:`gsheni`
+
+v0.0.4 Oct 19, 2022
+===================
+    * Fixes
+        * Fixes Windows compatibility issue in pyproject.toml (:pr:`50`)
     * Testing Changes
         * Adds Windows install test (:pr:`50`)
 
