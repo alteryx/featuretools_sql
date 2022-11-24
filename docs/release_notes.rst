@@ -1,6 +1,7 @@
 Future Release
 ==============
     * Enhancements
+        * Add latest dependency checker (:pr:`59`)
     * Fixes
         * Fixes Windows compatibility issue in pyproject.toml (:pr:`50`)
     * Changes
