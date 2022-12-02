@@ -1,4 +1,4 @@
-# This workflow will install dependenies and if any critical dependencies have changed a pull request
+# This workflow will install dependencies and if any critical dependencies have changed a pull request
 # will be created which will trigger a CI run with the new dependencies.
 
 name: Latest Dependency Checker
@@ -21,7 +21,7 @@ jobs:
           python -m pip install -e .
           make checkdeps OUTPUT_PATH=featuretools_sql/tests/requirement_files/latest_requirements.txt
       - name: Create pull request
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@v4
         with:
           token: ${{ secrets.REPO_SCOPED_TOKEN }}
           commit-message: Update latest dependencies
