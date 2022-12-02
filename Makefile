@@ -40,7 +40,7 @@ upgradepip:
 
 .PHONY: upgradebuild
 upgradebuild:
-	python -m \pip install --upgrade build
+	python -m pip install --upgrade build
 
 .PHONY: upgradesetuptools
 upgradesetuptools:
