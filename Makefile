@@ -49,7 +49,7 @@ upgradesetuptools:
 .PHONY: checkdeps
 checkdeps:
 	$(eval allow_list='numpy|pandas|featuretools|psycopg2|sqlalchemy|PyMySQL|snowflake-sqlalchemy[pandas]')
-	pip freeze | grep -v "github.com" | grep -E $(allow_list) > $(OUTPUT_PATH)
+	pip freeze | grep -v "alteryx/featuretools*" | grep -E $(allow_list) > $(OUTPUT_PATH)
 
 .PHONY: package
 package: upgradepip upgradebuild upgradesetuptools
