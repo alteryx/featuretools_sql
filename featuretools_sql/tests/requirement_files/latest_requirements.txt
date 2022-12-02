@@ -1,0 +1,7 @@
+featuretools==1.18.0
+-e git+https://github.com/alteryx/featuretools_sql@056ffc7b6aa19326da0b2a1b5d2c8ab4a7d598ec#egg=featuretools_sql
+numpy==1.23.5
+pandas==1.5.2
+psycopg2==2.9.5
+PyMySQL==1.0.2
+snowflake-sqlalchemy==1.4.4
