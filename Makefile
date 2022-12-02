@@ -51,7 +51,6 @@ checkdeps:
 	$(eval allow_list='numpy|pandas|featuretools|psycopg2|sqlalchemy|PyMySQL|snowflake-sqlalchemy[pandas]')
 	pip freeze | grep -v "alteryx/featuretools_sql.git" | grep -E $(allow_list) > $(OUTPUT_PATH)
 
-
 .PHONY: package
 package: upgradepip upgradebuild upgradesetuptools
 	python -m build
