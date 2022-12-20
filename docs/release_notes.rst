@@ -5,7 +5,6 @@
     * Changes
     * Documentation Changes
     * Testing Changes
-    :user:`gsheni`
 
 
 v0.0.5 Dec 20, 2022
