@@ -42,7 +42,7 @@ class SnowflakeConnector:
         for table in tables_df[table_index].values:
             self.tables.append(table)
             table_df = self.get_table(table)
-            table_key = self.get_primary_key_from_table(table).values[0].lower() 
+            table_key = self.get_primary_key_from_table(table).values[0].lower()
             dataframes[table] = (table_df, table_key)
         return dataframes
 
