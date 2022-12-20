@@ -51,7 +51,6 @@ class SnowflakeConnector:
             dataframes[table] = (table_df, table_key)
         return dataframes
 
-
     def get_table(self, table: str) -> pd.DataFrame:
         return self.run_query(f"SELECT * FROM {self.database}.{self.schema}.{table}")
 
