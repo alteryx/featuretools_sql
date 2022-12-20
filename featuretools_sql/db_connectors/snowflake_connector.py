@@ -32,6 +32,9 @@ class SnowflakeConnector:
                 f"select_only parameter must be list or None, got {type(select_only)}",
             )
 
+    def _is_mixed_case(self, name: str):
+        return not name.islower() and not name.isupper()
+
     def populate_dataframes(
         self,
         select_only=None,
@@ -42,9 +45,12 @@ class SnowflakeConnector:
         for table in tables_df[table_index].values:
             self.tables.append(table)
             table_df = self.get_table(table)
-            table_key = self.get_primary_key_from_table(table).values[0].lower()
+            table_key = self.get_primary_key_from_table(table).values[0]
+            if not self._is_mixed_case(table_key):
+                table_key = table_key.lower()
             dataframes[table] = (table_df, table_key)
         return dataframes
+
 
     def get_table(self, table: str) -> pd.DataFrame:
         return self.run_query(f"SELECT * FROM {self.database}.{self.schema}.{table}")
@@ -65,8 +71,12 @@ class SnowflakeConnector:
                 foreign_table = self.__cut_schema_name(foreign_table)
             if "." in primary_table:
                 primary_table = self.__cut_schema_name(primary_table)
+            if not self._is_mixed_case(primary_col):
+                primary_col = primary_col.lower()
+            if not self._is_mixed_case(foreign_col):
+                foreign_col = foreign_col.lower()
             if foreign_table in self.tables and primary_table in self.tables:
-                r = (primary_table, primary_col.lower(), foreign_table, foreign_col.lower())
+                r = (primary_table, primary_col, foreign_table, foreign_col)
                 relationships.append(r)
         return relationships
 
