@@ -3,7 +3,7 @@ Future Release
     * Enhancements
         * Add latest dependency checker and checkdeps Makefile command (:pr:`59`) (:pr:`60`) 
     * Fixes
-    * Changes
+        * Fix issue with primary key handling with Snowflake (:pr:`275`)    * Changes
     * Documentation Changes
        * Update README.md with new library logo (:pr:`57`, :pr:`58`)
     * Testing Changes
