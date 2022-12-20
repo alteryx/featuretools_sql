@@ -75,7 +75,7 @@ class DBConnector:
 
     def populate_dataframes(
         self,
-        select_only=None,
+        select_only: List[str] = None,
     ) -> Dict[str, Tuple[pd.DataFrame, str]]:
         self.dataframes = self.connector.populate_dataframes(select_only)
         return self.dataframes

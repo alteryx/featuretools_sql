@@ -1,4 +1,4 @@
-# This workflow will install dependenies and if any critical dependencies have changed a pull request
+# This workflow will install dependencies and if any critical dependencies have changed a pull request
 # will be created which will trigger a CI run with the new dependencies.
 
 name: Latest Dependency Checker
@@ -23,8 +23,8 @@ jobs:
       - name: Create pull request
         uses: peter-evans/create-pull-request@v3
         with:
-          token: ${{ secrets.REPO_SCOPED_TOKEN }}
           commit-message: Update latest dependencies
+          token: ${{ secrets.REPO_SCOPED_TOKEN }}
           title: Automated Latest Dependency Updates
           author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
           body: "This is an auto-generated PR with **latest** dependency updates.
