@@ -1,7 +1,7 @@
 Future Release
 ==============
     * Enhancements
-        * Add latest dependency checker (:pr:`59`)
+        * Add latest dependency checker and checkdeps Makefile command (:pr:`59`) (:pr:`60`) 
     * Fixes
     * Changes
     * Documentation Changes
@@ -9,7 +9,7 @@ Future Release
     * Testing Changes
 
     Thanks to the following people for contributing to this release:
-    :user:`gsheni`
+    :user:`gsheni`, :user:`sbadithe`
 
 v0.0.4 Oct 19, 2022
 ===================
