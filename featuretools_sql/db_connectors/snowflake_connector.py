@@ -42,8 +42,8 @@ class SnowflakeConnector:
         for table in tables_df[table_index].values:
             self.tables.append(table)
             table_df = self.get_table(table)
-            table_key = self.get_primary_key_from_table(table).values[0]
-            dataframes[table] = (table_df, table_key.lower())
+            table_key = self.get_primary_key_from_table(table).values[0].lower()
+            dataframes[table] = (table_df, table_key)
         return dataframes
 
     def get_table(self, table: str) -> pd.DataFrame:
@@ -66,7 +66,7 @@ class SnowflakeConnector:
             if "." in primary_table:
                 primary_table = self.__cut_schema_name(primary_table)
             if foreign_table in self.tables and primary_table in self.tables:
-                r = (primary_table, primary_col, foreign_table, foreign_col)
+                r = (primary_table, primary_col.lower(), foreign_table, foreign_col.lower())
                 relationships.append(r)
         return relationships
 
