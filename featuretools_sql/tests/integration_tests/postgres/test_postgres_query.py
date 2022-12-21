@@ -47,6 +47,7 @@ def test_can_learn_dataframes_and_relationships(
     sql_connection.populate_relationships()
     es = EntitySet("es", sql_connection.dataframes, sql_connection.relationships)
     assert es is not None
+    print([df.ww.name for df in es.dataframes]) 
     assert (
         sorted(df.ww.name.lower() for df in es.dataframes) == expected_dataframe_names
     )
