@@ -1,11 +1,14 @@
-.. Future Release
-  ==============
+Future Release
+==============
     * Enhancements
     * Fixes
     * Changes
     * Documentation Changes
     * Testing Changes
+        * Test mixed-case column names in Postgres CI (:pr:`71`)
 
+    Thanks to the following people for contributing to this release:
+    :user:`sbadithe`
 
 v0.0.5 Dec 20, 2022
 ===================
