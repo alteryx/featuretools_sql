@@ -3,12 +3,13 @@ Future Release
     * Enhancements
     * Fixes
     * Changes
+        * Add ruff, and specify config arguments in pre-commit-config/Makefile (:pr:`75`)
     * Documentation Changes
     * Testing Changes
         * Test mixed-case column names in Postgres CI (:pr:`71`)
 
     Thanks to the following people for contributing to this release:
-    :user:`sbadithe`
+    :user:`gsheni`, :user:`sbadithe`
 
 v0.0.5 Dec 20, 2022
 ===================
