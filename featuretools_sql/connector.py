@@ -65,7 +65,13 @@ class DBConnector:
         elif system_name == "mysql":
             self.connector = MySQLConnector(host, port, database, user, password)
         elif system_name == "snowflake":
-            self.connector = SnowflakeConnector(user, password, account, database, schema)
+            self.connector = SnowflakeConnector(
+                user,
+                password,
+                account,
+                database,
+                schema,
+            )
 
     def all_tables(self) -> pd.DataFrame:
         return self.connector.all_tables()

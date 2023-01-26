@@ -41,7 +41,7 @@ v0.0.3 Oct 19, 2022
 
     Thanks to the following people for contributing to this release:
     :user:`gsheni`, :user:`sbadithe`
-    
+
 v0.0.2 Oct 12, 2022
 ===================
     * Enhancements
