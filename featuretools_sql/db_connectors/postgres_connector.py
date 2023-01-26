@@ -2,9 +2,8 @@ from typing import Dict, List, Tuple
 
 import pandas as pd
 import pandas.io.sql as sqlio
-from sqlalchemy import create_engine
-
 from featuretools import EntitySet
+from sqlalchemy import create_engine
 
 
 class PostgresConnector:
