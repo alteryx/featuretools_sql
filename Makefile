@@ -26,7 +26,7 @@ lint:
 
 .PHONY: lint-fix
 lint-fix:
-	black . --config=./pyproject.toml --check
+	black . --config=./pyproject.toml
 	ruff . --config=./pyproject.toml --fix
 
 .PHONY: test
