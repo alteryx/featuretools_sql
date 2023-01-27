@@ -10,7 +10,9 @@ class PostgresConnector:
     def __init__(self, host, port, database, user, password, schema):
 
         if password:
-            self.engine = create_engine(f"postgresql://{user}:{password}@{host}:{port}/{database}")
+            self.engine = create_engine(
+                f"postgresql://{user}:{password}@{host}:{port}/{database}",
+            )
         else:
             self.engine = create_engine(f"postgresql://{user}@{host}:{port}/{database}")
 
@@ -92,7 +94,9 @@ class PostgresConnector:
                 if "." in primary_table:
                     primary_table = self.__cut_schema_name(primary_table)
                 if foreign_table in self.tables and primary_table in self.tables:
-                    relationships.append((primary_table, primary_col, foreign_table, foreign_col))
+                    relationships.append(
+                        (primary_table, primary_col, foreign_table, foreign_col),
+                    )
         return relationships
 
     def get_primary_key_from_table(self, table: str) -> pd.DataFrame:

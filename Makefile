@@ -1,3 +1,11 @@
+.PHONY: clean
+clean:
+	find . -name '*.pyo' -delete
+	find . -name '*.pyc' -delete
+	find . -name __pycache__ -delete
+	find . -name '*~' -delete
+	find . -name '.coverage.*' -delete
+
 .PHONY: installdeps
 installdeps:
 	pip install -e .
@@ -13,26 +21,17 @@ installdeps-test:
 
 .PHONY: lint
 lint:
-	isort --check-only featuretools_sql
-	black featuretools_sql -t py310 --check
-	flake8 featuretools_sql
+	black . --config=./pyproject.toml --check
+	ruff . --config=./pyproject.toml
 
 .PHONY: lint-fix
 lint-fix:
-	black featuretools_sql -t py310
-	isort featuretools_sql
+	black . --config=./pyproject.toml
+	ruff . --config=./pyproject.toml --fix
 
 .PHONY: test
 test:
 	pytest featuretools_sql/tests/*
-
-.PHONY: clean
-clean:
-	find . -name '*.pyo' -delete
-	find . -name '*.pyc' -delete
-	find . -name __pycache__ -delete
-	find . -name '*~' -delete
-	find . -name '.coverage.*' -delete
 
 .PHONY: upgradepip
 upgradepip:

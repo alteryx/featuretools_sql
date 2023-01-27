@@ -14,7 +14,7 @@ class SnowflakeConnector:
         self.account = account
         self.database = database
         self.schema = schema
-        self.engine = create_engine(f'snowflake://{user}:{password}@{account}')
+        self.engine = create_engine(f"snowflake://{user}:{password}@{account}")
         self.tables = []
 
     def all_tables(self, select_only=None) -> pd.DataFrame:
@@ -58,13 +58,23 @@ class SnowflakeConnector:
         relationships = []
         foreign_keys = self.run_query("SHOW IMPORTED KEYS;")
         for (
-            _, _, _,
+            _,
+            _,
+            _,
             primary_table,
             primary_col,
-            _, _,
+            _,
+            _,
             foreign_table,
             foreign_col,
-            _, _, _, _, _, _, _, _
+            _,
+            _,
+            _,
+            _,
+            _,
+            _,
+            _,
+            _,
         ) in foreign_keys.values:
             if "." in foreign_table:
                 foreign_table = self.__cut_schema_name(foreign_table)

@@ -8,7 +8,9 @@ from sqlalchemy import create_engine
 
 class MySQLConnector:
     def __init__(self, host, port, database, user, password):
-        connection_string = f"mysql+pymysql://{user}:{password}@{host}:{port}/{database}"
+        connection_string = (
+            f"mysql+pymysql://{user}:{password}@{host}:{port}/{database}"
+        )
         self.engine = create_engine(connection_string)
         self.system_name = "mysql"
         self.user = user
