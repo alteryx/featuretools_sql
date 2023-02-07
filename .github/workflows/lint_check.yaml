@@ -31,11 +31,11 @@ jobs:
         with:
           path: ${{ env.pythonLocation }} 
           key: ${{ matrix.python_version }}-lint-${{ env.pythonLocation }}-${{ hashFiles('**/pyproject.toml') }}-v01
-      - name: Install featuretools with optional, dev, and test requirements (not using cache)
+      - name: Install featuretools_sql (not using cache)
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
           python -m pip install -e .[dev]
-      - name: Install featuretools with no requirements (using cache)
+      - name: Install featuretools_sql with no requirements (using cache)
         if: steps.cache.outputs.cache-hit == 'true'
         run: |
           python -m pip install -e .[dev] --no-deps

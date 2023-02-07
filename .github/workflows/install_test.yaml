@@ -31,7 +31,7 @@ jobs:
         with:
           path: ${{ env.pythonLocation }} 
           key: ${{ matrix.os- }}-${{ matrix.python_version }}-install-${{ env.pythonLocation }}-${{ hashFiles('**/pyproject.toml') }}-v01
-      - name: Build featuretools package
+      - name: Build package
         run: |
           make package
       - name: Install from sdist (not using cache)
