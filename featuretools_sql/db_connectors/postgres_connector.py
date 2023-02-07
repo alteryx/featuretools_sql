@@ -8,7 +8,6 @@ from sqlalchemy import create_engine
 
 class PostgresConnector:
     def __init__(self, host, port, database, user, password, schema):
-
         if password:
             self.engine = create_engine(
                 f"postgresql://{user}:{password}@{host}:{port}/{database}",
