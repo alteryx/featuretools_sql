@@ -4,6 +4,7 @@ Future Release
     * Fixes
     * Changes
         * Add ruff, and specify config arguments in pre-commit-config/Makefile (:pr:`75`)
+        * Fix lint error with extra line (:pr:`78`)
     * Documentation Changes
     * Testing Changes
         * Test mixed-case column names in Postgres CI (:pr:`71`)
