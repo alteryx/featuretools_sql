@@ -1,4 +1,4 @@
-featuretools==1.23.0
+featuretools==1.24.0
 numpy==1.24.2
 pandas==1.5.3
 psycopg2==2.9.5
