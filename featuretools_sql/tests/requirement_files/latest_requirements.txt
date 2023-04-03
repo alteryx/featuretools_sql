@@ -1,6 +1,6 @@
 featuretools==1.24.0
 numpy==1.24.2
 pandas==1.5.3
-psycopg2==2.9.5
+psycopg2==2.9.6
 PyMySQL==1.0.3
 snowflake-sqlalchemy==1.4.7
