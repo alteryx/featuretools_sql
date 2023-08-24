@@ -3,4 +3,4 @@ numpy==1.24.4
 pandas==2.0.3
 psycopg2==2.9.7
 PyMySQL==1.1.0
-snowflake-sqlalchemy==1.4.7
+snowflake-sqlalchemy==1.5.0
